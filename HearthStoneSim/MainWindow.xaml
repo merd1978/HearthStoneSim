@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ignore="http://www.galasoft.ch/ignore"
+        xmlns:view="clr-namespace:HearthStoneSim.View"
         mc:Ignorable="d ignore"
         Height="300"
         Width="300"
@@ -16,17 +17,72 @@
                 <ResourceDictionary Source="Skins/MainSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
+        <ItemsPanelTemplate x:Key="radialPanelTemplate">
+            <my:RadialPanel/>
+        </ItemsPanelTemplate>
     </Window.Resources>
 
     <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem Header="EDIT"></MenuItem>
+            <MenuItem Header="START GAME"></MenuItem>
+        </Menu>
+        <Viewbox Grid.Row="1" >
+            <Grid ShowGridLines="True" Width="800" Height="500">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="8*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <!--<Button x:Name="EndTurn" Grid.Row="1" Grid.Column="1" Content="END TURN" Canvas.Left="446" Canvas.Top="149"   />-->
 
-        <TextBlock FontSize="36"
+                <ItemsControl ItemsPanel="{StaticResource radialPanelTemplate}" my:DragDropHelper.IsDragSource="true">
+                    <view:CardView x:Name="myCard" Width="80" Height="120"></view:CardView>
+                </ItemsControl>
+
+                <ListBox Grid.Row="1" Grid.Column="0" Background="{x:Null}" ItemsPanel="{StaticResource radialPanelTemplate}" my:DragDropHelper.IsDragSource="true" >
+                    <ListBoxItem >
+                        <my:ucCard Width="80" Height="120"></my:ucCard>
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <my:ucCard Width="80" Height="120"></my:ucCard>
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <my:ucCard Width="80" Height="120"></my:ucCard>
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <my:ucCard Width="80" Height="120"></my:ucCard>
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <my:ucCard Width="80" Height="120"></my:ucCard>
+                    </ListBoxItem>
+                </ListBox>
+                <my:RadialPanel Grid.Row="1" Grid.Column="1">
+                    <my:ucCard Width="80" Height="120"></my:ucCard>
+                    <my:ucCard Width="80" Height="120"></my:ucCard>
+                    <my:ucCard Width="80" Height="120"></my:ucCard>
+                    <my:ucCard Width="80" Height="120"></my:ucCard>
+                    <my:ucCard Width="80" Height="120"></my:ucCard>
+                    <my:ucCard Width="80" Height="120"></my:ucCard>
+                </my:RadialPanel>
+            </Grid>
+        </Viewbox>
+
+    <!--<TextBlock FontSize="36"
                    FontWeight="Bold"
                    Foreground="Purple"
                    Text="{Binding WelcomeTitle}"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
-                   TextWrapping="Wrap" />
+                   TextWrapping="Wrap" />-->
 
     </Grid>
 </Window>
