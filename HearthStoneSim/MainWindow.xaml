@@ -17,9 +17,6 @@
                 <ResourceDictionary Source="Skins/MainSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-        <ItemsPanelTemplate x:Key="radialPanelTemplate">
-            <my:RadialPanel/>
-        </ItemsPanelTemplate>
     </Window.Resources>
 
     <Grid x:Name="LayoutRoot">
@@ -43,46 +40,8 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <!--<Button x:Name="EndTurn" Grid.Row="1" Grid.Column="1" Content="END TURN" Canvas.Left="446" Canvas.Top="149"   />-->
-
-                <ItemsControl ItemsPanel="{StaticResource radialPanelTemplate}" my:DragDropHelper.IsDragSource="true">
-                    <view:CardView x:Name="myCard" Width="80" Height="120"></view:CardView>
-                </ItemsControl>
-
-                <ListBox Grid.Row="1" Grid.Column="0" Background="{x:Null}" ItemsPanel="{StaticResource radialPanelTemplate}" my:DragDropHelper.IsDragSource="true" >
-                    <ListBoxItem >
-                        <my:ucCard Width="80" Height="120"></my:ucCard>
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <my:ucCard Width="80" Height="120"></my:ucCard>
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <my:ucCard Width="80" Height="120"></my:ucCard>
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <my:ucCard Width="80" Height="120"></my:ucCard>
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <my:ucCard Width="80" Height="120"></my:ucCard>
-                    </ListBoxItem>
-                </ListBox>
-                <my:RadialPanel Grid.Row="1" Grid.Column="1">
-                    <my:ucCard Width="80" Height="120"></my:ucCard>
-                    <my:ucCard Width="80" Height="120"></my:ucCard>
-                    <my:ucCard Width="80" Height="120"></my:ucCard>
-                    <my:ucCard Width="80" Height="120"></my:ucCard>
-                    <my:ucCard Width="80" Height="120"></my:ucCard>
-                    <my:ucCard Width="80" Height="120"></my:ucCard>
-                </my:RadialPanel>
+                <view:HandView></view:HandView>
             </Grid>
         </Viewbox>
-
-    <!--<TextBlock FontSize="36"
-                   FontWeight="Bold"
-                   Foreground="Purple"
-                   Text="{Binding WelcomeTitle}"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"
-                   TextWrapping="Wrap" />-->
-
     </Grid>
 </Window>

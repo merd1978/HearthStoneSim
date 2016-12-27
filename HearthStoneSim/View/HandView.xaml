@@ -1,0 +1,48 @@
+﻿<Window x:Class="HearthStoneSim.View.HandView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ignore="http://www.galasoft.ch/ignore"
+        xmlns:view="clr-namespace:HearthStoneSim.View"
+        mc:Ignorable="d ignore"
+        DataContext="{Binding Hand, Source={StaticResource Locator}}">
+
+    <Window.Resources>
+        <ItemsPanelTemplate x:Key="RadialPanelTemplate">
+            <view:RadialPanel/>
+        </ItemsPanelTemplate>
+    </Window.Resources>
+    <Grid>
+        <ItemsControl ItemsPanel="{StaticResource RadialPanelTemplate}">
+            <view:CardView x:Name="MyCard" Width="80" Height="120"></view:CardView>
+        </ItemsControl>
+
+        <ListBox Grid.Row="1" Grid.Column="0" Background="{x:Null}" ItemsPanel="{StaticResource RadialPanelTemplate}"
+                    ItemsSource="{Binding Cards}">
+            <ListBoxItem >
+                <view:CardView Width="80" Height="120"></view:CardView>
+            </ListBoxItem>
+            <ListBoxItem>
+                <view:CardView Width="80" Height="120"></view:CardView>
+            </ListBoxItem>
+            <ListBoxItem>
+                <view:CardView Width="80" Height="120"></view:CardView>
+            </ListBoxItem>
+            <ListBoxItem>
+                <view:CardView Width="80" Height="120"></view:CardView>
+            </ListBoxItem>
+            <ListBoxItem>
+                <view:CardView Width="80" Height="120"></view:CardView>
+            </ListBoxItem>
+        </ListBox>
+        <view:RadialPanel Grid.Row="1" Grid.Column="1">
+            <view:CardView Width="80" Height="120"></view:CardView>
+            <view:CardView Width="80" Height="120"></view:CardView>
+            <view:CardView Width="80" Height="120"></view:CardView>
+            <view:CardView Width="80" Height="120"></view:CardView>
+            <view:CardView Width="80" Height="120"></view:CardView>
+            <view:CardView Width="80" Height="120"></view:CardView>
+        </view:RadialPanel>
+    </Grid>
+</Window>
