@@ -54,6 +54,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -81,6 +83,7 @@
     <Compile Include="Model\DataService.cs" />
     <Compile Include="Model\Deck.cs" />
     <Compile Include="Model\IDataService.cs" />
+    <Compile Include="ViewModel\CardViewModel.cs" />
     <Compile Include="ViewModel\HandViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -112,7 +115,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\HandView.xaml">
-      <SubType>Form</SubType>
+      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

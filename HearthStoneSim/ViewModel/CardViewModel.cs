@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Windows.Data;
 using GalaSoft.MvvmLight;
 using HearthStoneSim.Model;
 
@@ -10,16 +10,16 @@ namespace HearthStoneSim.ViewModel
     /// See http://www.galasoft.ch/mvvm
     /// </para>
     /// </summary>
-    public class HandViewModel : ViewModelBase
+    public class CardViewModel : ViewModelBase
     {
-        public ObservableCollection<Card> Cards { get; private set; }
+        public Card Card { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the HandViewModel class.
+        /// Initializes a new instance of the CardViewModel class.
         /// </summary>
-        public HandViewModel()
+        public CardViewModel()
         {
-            Cards = new ObservableCollection<Card> {new Card()};
+            Card = new Card { Name = "murlock", Cost = 3, Attack = 5, Health = 2 };
         }
     }
 }

@@ -1,15 +1,12 @@
-﻿using System.Windows;
+﻿using System.Windows.Controls;
 
 namespace HearthStoneSim.View
 {
     /// <summary>
-    /// Description for HandView.
+    /// Interaction logic for HandView.xaml
     /// </summary>
-    public partial class HandView : Window
+    public partial class HandView : UserControl
     {
-        /// <summary>
-        /// Initializes a new instance of the HandView class.
-        /// </summary>
         public HandView()
         {
             InitializeComponent();
