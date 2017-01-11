@@ -6,15 +6,15 @@
         xmlns:ignore="http://www.galasoft.ch/ignore"
         xmlns:view="clr-namespace:HearthStoneSim.View"
         mc:Ignorable="d ignore"
-        Height="300"
-        Width="300"
+        Height="600"
+        Width="800"
         Title="MVVM Light Application"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
     
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Skins/MainSkin.xaml" />
+                <ResourceDictionary Source="/Skins/MainSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -29,10 +29,12 @@
             <MenuItem Header="START GAME"></MenuItem>
         </Menu>
         <Viewbox Grid.Row="1" >
-            <Grid ShowGridLines="True" Width="800" Height="500">
+            <Grid ShowGridLines="True" Height="550" Width="800">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="8*"/>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -40,7 +42,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <!--<Button x:Name="EndTurn" Grid.Row="1" Grid.Column="1" Content="END TURN" Canvas.Left="446" Canvas.Top="149"   />-->
-                <view:HandView></view:HandView>
+                <view:HandView Grid.Row="3" Grid.Column="1"></view:HandView>
             </Grid>
         </Viewbox>
     </Grid>

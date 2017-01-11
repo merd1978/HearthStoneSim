@@ -6,7 +6,7 @@
              xmlns:view="clr-namespace:HearthStoneSim.View"
              xmlns:viewModel="clr-namespace:HearthStoneSim.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="150" d:DesignWidth="301.5">
 
     <UserControl.DataContext>
         <viewModel:HandViewModel />
@@ -19,35 +19,15 @@
     </UserControl.Resources>
     
     <Grid>
-        <ItemsControl ItemsPanel="{StaticResource RadialPanelTemplate}">
-            <view:CardView Width="80" Height="120"></view:CardView>
-        </ItemsControl>
+        <!--<ItemsControl ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding Cards}">
+        </ItemsControl>-->
 
-        <!--<ListBox Grid.Row="1" Grid.Column="0" Background="{x:Null}" ItemsPanel="{StaticResource RadialPanelTemplate}"
-                    ItemsSource="{Binding Cards}">
-            <ListBoxItem >
-                <view:CardView Width="80" Height="120"></view:CardView>
-            </ListBoxItem>
-            <ListBoxItem>
-                <view:CardView Width="80" Height="120"></view:CardView>
-            </ListBoxItem>
-            <ListBoxItem>
-                <view:CardView Width="80" Height="120"></view:CardView>
-            </ListBoxItem>
-            <ListBoxItem>
-                <view:CardView Width="80" Height="120"></view:CardView>
-            </ListBoxItem>
-            <ListBoxItem>
-                <view:CardView Width="80" Height="120"></view:CardView>
-            </ListBoxItem>
-        </ListBox>-->
-        <view:RadialPanel Grid.Row="1" Grid.Column="1">
-            <view:CardView Width="80" Height="120"></view:CardView>
-            <view:CardView Width="80" Height="120"></view:CardView>
-            <view:CardView Width="80" Height="120"></view:CardView>
-            <view:CardView Width="80" Height="120"></view:CardView>
-            <view:CardView Width="80" Height="120"></view:CardView>
-            <view:CardView Width="80" Height="120"></view:CardView>
-        </view:RadialPanel>            
+        <ListBox Background="{x:Null}" ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding Cards}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <view:CardView  Width="80" Height="120"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>
