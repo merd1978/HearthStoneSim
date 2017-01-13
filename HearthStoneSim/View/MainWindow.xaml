@@ -42,6 +42,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <!--<Button x:Name="EndTurn" Grid.Row="1" Grid.Column="1" Content="END TURN" Canvas.Left="446" Canvas.Top="149"   />-->
+                <view:TableView Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled"></view:TableView>
                 <view:HandView Grid.Row="3" Grid.Column="1"></view:HandView>
             </Grid>
         </Viewbox>
