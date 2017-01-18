@@ -73,7 +73,7 @@ namespace HearthStoneSim.View
             foreach (UIElement uie in Children) sumWidth += uie.DesiredSize.Width;
             sumWidth += margin * (Children.Count - 1);
             
-            //если карты не помещаются по ширине, размещаем их в сектору окружности
+            //если карты не помещаются по ширине, размещаем их в секторе окружности
             if (sumWidth > finalSize.Width)
             {
                 // Шаг угла поворота элементов
@@ -95,10 +95,12 @@ namespace HearthStoneSim.View
             //размещаем карты в ряд
             else
             {
+                var zeroTransform = new RotateTransform(0);
                 double leftMargin = (finalSize.Width - sumWidth) / 2;
                 childPointX += leftMargin;
                 foreach (UIElement uie in Children)
                 {
+                    uie.RenderTransform = zeroTransform;        //поворачиваем вертикально, т.к элементы могли быть уже повернуты
                     uie.Arrange(new Rect(new Point(childPointX, childPointY), new Size(uie.DesiredSize.Width, uie.DesiredSize.Height)));
                     childPointX += uie.DesiredSize.Width + margin;
                 }

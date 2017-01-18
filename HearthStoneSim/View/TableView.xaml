@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:view="clr-namespace:HearthStoneSim.View"
              xmlns:viewModel="clr-namespace:HearthStoneSim.ViewModel"
-             xmlns:dragDrop="urn:gong-wpf-dragdrop"
+             xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.DataContext>
@@ -14,8 +14,11 @@
     
     <Grid>
         <ListBox Background="{x:Null}" ItemsSource="{Binding Cards}"
-                 dragDrop:DragDrop.IsDragSource="True"
-                 dragDrop:DragDrop.IsDropTarget="True">
+                 dd:DragDrop.IsDragSource="True"
+                 dd:DragDrop.IsDropTarget="True"
+                 dd:DragDrop.UseDefaultDragAdorner="True"
+                 dd:DragDrop.DragMouseAnchorPoint="0.5,0.5"
+                 dd:DragDrop.DefaultDragAdornerOpacity="1.0">
              <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"/>

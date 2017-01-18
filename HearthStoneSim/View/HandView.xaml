@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:view="clr-namespace:HearthStoneSim.View"
              xmlns:viewModel="clr-namespace:HearthStoneSim.ViewModel"
+             xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="300">
 
@@ -16,13 +17,23 @@
         <ItemsPanelTemplate x:Key="RadialPanelTemplate">
             <view:RadialPanel/>
         </ItemsPanelTemplate>
+
+        <DataTemplate x:Key="CardTemplate">
+            <view:CardView  Width="80" Height="120"/>
+        </DataTemplate>
     </UserControl.Resources>
     
     <Grid>
         <!--<ItemsControl ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding Cards}">
         </ItemsControl>-->
 
-        <ListBox Background="{x:Null}" ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding Cards}">
+        <ListBox Background="{x:Null}" ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding Cards}"
+                 dd:DragDrop.IsDragSource="True"
+                 dd:DragDrop.IsDropTarget="True"
+                 dd:DragDrop.UseDefaultDragAdorner="True"
+                 dd:DragDrop.DragMouseAnchorPoint="0.5,0.5"
+                 dd:DragDrop.EffectNoneAdornerTemplate="{StaticResource CardTemplate}"
+                 dd:DragDrop.DefaultDragAdornerOpacity="1.0">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <view:CardView  Width="80" Height="120"/>

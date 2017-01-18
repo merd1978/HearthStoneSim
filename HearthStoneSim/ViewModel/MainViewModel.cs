@@ -1,4 +1,9 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System;
+using System.Deployment.Application;
+using System.Diagnostics;
+using System.Reflection;
+using System.Windows;
+using GalaSoft.MvvmLight;
 using HearthStoneSim.Model;
 
 namespace HearthStoneSim.ViewModel
@@ -12,6 +17,11 @@ namespace HearthStoneSim.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private readonly IDataService _dataService;
+
+        /// <summary>
+        /// Get the window title (name and assembly version)
+        /// </summary>
+        public string MainWindowTitle { get; private set; }
 
         /// <summary>
         /// The <see cref="WelcomeTitle" /> property's name.
@@ -53,6 +63,9 @@ namespace HearthStoneSim.ViewModel
 
                     WelcomeTitle = item.Title;
                 });
+
+            Version deploy = Assembly.GetExecutingAssembly().GetName().Version;
+            MainWindowTitle = $"HearthStoneSim v{deploy.Major}.{deploy.Minor}.{deploy.Build}";
         }
 
         ////public override void Cleanup()

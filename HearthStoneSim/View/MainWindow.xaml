@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ignore="http://www.galasoft.ch/ignore"
         xmlns:view="clr-namespace:HearthStoneSim.View"
+        xmlns:dd="urn:gong-wpf-dragdrop"
         mc:Ignorable="d ignore"
         Height="600"
         Width="800"
-        Title="MVVM Light Application"
+        Title="{Binding MainWindowTitle}"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
-    
+
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -28,7 +29,7 @@
             <MenuItem Header="EDIT"></MenuItem>
             <MenuItem Header="START GAME"></MenuItem>
         </Menu>
-        <Viewbox Grid.Row="1" >
+        <Viewbox Grid.Row="1">
             <Grid ShowGridLines="True" Height="550" Width="800">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
