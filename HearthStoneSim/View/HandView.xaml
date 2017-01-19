@@ -19,7 +19,7 @@
         </ItemsPanelTemplate>
 
         <DataTemplate x:Key="CardTemplate">
-            <view:CardView  Width="80" Height="120"/>
+            <view:CardView  Width="40" Height="60"/>
         </DataTemplate>
     </UserControl.Resources>
     
@@ -31,9 +31,12 @@
                  dd:DragDrop.IsDragSource="True"
                  dd:DragDrop.IsDropTarget="True"
                  dd:DragDrop.UseDefaultDragAdorner="True"
+                 dd:DragDrop.DefaultDragAdornerOpacity="1.0"
                  dd:DragDrop.DragMouseAnchorPoint="0.5,0.5"
-                 dd:DragDrop.EffectNoneAdornerTemplate="{StaticResource CardTemplate}"
-                 dd:DragDrop.DefaultDragAdornerOpacity="1.0">
+                 dd:DragDrop.UseDefaultEffectDataTemplate="False"  
+                 d:DragDrop.DragAdornerTemplate="{StaticResource CardTemplate}"
+                 dd:DragDrop.EffectMoveAdornerTemplate="{StaticResource CardTemplate}"
+                 dd:DragDrop.EffectNoneAdornerTemplate="{StaticResource CardTemplate}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <view:CardView  Width="80" Height="120"/>
