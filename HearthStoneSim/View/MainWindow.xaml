@@ -10,7 +10,9 @@
         Height="600"
         Width="800"
         Title="{Binding MainWindowTitle}"
-        DataContext="{Binding Main, Source={StaticResource Locator}}">
+        DataContext="{Binding Main, Source={StaticResource Locator}}"
+        dd:DragDrop.IsDropTarget="True"
+        dd:DragDrop.DropHandler="{Binding}">
 
     <Window.Resources>
         <ResourceDictionary>

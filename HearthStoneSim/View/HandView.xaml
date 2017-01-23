@@ -33,10 +33,10 @@
                  dd:DragDrop.UseDefaultDragAdorner="True"
                  dd:DragDrop.DefaultDragAdornerOpacity="1.0"
                  dd:DragDrop.DragMouseAnchorPoint="0.5,0.5"
-                 dd:DragDrop.UseDefaultEffectDataTemplate="False"  
+                 d:DragDrop.UseDefaultEffectDataTemplate="True"  
                  d:DragDrop.DragAdornerTemplate="{StaticResource CardTemplate}"
-                 dd:DragDrop.EffectMoveAdornerTemplate="{StaticResource CardTemplate}"
-                 dd:DragDrop.EffectNoneAdornerTemplate="{StaticResource CardTemplate}">
+                 d:DragDrop.EffectMoveAdornerTemplate="{StaticResource CardTemplate}"
+                 d:DragDrop.EffectNoneAdornerTemplate="{StaticResource CardTemplate}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <view:CardView  Width="80" Height="120"/>

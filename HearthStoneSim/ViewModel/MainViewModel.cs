@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using GalaSoft.MvvmLight;
+using GongSolutions.Wpf.DragDrop;
 using HearthStoneSim.Model;
 
 namespace HearthStoneSim.ViewModel
@@ -14,7 +15,7 @@ namespace HearthStoneSim.ViewModel
     /// See http://www.mvvmlight.net
     /// </para>
     /// </summary>
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : ViewModelBase, IDropTarget
     {
         private readonly IDataService _dataService;
 
@@ -44,6 +45,16 @@ namespace HearthStoneSim.ViewModel
             {
                 Set(ref _welcomeTitle, value);
             }
+        }
+
+        public void DragOver(IDropInfo dropInfo)
+        {
+            dropInfo.NotHandled = true;
+        }
+
+        public void Drop(IDropInfo dropInfo)
+        {
+            dropInfo.NotHandled = true;
         }
 
         /// <summary>
