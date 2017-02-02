@@ -12,14 +12,14 @@ namespace HearthStoneSim.ViewModel
     /// </summary>
     public class HandViewModel : ViewModelBase
     {
-        public ObservableCollection<Card> Cards { get; private set; }
+        public ObservableCollection<Card> HandCards { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the HandViewModel class.
         /// </summary>
         public HandViewModel()
         {
-            Cards = new ObservableCollection<Card> {new Card(), new Card(), new Card(), new Card(), new Card(), new Card() };
+            HandCards = new ObservableCollection<Card> { Cards.All["AT_002"], new Card(), new Card(), new Card(), new Card(), new Card() };
         }
     }
 }

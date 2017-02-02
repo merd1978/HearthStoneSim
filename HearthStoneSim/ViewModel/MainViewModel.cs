@@ -77,6 +77,8 @@ namespace HearthStoneSim.ViewModel
 
             Version deploy = Assembly.GetExecutingAssembly().GetName().Version;
             MainWindowTitle = $"HearthStoneSim v{deploy.Major}.{deploy.Minor}.{deploy.Build}";
+            var test = new Card();
+            test = Cards.All["AT_002"];
         }
 
         ////public override void Cleanup()

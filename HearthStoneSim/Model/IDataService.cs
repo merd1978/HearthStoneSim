@@ -8,5 +8,6 @@ namespace HearthStoneSim.Model
     public interface IDataService
     {
         void GetData(Action<DataItem, Exception> callback);
+        void GetCardDefs(Action<List<Card>, Exception> callback);
     }
 }
