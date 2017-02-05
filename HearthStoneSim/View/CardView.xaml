@@ -7,9 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="300">
 
-    <UserControl.DataContext>
+    <!--<UserControl.DataContext>
         <viewModel:CardViewModel />
-    </UserControl.DataContext>
+    </UserControl.DataContext>-->
 
     <Border CornerRadius="4,4,4,4"  BorderBrush="Black" BorderThickness="2" Background="#FF888988">
         <Grid>
@@ -25,10 +25,10 @@
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="{Binding Card.Name}" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding Card.Cost}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding Card.Attack}" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding Card.Health}" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Name}" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Cost}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Attack}" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Health}" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
     </Border>
 </UserControl>

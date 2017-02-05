@@ -19,7 +19,7 @@ namespace HearthStoneSim.ViewModel
         /// </summary>
         public CardViewModel()
         {
-            Card = new Card { Name = "murlock", Attack = 5, Health = 2 };
+            //Card = new Card { Name = "murlock", Attack = 5, Health = 2 };
         }
     }
 }

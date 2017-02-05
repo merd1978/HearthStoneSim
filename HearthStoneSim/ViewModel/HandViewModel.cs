@@ -19,7 +19,7 @@ namespace HearthStoneSim.ViewModel
         /// </summary>
         public HandViewModel()
         {
-            HandCards = new ObservableCollection<Card> { Cards.All["AT_002"], new Card(), new Card(), new Card(), new Card(), new Card() };
+            HandCards = new ObservableCollection<Card> { Cards.All["AT_002"], Cards.All["CS2_072"], Cards.All["EX1_tk31"], Cards.All["CS2_203"] };
         }
     }
 }
