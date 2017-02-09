@@ -32,16 +32,13 @@ namespace HearthStoneSim.Model
                     // Unfortunately the file contains some duplicate tags
                     // so we have to make a list first and weed out the unique ones
                     Tags = (from tag in r.Descendants("Tag")
-                        select new Tag(
-                            Name: (GameTag) Enum.Parse(typeof(GameTag), tag.Attribute("enumID").Value),
-                            Value: tag.Attribute("value") != null
-                                ? (TagValue) int.Parse(tag.Attribute("value").Value)
-                                : (tag.Attribute("type").Value == "String"
-                                    ? (TagValue) tag.Value
-                                    : (tag.Attribute("type").Value == "LocString"
-                                        ? (TagValue) tag.Element("enUS").Value
-                                        : (TagValue) 0
-                                    )))).ToList(),
+                        select new Tag( (GameTag) Enum.Parse(typeof(GameTag), tag.Attribute("enumID").Value),
+                                tag.Attribute("value") != null ?
+                                (TagValue) int.Parse(tag.Attribute("value").Value) : (tag.Attribute("type").Value == "String" ?
+                                (TagValue) tag.Value : (tag.Attribute("type").Value == "LocString" ?
+                                tag.Element("ruRU") != null ?
+                                (TagValue) tag.Element("ruRU").Value : (TagValue)tag.Element("enUS").Value : (TagValue) 0
+                         )))).ToList(),
 
                     Requirements = (from req in r.Descendants("PlayRequirement")
                         select new
@@ -102,6 +99,8 @@ namespace HearthStoneSim.Model
                     {
                         if (tag.Name == GameTag.CARDNAME)
                             c.Name = tag.Value;
+                        if (tag.Name == GameTag.CARDTEXT_INHAND)
+                            c.CardTextInHand = tag.Value;
                     }
                 }
                 All.Add(c.Id, c);

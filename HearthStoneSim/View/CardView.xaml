@@ -25,7 +25,9 @@
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="{Binding Name}" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Name}" Grid.Row="2" Grid.ColumnSpan="3" FontSize="10"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding CardTextInHand}" Grid.Row="3" Grid.ColumnSpan="3" FontSize="8" TextWrapping="Wrap"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <TextBlock Text="{Binding Cost}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <TextBlock Text="{Binding Attack}" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <TextBlock Text="{Binding Health}" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
