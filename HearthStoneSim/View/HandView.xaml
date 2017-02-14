@@ -19,7 +19,7 @@
         </ItemsPanelTemplate>
 
         <DataTemplate x:Key="CardTemplate">
-            <view:CardView  Width="40" Height="60"/>
+            <view:CardView  Width="84" Height="120"/>
         </DataTemplate>
     </UserControl.Resources>
     
@@ -39,7 +39,7 @@
                  d:DragDrop.EffectNoneAdornerTemplate="{StaticResource CardTemplate}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <view:CardView  Width="80" Height="120"/>
+                    <view:CardView  Width="84" Height="120"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

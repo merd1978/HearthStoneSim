@@ -26,7 +26,7 @@
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <view:CardView  Width="80" Height="120"/>
+                    <view:CardOnTableView  Width="84" Height="120"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

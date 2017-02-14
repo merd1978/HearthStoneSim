@@ -9,6 +9,7 @@ namespace HearthStoneSim.Model
         public string Id { get; set; }
         public string Name { get; set; }
         public string CardTextInHand { get; set; }
+        public string ImageSource => @"d:/CardArt/Full/" + Id + ".png";
 
         public int Cost => this[GameTag.COST];
         public int Health => this[GameTag.HEALTH];

@@ -25,12 +25,25 @@
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
+            <Ellipse Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Margin="5,0">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="{Binding ImageSource}" Stretch="UniformToFill"/>
+                </Ellipse.Fill>
+            </Ellipse>
+            <!--<Image Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Stretch="None"  Source="{Binding ImageSource}">
+                <Image.Clip>
+                    <EllipseGeometry Center="256,256" RadiusX="100" RadiusY="150"/>
+                </Image.Clip>
+            </Image>-->
             <TextBlock Text="{Binding Name}" Grid.Row="2" Grid.ColumnSpan="3" FontSize="10"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <TextBlock Text="{Binding CardTextInHand}" Grid.Row="3" Grid.ColumnSpan="3" FontSize="8" TextWrapping="Wrap"
                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding Cost}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding Attack}" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding Health}" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Cost}" Grid.Row="0" Grid.Column="0" Foreground="Blue"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Attack}" Grid.Row="4" Grid.Column="0" Foreground="Yellow"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Health}" Grid.Row="4" Grid.Column="2" Foreground="Red"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
     </Border>
 </UserControl>
