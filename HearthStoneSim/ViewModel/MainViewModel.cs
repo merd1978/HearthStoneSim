@@ -24,29 +24,6 @@ namespace HearthStoneSim.ViewModel
         /// </summary>
         public string MainWindowTitle { get; private set; }
 
-        /// <summary>
-        /// The <see cref="WelcomeTitle" /> property's name.
-        /// </summary>
-        public const string WelcomeTitlePropertyName = "WelcomeTitle";
-
-        private string _welcomeTitle = string.Empty;
-
-        /// <summary>
-        /// Gets the WelcomeTitle property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string WelcomeTitle
-        {
-            get
-            {
-                return _welcomeTitle;
-            }
-            set
-            {
-                Set(ref _welcomeTitle, value);
-            }
-        }
-
         public void DragOver(IDropInfo dropInfo)
         {
             dropInfo.NotHandled = true;
@@ -63,22 +40,18 @@ namespace HearthStoneSim.ViewModel
         public MainViewModel(IDataService dataService)
         {
             _dataService = dataService;
-            _dataService.GetData(
-                (item, error) =>
-                {
-                    if (error != null)
-                    {
-                        // Report error here
-                        return;
-                    }
-
-                    WelcomeTitle = item.Title;
-                });
 
             Version deploy = Assembly.GetExecutingAssembly().GetName().Version;
             MainWindowTitle = $"HearthStoneSim v{deploy.Major}.{deploy.Minor}.{deploy.Build}";
-            var test = new Card();
-            test = Cards.All["AT_002"];
+            _dataService.GetCardDefs((item, error) =>
+            {
+                if (error != null)
+                {
+                    // Report error here
+                    return;
+                }
+                Cards.All = item;
+            });
         }
 
         ////public override void Cleanup()

@@ -14,9 +14,14 @@ namespace HearthStoneSim.Design
             callback(item, null);
         }
 
-        public void GetCardDefs(Action<List<Card>, Exception> callback)
+        public void GetCardDefs(Action<Dictionary<string, Card>, Exception> callback)
         {
-            
+            var card = new Card() {Id="AT_002", Name="Тест"};
+            var cards = new Dictionary<string, Card>()
+            {
+                {card.Id, card}
+            };
+            callback(cards, null);
         }
     }
 }
