@@ -9,41 +9,39 @@ namespace HearthStoneSim.Model
 		public bool HasIntValue { get; private set; }
 		public bool HasStringValue { get; private set; }
 
-		private bool boolValue;
-		private int intValue;
-		private string stringValue;
+		private bool _boolValue;
+		private int _intValue;
+		private string _stringValue;
 
 		public static implicit operator TagValue(int x) {
-			return new TagValue {HasValue = true, HasIntValue = true, intValue = x};
+			return new TagValue {HasValue = true, HasIntValue = true, _intValue = x};
 		}
 
 		public static implicit operator TagValue(bool x) {
-			return new TagValue {HasValue = true, HasBoolValue = true, boolValue = x};
+			return new TagValue {HasValue = true, HasBoolValue = true, _boolValue = x};
 		}
 
 		public static implicit operator TagValue(string x) {
-			return new TagValue {HasValue = true, HasStringValue = true, stringValue = x};
+			return new TagValue {HasValue = true, HasStringValue = true, _stringValue = x};
 		}
 
 		public static implicit operator int(TagValue a) {
-			return a.intValue;
+			return a._intValue;
 		}
 
 		public static implicit operator bool(TagValue a) {
-			return a.boolValue;
+			return a._boolValue;
 		}
 
 		public static implicit operator string(TagValue a) {
-			return a.stringValue;
+			return a._stringValue;
 		}
 
-		public static bool operator ==(TagValue x, TagValue y) {
-			if (ReferenceEquals(x, null))
-				return false;
-			return x.Equals(y);
+		public static bool operator == (TagValue x, TagValue y) {
+		    return x.Equals(y);
 		}
 
-		public static bool operator !=(TagValue x, TagValue y) {
+		public static bool operator != (TagValue x, TagValue y) {
 			return !(x == y);
 		}
 
@@ -54,11 +52,7 @@ namespace HearthStoneSim.Model
 		}
 
 		public bool Equals(TagValue o) {
-			if (ReferenceEquals(o, null))
-				return false;
-			if (ReferenceEquals(this, o))
-				return true;
-			// Both must have a value or no value
+		    // Both must have a value or no value
 			if (HasValue != o.HasValue)
 				return false;
 			// If neither have a value, they are equal
@@ -66,11 +60,11 @@ namespace HearthStoneSim.Model
 				return true;
 			// Precedence order: int -> bool -> string
 			if (HasIntValue && o.HasIntValue)
-				return intValue == o.intValue;
+				return _intValue == o._intValue;
 			if (HasBoolValue && o.HasBoolValue)
-				return boolValue == o.boolValue;
+				return _boolValue == o._boolValue;
 			if (HasStringValue && o.HasStringValue)
-				return stringValue == o.stringValue;
+				return _stringValue == o._stringValue;
 			return false;
 		}
 
@@ -78,11 +72,11 @@ namespace HearthStoneSim.Model
 			if (!HasValue)
 				return "null";
 			if (HasBoolValue)
-				return boolValue.ToString();
+				return _boolValue.ToString();
 			if (HasIntValue)
-				return intValue.ToString();
+				return _intValue.ToString();
 			if (HasStringValue)
-				return stringValue.ToString();
+				return _stringValue;
 			return "unknown";
 		}
 

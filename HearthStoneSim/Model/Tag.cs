@@ -1,5 +1,4 @@
-﻿using System;
-using HearthStoneSim.Model.Enums;
+﻿using HearthStoneSim.Model.Enums;
 
 namespace HearthStoneSim.Model
 {
@@ -8,10 +7,10 @@ namespace HearthStoneSim.Model
         public GameTag Name { get; }
         public TagValue Value { get; }
 
-        public Tag(GameTag Name, TagValue Value)
+        public Tag(GameTag name, TagValue value)
         {
-            this.Name = Name;
-            this.Value = Value;
+            this.Name = name;
+            this.Value = value;
         }
     }
 }

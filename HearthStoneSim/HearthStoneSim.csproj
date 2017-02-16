@@ -38,7 +38,7 @@
     <AssemblyInfoVersionSettings>
     </AssemblyInfoVersionSettings>
     <AssemblyVersionSettings>None.None.Increment.None</AssemblyVersionSettings>
-    <AssemblyVersion>0.0.155.0</AssemblyVersion>
+    <AssemblyVersion>0.0.156.0</AssemblyVersion>
     <AssemblyFileVersionSettings>None.None.Increment.None</AssemblyFileVersionSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -135,8 +135,8 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\TableViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="View\CardOnTableView.xaml.cs">
-      <DependentUpon>CardOnTableView.xaml</DependentUpon>
+    <Compile Include="View\CardInPlayView.xaml.cs">
+      <DependentUpon>CardInPlayView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CardView.xaml.cs">
       <DependentUpon>CardView.xaml</DependentUpon>
@@ -148,8 +148,8 @@
     <Compile Include="View\TableView.xaml.cs">
       <DependentUpon>TableView.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\CardOnTableView.xaml">
-      <SubType>Form</SubType>
+    <Page Include="View\CardInPlayView.xaml">
+      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainWindow.xaml">
@@ -224,6 +224,85 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Model\CardDefs.xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\cardback.png" />
+    <Resource Include="Images\damage.png" />
+    <Resource Include="Images\effect_sleep.png" />
+    <Resource Include="Images\healing.png" />
+    <Resource Include="Images\hero_armor.png" />
+    <Resource Include="Images\hero_attack.png" />
+    <Resource Include="Images\hero_frame.png" />
+    <Resource Include="Images\hero_power.png" />
+    <Resource Include="Images\hero_power_exhausted.png" />
+    <Resource Include="Images\icon_deathrattle.png" />
+    <Resource Include="Images\icon_inspire.png" />
+    <Resource Include="Images\icon_poisonous.png" />
+    <Resource Include="Images\icon_trigger.png" />
+    <Resource Include="Images\inhand_minion_druid.png" />
+    <Resource Include="Images\inhand_minion_hunter.png" />
+    <Resource Include="Images\inhand_minion_legendary.png" />
+    <Resource Include="Images\inhand_minion_legendary_premium.png" />
+    <Resource Include="Images\inhand_minion_mage.png" />
+    <Resource Include="Images\inhand_minion_neutral.png" />
+    <Resource Include="Images\inhand_minion_paladin.png" />
+    <Resource Include="Images\inhand_minion_premium.png" />
+    <Resource Include="Images\inhand_minion_priest.png" />
+    <Resource Include="Images\inhand_minion_rogue.png" />
+    <Resource Include="Images\inhand_minion_shaman.png" />
+    <Resource Include="Images\inhand_minion_warlock.png" />
+    <Resource Include="Images\inhand_minion_warrior.png" />
+    <Resource Include="Images\inhand_mulligan.png" />
+    <Resource Include="Images\inhand_spell_druid.png" />
+    <Resource Include="Images\inhand_spell_hunter.png" />
+    <Resource Include="Images\inhand_spell_mage.png" />
+    <Resource Include="Images\inhand_spell_neutral.png" />
+    <Resource Include="Images\inhand_spell_paladin.png" />
+    <Resource Include="Images\inhand_spell_premium.png" />
+    <Resource Include="Images\inhand_spell_priest.png" />
+    <Resource Include="Images\inhand_spell_rogue.png" />
+    <Resource Include="Images\inhand_spell_shaman.png" />
+    <Resource Include="Images\inhand_spell_warlock.png" />
+    <Resource Include="Images\inhand_spell_warrior.png" />
+    <Resource Include="Images\inhand_weapon_neutral.png" />
+    <Resource Include="Images\inhand_weapon_premium.png" />
+    <Resource Include="Images\inplay_hero_frozen.png" />
+    <Resource Include="Images\inplay_hero_immune.png" />
+    <Resource Include="Images\inplay_minion.png" />
+    <Resource Include="Images\inplay_minion_buffed.png" />
+    <Resource Include="Images\inplay_minion_divine_shield.png" />
+    <Resource Include="Images\inplay_minion_enraged.png" />
+    <Resource Include="Images\inplay_minion_frozen.png" />
+    <Resource Include="Images\inplay_minion_hide_stats.png" />
+    <Resource Include="Images\inplay_minion_hide_stats_premium.png" />
+    <Resource Include="Images\inplay_minion_immune.png" />
+    <Resource Include="Images\inplay_minion_legendary.png" />
+    <Resource Include="Images\inplay_minion_legendary_premium.png" />
+    <Resource Include="Images\inplay_minion_premium.png" />
+    <Resource Include="Images\inplay_minion_silenced.png" />
+    <Resource Include="Images\inplay_minion_stealth.png" />
+    <Resource Include="Images\inplay_minion_taunt.png" />
+    <Resource Include="Images\inplay_minion_taunt_premium.png" />
+    <Resource Include="Images\inplay_minion_untargetable.png" />
+    <Resource Include="Images\inplay_weapon.png" />
+    <Resource Include="Images\inplay_weapon_dome.png" />
+    <Resource Include="Images\legend_rank.png" />
+    <Resource Include="Images\mana_crystal.png" />
+    <Resource Include="Images\portrait.jpg" />
+    <Resource Include="Images\premium-minion-overlay.png" />
+    <Resource Include="Images\premium-spell-overlay.png" />
+    <Resource Include="Images\premium-weapon-overlay.png" />
+    <Resource Include="Images\rank_frame_0.png" />
+    <Resource Include="Images\rank_frame_1.png" />
+    <Resource Include="Images\rank_frame_2.png" />
+    <Resource Include="Images\rank_frame_3.png" />
+    <Resource Include="Images\rank_frame_4.png" />
+    <Resource Include="Images\secret_hunter.png" />
+    <Resource Include="Images\secret_mage.png" />
+    <Resource Include="Images\secret_paladin.png" />
+    <Resource Include="Images\secret_sheathed.png" />
+    <Resource Include="Images\skull.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

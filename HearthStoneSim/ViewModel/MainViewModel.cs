@@ -43,14 +43,14 @@ namespace HearthStoneSim.ViewModel
 
             Version deploy = Assembly.GetExecutingAssembly().GetName().Version;
             MainWindowTitle = $"HearthStoneSim v{deploy.Major}.{deploy.Minor}.{deploy.Build}";
-            _dataService.GetCardDefs((item, error) =>
+            _dataService.GetCardDefs((cards, error) =>
             {
                 if (error != null)
                 {
                     // Report error here
                     return;
                 }
-                Cards.All = item;
+                Cards.All = cards;
             });
         }
 

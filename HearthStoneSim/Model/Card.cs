@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Media;
 using HearthStoneSim.Model.Enums;
 
 namespace HearthStoneSim.Model
