@@ -10,7 +10,7 @@
              d:DesignHeight="150" d:DesignWidth="300">
 
     <UserControl.DataContext>
-        <viewModel:HandViewModel />
+        <viewModel:HandViewModel/>
     </UserControl.DataContext>
 
     <UserControl.Resources>
@@ -18,25 +18,26 @@
             <view:RadialPanel/>
         </ItemsPanelTemplate>
 
-        <DataTemplate x:Key="CardTemplate">
+        <!--<DataTemplate x:Key="CardTemplate">
             <view:CardView  Width="84" Height="120"/>
-        </DataTemplate>
+        </DataTemplate>-->
     </UserControl.Resources>
     
     <Grid>
         <!--<ItemsControl ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding Cards}">
         </ItemsControl>-->
 
+        <!--d:DragDrop.UseDefaultEffectDataTemplate="True"  
+                 d:DragDrop.DragAdornerTemplate="{StaticResource CardTemplate}"
+                 d:DragDrop.EffectMoveAdornerTemplate="{StaticResource CardTemplate}"
+                 d:DragDrop.EffectNoneAdornerTemplate="{StaticResource CardTemplate}"-->
+
         <ListBox Background="{x:Null}" ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding HandCards}"
                  dd:DragDrop.IsDragSource="True"
                  dd:DragDrop.IsDropTarget="True"
                  dd:DragDrop.UseDefaultDragAdorner="True"
                  dd:DragDrop.DefaultDragAdornerOpacity="1.0"
-                 dd:DragDrop.DragMouseAnchorPoint="0.5,0.5"
-                 d:DragDrop.UseDefaultEffectDataTemplate="True"  
-                 d:DragDrop.DragAdornerTemplate="{StaticResource CardTemplate}"
-                 d:DragDrop.EffectMoveAdornerTemplate="{StaticResource CardTemplate}"
-                 d:DragDrop.EffectNoneAdornerTemplate="{StaticResource CardTemplate}">
+                 dd:DragDrop.DragMouseAnchorPoint="0.5,0.5">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <view:CardView  Width="84" Height="120"/>

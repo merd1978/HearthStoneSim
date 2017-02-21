@@ -5,45 +5,35 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModel="clr-namespace:HearthStoneSim.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="300">
+             d:DesignHeight="410" d:DesignWidth="290">
 
     <!--<UserControl.DataContext>
         <viewModel:CardViewModel />
     </UserControl.DataContext>-->
 
-    <Border CornerRadius="4,4,4,4"  BorderBrush="Black" BorderThickness="2" Background="#FF888988">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="8*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="4*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="3*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <Ellipse Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Margin="5,0">
+    <Viewbox>
+        <Canvas Width="290" Height="410">
+            <!--<Ellipse Canvas.Left="51"  Width="186" Height="270">
                 <Ellipse.Fill>
-                    <ImageBrush ImageSource="{Binding ImageSource}" Stretch="UniformToFill"/>
+                    <ImageBrush ImageSource="{Binding ArtImageSource}" Stretch="UniformToFill"/>
                 </Ellipse.Fill>
-            </Ellipse>
+            </Ellipse>-->
+            <!--<Image Source="{Binding ArtImageSource}"
+                   Width="290" Height="410"/>-->
             <!--<Image Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Stretch="None"  Source="{Binding ImageSource}">
                 <Image.Clip>
                     <EllipseGeometry Center="256,256" RadiusX="100" RadiusY="150"/>
                 </Image.Clip>
             </Image>-->
-            <TextBlock Text="{Binding Name}" Grid.Row="2" Grid.ColumnSpan="3" FontSize="10"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding CardTextInHand}" Grid.Row="3" Grid.ColumnSpan="3" FontSize="8" TextWrapping="Wrap"
+            <!--<TextBlock Text="{Binding Name}" FontSize="10"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding CardTextInHand}" FontSize="8" TextWrapping="Wrap"
                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding Cost}" Grid.Row="0" Grid.Column="0" Foreground="Blue"
+            <TextBlock Text="{Binding Cost}" Foreground="White"
                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding Attack}" Grid.Row="4" Grid.Column="0" Foreground="Yellow"
+            <TextBlock Text="{Binding Attack}" Foreground="White"
                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding Health}" Grid.Row="4" Grid.Column="2" Foreground="Red"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        </Grid>
-    </Border>
+            <TextBlock Text="{Binding Health}" Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+        </Canvas>
+    </Viewbox>
 </UserControl>

@@ -10,7 +10,8 @@ namespace HearthStoneSim.Model
         public string Id { get; set; }
         public string Name { get; set; }
         public string CardTextInHand { get; set; }
-        public string ImageSource => @"d:/CardArt/Full/" + Id + ".png";
+        public string ArtImageSource => @"d:/CardArt/Full/" + Id + ".png";
+        public string FrameImageSource => @"../Images/inhand_minion_druid.png";
 
         public int Cost => this[GameTag.COST];
         public int Health => this[GameTag.HEALTH];
