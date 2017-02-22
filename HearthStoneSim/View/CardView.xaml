@@ -8,16 +8,16 @@
              d:DesignHeight="410" d:DesignWidth="290">
 
     <!--<UserControl.DataContext>
-        <viewModel:CardViewModel />
+        <viewModel:HandViewModel/>
     </UserControl.DataContext>-->
 
     <Viewbox>
         <Canvas Width="290" Height="410">
-            <!--<Ellipse Canvas.Left="51"  Width="186" Height="270">
+            <Ellipse Canvas.Left="51"  Width="186" Height="270">
                 <Ellipse.Fill>
                     <ImageBrush ImageSource="{Binding ArtImageSource}" Stretch="UniformToFill"/>
                 </Ellipse.Fill>
-            </Ellipse>-->
+            </Ellipse>
             <!--<Image Source="{Binding ArtImageSource}"
                    Width="290" Height="410"/>-->
             <!--<Image Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Stretch="None"  Source="{Binding ImageSource}">

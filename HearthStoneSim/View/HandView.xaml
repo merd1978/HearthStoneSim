@@ -40,7 +40,32 @@
                  dd:DragDrop.DragMouseAnchorPoint="0.5,0.5">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <view:CardView  Width="84" Height="120"/>
+                    <!--<view:CardView  Width="84" Height="120"/>-->
+                    <Viewbox>
+                        <Canvas Width="290" Height="410">
+                            <Ellipse Canvas.Left="51"  Width="186" Height="270">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="{Binding ArtImageSource}" Stretch="UniformToFill"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <!--<Image Source="{Binding ArtImageSource}"
+                   Width="290" Height="410"/>-->
+                            <!--<Image Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Stretch="None"  Source="{Binding ImageSource}">
+                <Image.Clip>
+                    <EllipseGeometry Center="256,256" RadiusX="100" RadiusY="150"/>
+                </Image.Clip>
+            </Image>-->
+                            <!--<TextBlock Text="{Binding Name}" FontSize="10"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding CardTextInHand}" FontSize="8" TextWrapping="Wrap"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Cost}" Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Attack}" Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Health}" Foreground="White"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+                        </Canvas>
+                    </Viewbox>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

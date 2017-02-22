@@ -8,7 +8,7 @@
              d:DesignHeight="500" d:DesignWidth="300">
 
     <!--<UserControl.DataContext>
-        <viewModel:CardViewModel />
+       <viewModel:TableViewModel/>
     </UserControl.DataContext>-->
 
     <Viewbox HorizontalAlignment="Left"  MaxHeight="500">
