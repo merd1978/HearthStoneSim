@@ -23,7 +23,6 @@
         </DataTemplate>-->
     </UserControl.Resources>
     
-    <Grid>
         <!--<ItemsControl ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding Cards}">
         </ItemsControl>-->
 
@@ -32,7 +31,7 @@
                  d:DragDrop.EffectMoveAdornerTemplate="{StaticResource CardTemplate}"
                  d:DragDrop.EffectNoneAdornerTemplate="{StaticResource CardTemplate}"-->
 
-        <ListBox Background="{x:Null}" ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding HandCards}"
+    <ListBox Name="HandList" Background="{x:Null}" ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding HandCards}"
                  dd:DragDrop.IsDragSource="True"
                  dd:DragDrop.IsDropTarget="True"
                  dd:DragDrop.UseDefaultDragAdorner="True"
@@ -40,9 +39,8 @@
                  dd:DragDrop.DragMouseAnchorPoint="0.5,0.5">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <view:CardView  Width="84" Height="120"/>
+                    <view:CardView/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-        </ListBox>
-    </Grid>
+    </ListBox>
 </UserControl>

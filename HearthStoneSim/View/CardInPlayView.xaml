@@ -11,7 +11,7 @@
        <viewModel:TableViewModel/>
     </UserControl.DataContext>-->
 
-    <Viewbox HorizontalAlignment="Left"  MaxHeight="500">
+    <Viewbox Width="30" Height="60">
         <Canvas Width="84" Height="120">
             <Ellipse Canvas.Top="5" Canvas.Left="5"  Width="78" Height="110">
                 <Ellipse.Fill>
