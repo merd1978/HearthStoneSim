@@ -26,22 +26,7 @@
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <!--<view:CardInPlayView  Width="84" Height="120"/>-->
-                    <Viewbox HorizontalAlignment="Left"  MaxHeight="500">
-                        <Canvas Width="84" Height="120">
-                            <Ellipse Canvas.Top="5" Canvas.Left="5"  Width="78" Height="110">
-                                <Ellipse.Fill>
-                                    <ImageBrush ImageSource="{Binding ArtImageSource}" Stretch="UniformToFill"/>
-                                </Ellipse.Fill>
-                            </Ellipse>
-                            <Image Source="../Images/inplay_minion.png"
-                                Width="84" Height="120"/>
-                            <TextBlock Text="{Binding Attack}" Canvas.Left="13" Canvas.Top="80" FontSize="18" Foreground="White"
-                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock Text="{Binding Health}" Canvas.Left="65" Canvas.Top="80" FontSize="18" Foreground="White"
-                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Canvas>
-                    </Viewbox>
+                    <view:CardInPlayView  Width="84" Height="120"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

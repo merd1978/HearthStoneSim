@@ -10,16 +10,17 @@
     <!--<UserControl.DataContext>
         <viewModel:HandViewModel/>
     </UserControl.DataContext>-->
-
     <Viewbox>
-        <Canvas Width="290" Height="410">
+        <Canvas Width="240" Height="410">
+            <!--<Image Source="/Images/inhand_minion_paladin.png"
+                   Canvas.Left="-25" Canvas.Top="-25"></Image>-->
             <Ellipse Canvas.Left="51"  Width="186" Height="270">
                 <Ellipse.Fill>
                     <ImageBrush ImageSource="{Binding ArtImageSource}" Stretch="UniformToFill"/>
                 </Ellipse.Fill>
             </Ellipse>
-            <!--<Image Source="{Binding ArtImageSource}"
-                   Width="290" Height="410"/>-->
+            <Image Source="{Binding FrameImageSource}"
+                   Canvas.Left="-25" Canvas.Top="-25" Width="290" Height="410"/>
             <!--<Image Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Stretch="None"  Source="{Binding ImageSource}">
                 <Image.Clip>
                     <EllipseGeometry Center="256,256" RadiusX="100" RadiusY="150"/>
