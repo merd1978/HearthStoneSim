@@ -19,7 +19,7 @@
         </ItemsPanelTemplate>
 
         <!--<DataTemplate x:Key="CardTemplate">
-            <view:CardView  Width="84" Height="120"/>
+            <view:CardView/>
         </DataTemplate>-->
     </UserControl.Resources>
     

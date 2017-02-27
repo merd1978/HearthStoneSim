@@ -11,7 +11,8 @@
     <UserControl.DataContext>
         <viewModel:TableViewModel />
     </UserControl.DataContext>
-    <ListBox Background="{x:Null}" ItemsSource="{Binding Cards}"
+    <!--ScrollViewer.VerticalScrollBarVisibility="Disabled"-->
+    <ListBox x:Name="TableViewListBox" Background="{x:Null}" ItemsSource="{Binding Cards}"
                 dd:DragDrop.IsDragSource="True"
                 dd:DragDrop.IsDropTarget="True"
                 dd:DragDrop.UseDefaultDragAdorner="True"
@@ -19,12 +20,12 @@
                 dd:DragDrop.DefaultDragAdornerOpacity="1.0">
             <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
-                <StackPanel Orientation="Horizontal"/>
+                <StackPanel Orientation="Horizontal" RenderSize="" HorizontalAlignment="Center" MinWidth="{Binding ActualWidth, ElementName=TableViewListBox}"/>
             </ItemsPanelTemplate>
         </ListBox.ItemsPanel>
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <view:CardInPlayView/>
+                <view:CardInPlayView Height="{Binding ActualHeight, ElementName=TableViewListBox}"/>
             </DataTemplate>
         </ListBox.ItemTemplate>
     </ListBox>

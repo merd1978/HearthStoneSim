@@ -5,24 +5,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModel="clr-namespace:HearthStoneSim.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="300">
+             d:DesignHeight="350" d:DesignWidth="300">
 
     <!--<UserControl.DataContext>
        <viewModel:TableViewModel/>
     </UserControl.DataContext>-->
 
-    <Viewbox Width="30" Height="60">
-        <Canvas Width="84" Height="120">
-            <Ellipse Canvas.Top="5" Canvas.Left="5"  Width="78" Height="110">
+    <Viewbox>
+        <Canvas Width="300" Height="350">
+            <Ellipse Canvas.Top="32" Canvas.Left="44"  Width="208" Height="286">
                 <Ellipse.Fill>
                     <ImageBrush ImageSource="{Binding ArtImageSource}" Stretch="UniformToFill"/>
                 </Ellipse.Fill>
             </Ellipse>
-            <Image Source="../Images/inplay_minion.png"
-                   Width="84" Height="120"/>
-            <TextBlock Text="{Binding Attack}" Canvas.Left="13" Canvas.Top="80" FontSize="18" Foreground="White"
+            <Image Width="366" Height="428" Source="../Images/inplay_minion_premium.png" Canvas.Left="-36" Canvas.Top="-24"/>
+            <TextBlock Text="{Binding Attack}" Canvas.Left="65" Canvas.Top="256" FontSize="18" Foreground="White"
                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding Health}" Canvas.Left="65" Canvas.Top="80" FontSize="18" Foreground="White"
+            <TextBlock Text="{Binding Health}" Canvas.Left="205" Canvas.Top="256" FontSize="18" Foreground="White"
                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Canvas>
     </Viewbox>
