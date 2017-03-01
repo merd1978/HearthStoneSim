@@ -10,31 +10,49 @@
     <!--<UserControl.DataContext>
         <viewModel:HandViewModel/>
     </UserControl.DataContext>-->
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Skins/MainSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Viewbox>
-        <Canvas Width="126" Height="180">
-            <!--<Image Source="/Images/inhand_minion_paladin.png"
-                   Canvas.Left="-25" Canvas.Top="-25"></Image>-->
-            <Ellipse Canvas.Left="10"  Width="100" Height="120">
+        <Canvas Width="280" Height="390">
+            <!--<Image  Width="290" Height="410" Source="/Images/inhand_minion_warlock.png"
+                   Canvas.Left="0" Canvas.Top="-20" Stretch="Fill"></Image>-->
+            <Ellipse Canvas.Left="62"  Width="165" Height="215" Canvas.Top="10">
                 <Ellipse.Fill>
                     <ImageBrush ImageSource="{Binding ArtImageSource}" Stretch="UniformToFill"/>
                 </Ellipse.Fill>
             </Ellipse>
             <Image Source="{Binding FrameImageSource}"
-                   Canvas.Left="0" Canvas.Top="0" Width="126" Height="180"/>
+                   Canvas.Left="0" Canvas.Top="-20" Width="290" Height="410"/>
             <!--<Image Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Stretch="None"  Source="{Binding ImageSource}">
                 <Image.Clip>
                     <EllipseGeometry Center="256,256" RadiusX="100" RadiusY="150"/>
                 </Image.Clip>
             </Image>-->
-            <!--<TextBlock Text="{Binding Name}" FontSize="10"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding CardTextInHand}" FontSize="8" TextWrapping="Wrap"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding Cost}" Foreground="White"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding Attack}" Foreground="White"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding Health}" Foreground="White"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+            <TextBlock Text="{Binding Name}" Canvas.Left="30" Canvas.Top="200" Width="230" Height="40"
+                       Style="{StaticResource NumericTextBlock}"
+                       FontSize="20" TextAlignment="Center">
+            </TextBlock>
+            <TextBlock Text="{Binding CardTextInHand}" Canvas.Left="45" Canvas.Top="250" Width="195" Height="100"
+                       FontSize="14" Foreground="Black"
+                       TextWrapping="Wrap" TextAlignment="Center">
+            </TextBlock>
+            <TextBlock Text="{Binding Cost}" Canvas.Left="2" Canvas.Top="0" Width="66" Height="65"
+                       Style="{StaticResource NumericTextBlock}"
+                       TextAlignment="Center">
+            </TextBlock>
+            <TextBlock Text="{Binding Attack}" Canvas.Left="30" Canvas.Top="310"
+                       Style="{StaticResource NumericTextBlock}">
+            </TextBlock>
+            <TextBlock Text="{Binding Health}"  Canvas.Left="235" Canvas.Top="310"
+                       Style="{StaticResource NumericTextBlock}">
+            </TextBlock>
         </Canvas>
     </Viewbox>
 </UserControl>

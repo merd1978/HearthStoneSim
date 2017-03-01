@@ -1,4 +1,21 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+    <Style x:Key="DefaultFont" TargetType="{x:Type Control}">
+        <Setter Property="Foreground" Value="Red"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontFamily" Value="/Skins/benguiat-bold.ttf#Benguiat"/>
+    </Style>
+
+    <FontFamily x:Key="Belwe">pack://application:,,,/Skins/belwe-bd-bt-bold.ttf#Belwe Bd BT</FontFamily>
+
+    <Style x:Key="NumericTextBlock" TargetType="{x:Type TextBlock}">
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect ShadowDepth="0"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="FontSize" Value="64"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontFamily" Value="{StaticResource Belwe}"/>
+    </Style>
 </ResourceDictionary>

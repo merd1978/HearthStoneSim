@@ -9,6 +9,7 @@
         mc:Ignorable="d ignore"
         Height="700"
         Width="1200"
+        Background="Silver"
         WindowStartupLocation="CenterScreen"
         Title="{Binding MainWindowTitle}"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
@@ -32,21 +33,21 @@
             <MenuItem Header="EDIT"></MenuItem>
             <MenuItem Header="START GAME"></MenuItem>
         </Menu>
-            <Grid Grid.Row="1" ShowGridLines="True">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <!--<Button x:Name="EndTurn" Grid.Row="1" Grid.Column="1" Content="END TURN" Canvas.Left="446" Canvas.Top="149"   />-->
-                <view:TableView Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Center"></view:TableView>
+        <Grid Grid.Row="1" ShowGridLines="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!--<Button x:Name="EndTurn" Grid.Row="1" Grid.Column="1" Content="END TURN" Canvas.Left="446" Canvas.Top="149"   />-->
+            <view:TableView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"></view:TableView>
             <view:HandView Grid.Row="3" Grid.Column="1"></view:HandView>
-            </Grid>
+        </Grid>
     </Grid>
 </Window>

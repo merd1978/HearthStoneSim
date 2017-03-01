@@ -11,21 +11,22 @@
     <UserControl.DataContext>
         <viewModel:TableViewModel />
     </UserControl.DataContext>
-    <!--ScrollViewer.VerticalScrollBarVisibility="Disabled"-->
-    <ListBox x:Name="TableViewListBox" Background="{x:Null}" ItemsSource="{Binding Cards}"
-                dd:DragDrop.IsDragSource="True"
-                dd:DragDrop.IsDropTarget="True"
-                dd:DragDrop.UseDefaultDragAdorner="True"
-                dd:DragDrop.DragMouseAnchorPoint="0.5,0.5"
-                dd:DragDrop.DefaultDragAdornerOpacity="1.0">
-            <ListBox.ItemsPanel>
+    
+    <ListBox x:Name="TableViewListBox" Background="{x:Null}" ItemsSource="{Binding Cards}" 
+             ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+             dd:DragDrop.IsDragSource="True"
+             dd:DragDrop.IsDropTarget="True"
+             dd:DragDrop.UseDefaultDragAdorner="True"
+             dd:DragDrop.DragMouseAnchorPoint="0.5,0.5"
+             dd:DragDrop.DefaultDragAdornerOpacity="1.0">
+        <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
-                <StackPanel Orientation="Horizontal" RenderSize="" HorizontalAlignment="Center" MinWidth="{Binding ActualWidth, ElementName=TableViewListBox}"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
             </ItemsPanelTemplate>
         </ListBox.ItemsPanel>
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <view:CardInPlayView Height="{Binding ActualHeight, ElementName=TableViewListBox}"/>
+                <view:CardInPlayView/>
             </DataTemplate>
         </ListBox.ItemTemplate>
     </ListBox>

@@ -11,6 +11,14 @@
        <viewModel:TableViewModel/>
     </UserControl.DataContext>-->
 
+   <UserControl.Resources>
+    <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="/Skins/MainSkin.xaml" />
+        </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+    </UserControl.Resources>
+
     <Viewbox>
         <Canvas Width="300" Height="350">
             <Ellipse Canvas.Top="32" Canvas.Left="44"  Width="208" Height="286">
@@ -19,10 +27,12 @@
                 </Ellipse.Fill>
             </Ellipse>
             <Image Width="366" Height="428" Source="../Images/inplay_minion_premium.png" Canvas.Left="-36" Canvas.Top="-24"/>
-            <TextBlock Text="{Binding Attack}" Canvas.Left="65" Canvas.Top="256" FontSize="18" Foreground="White"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding Health}" Canvas.Left="205" Canvas.Top="256" FontSize="18" Foreground="White"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Attack}" Canvas.Left="55" Canvas.Top="232"
+                       Style="{StaticResource NumericTextBlock}">
+            </TextBlock>
+            <TextBlock Text="{Binding Health}" Canvas.Left="207" Canvas.Top="232"
+                       Style="{StaticResource NumericTextBlock}">
+            </TextBlock>
         </Canvas>
     </Viewbox>
 </UserControl>

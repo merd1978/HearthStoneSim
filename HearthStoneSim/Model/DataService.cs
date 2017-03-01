@@ -22,7 +22,35 @@ namespace HearthStoneSim.Model
             // Get XML definitions from assembly embedded resource
             var assembly = Assembly.GetExecutingAssembly();
             var def = XDocument.Load(assembly.GetManifestResourceStream("HearthStoneSim.Model.CardDefs.xml"));
-            //var dbfDef = XDocument.Load(assembly.GetManifestResourceStream("HearthStoneSim.Model.CARD.xml"));
+
+            //// Parse XML
+            //return (from r in def.Descendants("Entity")
+            //        select new Card
+            //        {
+            //            Id = r.Attribute("CardID")?.Value,
+            //            //AssetId = int.Parse(r.Attribute("AssetID")?.Value ?? "0"),
+            //            Name = r.Element("Name")?.Value,
+            //            //Guid = Guid.Parse(r.Element("Guid")?.Value ?? "00000000-0000-0000-0000-000000000000"),
+
+            //            Tags = (from tag in r.Descendants("Tag")
+            //                    select new
+            //                    {
+            //                        Name = (GameTag)Enum.Parse(typeof(GameTag), tag.Attribute("enumID").Value),
+            //                        Value = int.Parse(tag.Attribute("value").Value)
+            //                    }).ToDictionary(x => x.Name, x => x.Value),
+
+            //            Requirements = (from req in r.Descendants("PlayRequirement")
+            //                            select new
+            //                            {
+            //                                Req = (PlayRequirements)Enum.Parse(typeof(PlayRequirements), req.Attribute("reqID").Value),
+            //                                Param = (req.Attribute("param").Value != "" ? int.Parse(req.Attribute("param").Value) : 0)
+            //                            }).ToDictionary(x => x.Req, x => x.Param),
+            //            /*
+            //                Entourage = (from ent in r.Descendants("EntourageCard")
+            //                    select ent.Attribute("cardID").Value).ToList()
+            //                */
+            //            // Skip PlaceholderCard
+            //        }).Where(x => x.AssetId != 0);
 
             // Parse XML
             var cards = (from r in def.Descendants("Entity")
@@ -52,33 +80,13 @@ namespace HearthStoneSim.Model
                                           select ent.Attribute("cardID").Value).ToList()
                          }).ToList();
 
-            //var dbfCards = (from r in dbfDef.Descendants("Record")
-            //                select new
-            //                {
-            //                    AssetId =
-            //                        (from field in r.Descendants("Field") where field.Attribute("column").Value == "ID" select int.Parse(field.Value))
-            //                            .FirstOrDefault(),
-            //                    CardId =
-            //                        (from field in r.Descendants("Field") where field.Attribute("column").Value == "NOTE_MINI_GUID" select field.Value)
-            //                            .FirstOrDefault(),
-            //                    Guid =
-            //                        (from field in r.Descendants("Field") where field.Attribute("column").Value == "LONG_GUID" select field.Value)
-            //                            .FirstOrDefault()
-            //                }).ToDictionary(x => x.CardId, x => x);
-
             // Build card database
             var Cards = new Dictionary<string, Card>();
 
             foreach (var card in cards)
             {
-                // Skip PlaceholderCard etc.
-                //if (!dbfCards.ContainsKey(card.Id))
-                //    continue;
-
                 var c = new Card()
                 {
-                    //AssetId = dbfCards[card.Id].AssetId,
-                    //Guid = Guid.Parse(dbfCards[card.Id].Guid),
                     Id = card.Id,
                     Tags = new Dictionary<GameTag, int>(),
                     Requirements = card.Requirements
