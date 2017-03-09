@@ -14,6 +14,8 @@ namespace HearthStoneSim.ViewModel
     {
         public ObservableCollection<Card> HandCards { get; private set; }
 
+
+
         /// <summary>
         /// Initializes a new instance of the HandViewModel class.
         /// </summary>

@@ -24,6 +24,8 @@ namespace HearthStoneSim.ViewModel
         /// </summary>
         public string MainWindowTitle { get; private set; }
 
+        public Game Game { get; private set; }
+
         public void DragOver(IDropInfo dropInfo)
         {
             dropInfo.NotHandled = true;
@@ -52,7 +54,7 @@ namespace HearthStoneSim.ViewModel
                 }
                 Cards.All = cards;
             });
-            var game = new Game();
+            Game = new Game();
         }
 
         ////public override void Cleanup()
