@@ -2,9 +2,14 @@
 
 namespace HearthStoneSim.Model
 {
-    class Deck
+    public class Deck
     {
-        public string Name { get; set; }
-        public List<Card> Cards;
+        public List<Card> Cards = new List<Card>();
+        public int StartingCards { get; set; } = 30;
+
+        public void Add(Card card)
+        {
+            _cards.Add(card);
+        }
     }
 }

@@ -21,5 +21,15 @@ namespace HearthStoneSim.Model
         public Dictionary<PlayRequirements, int> Requirements { get; set; }
 
         public override string ToString() { return Name; }
+
+        // Cloning copy constructor
+        public Card(Card cloneFrom)
+        {
+            Id = cloneFrom.Id;
+            Name = cloneFrom.Name;
+            CardTextInHand = cloneFrom.CardTextInHand;
+            
+            Tags = new Dictionary<GameTag, int>(cloneFrom.Tags);
+        }
     }
 }

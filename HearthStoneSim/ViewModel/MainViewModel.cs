@@ -52,6 +52,7 @@ namespace HearthStoneSim.ViewModel
                 }
                 Cards.All = cards;
             });
+            var game = new Game();
         }
 
         ////public override void Cleanup()

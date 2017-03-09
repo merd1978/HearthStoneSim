@@ -38,7 +38,7 @@
     <AssemblyInfoVersionSettings>
     </AssemblyInfoVersionSettings>
     <AssemblyVersionSettings>None.None.Increment.None</AssemblyVersionSettings>
-    <AssemblyVersion>0.0.372.0</AssemblyVersion>
+    <AssemblyVersion>0.0.375.0</AssemblyVersion>
     <AssemblyFileVersionSettings>None.None.Increment.None</AssemblyFileVersionSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -127,7 +127,9 @@
     <Compile Include="Model\DataService.cs" />
     <Compile Include="Model\Deck.cs" />
     <Compile Include="Model\Enums\Enums.cs" />
+    <Compile Include="Model\Game.cs" />
     <Compile Include="Model\IDataService.cs" />
+    <Compile Include="Model\Player.cs" />
     <Compile Include="Model\Tag.cs" />
     <Compile Include="Model\TagValue.cs" />
     <Compile Include="ViewModel\CardViewModel.cs" />

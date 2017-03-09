@@ -23,41 +23,11 @@ namespace HearthStoneSim.Model
             var assembly = Assembly.GetExecutingAssembly();
             var def = XDocument.Load(assembly.GetManifestResourceStream("HearthStoneSim.Model.CardDefs.xml"));
 
-            //// Parse XML
-            //return (from r in def.Descendants("Entity")
-            //        select new Card
-            //        {
-            //            Id = r.Attribute("CardID")?.Value,
-            //            //AssetId = int.Parse(r.Attribute("AssetID")?.Value ?? "0"),
-            //            Name = r.Element("Name")?.Value,
-            //            //Guid = Guid.Parse(r.Element("Guid")?.Value ?? "00000000-0000-0000-0000-000000000000"),
-
-            //            Tags = (from tag in r.Descendants("Tag")
-            //                    select new
-            //                    {
-            //                        Name = (GameTag)Enum.Parse(typeof(GameTag), tag.Attribute("enumID").Value),
-            //                        Value = int.Parse(tag.Attribute("value").Value)
-            //                    }).ToDictionary(x => x.Name, x => x.Value),
-
-            //            Requirements = (from req in r.Descendants("PlayRequirement")
-            //                            select new
-            //                            {
-            //                                Req = (PlayRequirements)Enum.Parse(typeof(PlayRequirements), req.Attribute("reqID").Value),
-            //                                Param = (req.Attribute("param").Value != "" ? int.Parse(req.Attribute("param").Value) : 0)
-            //                            }).ToDictionary(x => x.Req, x => x.Param),
-            //            /*
-            //                Entourage = (from ent in r.Descendants("EntourageCard")
-            //                    select ent.Attribute("cardID").Value).ToList()
-            //                */
-            //            // Skip PlaceholderCard
-            //        }).Where(x => x.AssetId != 0);
-
             // Parse XML
             var cards = (from r in def.Descendants("Entity")
                          select new
                          {
                              Id = r.Attribute("CardID").Value,
-
                              // Unfortunately the file contains some duplicate tags
                              // so we have to make a list first and weed out the unique ones
                              Tags = (from tag in r.Descendants("Tag")
@@ -81,7 +51,7 @@ namespace HearthStoneSim.Model
                          }).ToList();
 
             // Build card database
-            var Cards = new Dictionary<string, Card>();
+            var cardsDict = new Dictionary<string, Card>();
 
             foreach (var card in cards)
             {
@@ -112,9 +82,9 @@ namespace HearthStoneSim.Model
                             c.CardTextInHand = tag.Value;
                     }
                 }
-                Cards.Add(c.Id, c);
+                cardsDict.Add(c.Id, c);
             }
-            callback(Cards, null);
+            callback(cardsDict, null);
         }
     }
 }
