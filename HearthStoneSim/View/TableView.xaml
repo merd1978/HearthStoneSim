@@ -7,10 +7,11 @@
              xmlns:viewModel="clr-namespace:HearthStoneSim.ViewModel"
              xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.DataContext>
+             d:DesignHeight="150" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance Type=viewModel:TableViewModel, IsDesignTimeCreatable=True}">
+    <!--<UserControl.DataContext>
         <viewModel:TableViewModel />
-    </UserControl.DataContext>
+    </UserControl.DataContext>-->
     
     <ListBox x:Name="TableViewListBox" Background="{x:Null}" ItemsSource="{Binding Cards}" 
              ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled"

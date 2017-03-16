@@ -22,6 +22,12 @@ namespace HearthStoneSim.Model
 
         public override string ToString() { return Name; }
 
+        //default constructor
+        public Card()
+        {
+
+        }
+        
         // Cloning copy constructor
         public Card(Card cloneFrom)
         {

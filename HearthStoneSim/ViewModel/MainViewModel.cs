@@ -26,6 +26,11 @@ namespace HearthStoneSim.ViewModel
 
         public Game Game { get; private set; }
 
+        public HandViewModel HandViewModelPlayer1 { get; private set; }
+        public HandViewModel HandViewModelPlayer2 { get; private set; }
+        public TableViewModel TableViewModelPlayer1 { get; private set; }
+        public TableViewModel TableViewModelPlayer2 { get; private set; }
+
         public void DragOver(IDropInfo dropInfo)
         {
             dropInfo.NotHandled = true;
@@ -55,6 +60,10 @@ namespace HearthStoneSim.ViewModel
                 Cards.All = cards;
             });
             Game = new Game();
+
+            HandViewModelPlayer1 = new HandViewModel();
+            HandViewModelPlayer2 = new HandViewModel();
+            TableViewModelPlayer1 = new TableViewModel();
         }
 
         ////public override void Cleanup()

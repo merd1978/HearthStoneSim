@@ -11,13 +11,13 @@
        <viewModel:TableViewModel/>
     </UserControl.DataContext>-->
 
-   <UserControl.Resources>
+   <!--<UserControl.Resources>
     <ResourceDictionary>
         <ResourceDictionary.MergedDictionaries>
             <ResourceDictionary Source="/Skins/MainSkin.xaml" />
         </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
-    </UserControl.Resources>
+    </UserControl.Resources>-->
 
     <Viewbox>
         <Canvas Width="300" Height="350">

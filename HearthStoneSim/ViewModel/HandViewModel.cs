@@ -17,9 +17,13 @@ namespace HearthStoneSim.ViewModel
         /// <summary>
         /// Initializes a new instance of the HandViewModel class.
         /// </summary>
-        public HandViewModel(Deck deck)
+        public HandViewModel()
         {
-            HandCards = new ObservableCollection<Card>(deck.Cards);
+            HandCards = new ObservableCollection<Card>
+            {
+                Cards.All["EX1_306"], Cards.All["CS2_172"], Cards.All["CS2_124"], Cards.All["CS2_182"],
+                Cards.All["CS2_222"], Cards.All["OG_279"]
+            };
         }
     }
 }

@@ -24,8 +24,8 @@ namespace HearthStoneSim.Design
             var card2 = new Card() { Id = "CS2_172", Name = "Тест2", CardTextInHand = "asd" };
             var card3 = new Card() { Id = "CS2_124", Name = "Тест3", CardTextInHand = "asd" };
             var card4 = new Card() { Id = "CS2_182", Name = "Тест4", CardTextInHand = "asd" };
-            var card5 = new Card() { Id = "CS2_222", Name = "Тест4", CardTextInHand = "asd" };
-            var card6 = new Card() { Id = "OG_279", Name = "Тест4", CardTextInHand = "asd" };
+            var card5 = new Card() { Id = "CS2_222", Name = "Тест5", CardTextInHand = "asd" };
+            var card6 = new Card() { Id = "OG_279", Name = "Тест6", CardTextInHand = "asd" };
 
             var cards = new Dictionary<string, Card>
             {

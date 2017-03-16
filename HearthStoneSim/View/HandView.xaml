@@ -7,11 +7,12 @@
              xmlns:viewModel="clr-namespace:HearthStoneSim.ViewModel"
              xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="300">
+             d:DesignHeight="150" d:DesignWidth="310"
+             d:DataContext="{d:DesignInstance Type=viewModel:HandViewModel, IsDesignTimeCreatable=True}">
 
-    <UserControl.DataContext>
+    <!--<UserControl.DataContext>
         <viewModel:HandViewModel/>
-    </UserControl.DataContext>
+    </UserControl.DataContext>-->
 
     <UserControl.Resources>
         <ItemsPanelTemplate x:Key="RadialPanelTemplate">

@@ -9,7 +9,7 @@ namespace HearthStoneSim.Model
 
         public void Add(Card card)
         {
-            _cards.Add(card);
+            Cards.Add(card);
         }
     }
 }

@@ -5,19 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModel="clr-namespace:HearthStoneSim.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="410" d:DesignWidth="290">
+             d:DesignHeight="410" d:DesignWidth="290"
+             d:DataContext="{d:DesignInstance Type=viewModel:CardViewModel, IsDesignTimeCreatable=True}">
 
     <!--<UserControl.DataContext>
         <viewModel:HandViewModel/>
     </UserControl.DataContext>-->
 
-    <UserControl.Resources>
+    <!--<UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Skins/MainSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </UserControl.Resources>
+    </UserControl.Resources>-->
 
     <Viewbox>
         <Canvas Width="280" Height="390">

@@ -12,18 +12,10 @@
         Background="Silver"
         WindowStartupLocation="CenterScreen"
         Title="{Binding MainWindowTitle}"
-        DataContext="{Binding Main, Source={StaticResource Locator}}"
         dd:DragDrop.IsDropTarget="True"
-        dd:DragDrop.DropHandler="{Binding}">
-
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Skins/MainSkin.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
-
+        dd:DragDrop.DropHandler="{Binding}"
+        DataContext="{Binding Main, Source={StaticResource Locator}}">
+    
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -46,8 +38,12 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <!--<Button x:Name="EndTurn" Grid.Row="1" Grid.Column="1" Content="END TURN" Canvas.Left="446" Canvas.Top="149"   />-->
-            <view:TableView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"></view:TableView>
-            <view:HandView Grid.Row="3" Grid.Column="1"></view:HandView>
+            <!--<view:CardView Grid.Row="2" Grid.Column="0"/>-->
+            <view:TableView DataContext="{Binding TableViewModelPlayer1}"
+                Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+            </view:TableView>
+            <view:HandView DataContext="{Binding HandViewModelPlayer1}" Grid.Row="3" Grid.Column="1" ></view:HandView>
+            <view:HandView DataContext="{Binding HandViewModelPlayer2}" Grid.Row="0" Grid.Column="1"></view:HandView>
         </Grid>
     </Grid>
 </Window>

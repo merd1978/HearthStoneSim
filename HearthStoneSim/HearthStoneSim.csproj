@@ -40,6 +40,8 @@
     <AssemblyVersionSettings>None.None.Increment.None</AssemblyVersionSettings>
     <AssemblyVersion>0.0.375.0</AssemblyVersion>
     <AssemblyFileVersionSettings>None.None.Increment.None</AssemblyFileVersionSettings>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -229,7 +231,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Model\CardDefs.xml" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\cardback.png" />
     <Resource Include="Images\damage.png" />
@@ -307,6 +308,9 @@
     <Resource Include="Images\secret_paladin.png" />
     <Resource Include="Images\secret_sheathed.png" />
     <Resource Include="Images\skull.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
