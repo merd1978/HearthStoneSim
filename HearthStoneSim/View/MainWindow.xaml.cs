@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using HearthStoneSim.ViewModel;
 
-namespace HearthStoneSim
+namespace HearthStoneSim.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
