@@ -13,9 +13,12 @@ namespace HearthStoneSim.ViewModel
     public class CardViewModel : ViewModelBase
     {
         public Card Card { get; private set; }
-        public string Id = "EX1_306";
-        public string Name = "Эпичная мышь";
-        public string CardTextInHand = "Win button";
+        public string Id { get; private set; } = "EX1_306";
+        public string Name { get; private set; } = "Эпичная мышь";
+        public int Cost { get; private set; } = 8;
+        public int Attack { get; private set; } = 8;
+        public int Health { get; private set; } = 8;
+        public string CardTextInHand { get; private set; } = "Win button";
         public string ArtImageSource => @"d:/CardArt/Full/" + Id + ".png";
         public string FrameImageSource => @"../Images/inhand_minion_druid.png";
 

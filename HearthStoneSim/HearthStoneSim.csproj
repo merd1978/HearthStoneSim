@@ -30,18 +30,6 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <PrimaryVersionType>AssemblyFileVersionAttribute</PrimaryVersionType>
-    <AssemblyInfoFilePath>Properties\AssemblyInfo.cs</AssemblyInfoFilePath>
-    <UpdateAssemblyVersion>True</UpdateAssemblyVersion>
-    <UpdateAssemblyFileVersion>True</UpdateAssemblyFileVersion>
-    <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
-    <AssemblyInfoVersionSettings>
-    </AssemblyInfoVersionSettings>
-    <AssemblyVersionSettings>None.None.Increment.None</AssemblyVersionSettings>
-    <AssemblyVersion>0.0.375.0</AssemblyVersion>
-    <AssemblyFileVersionSettings>None.None.Increment.None</AssemblyFileVersionSettings>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>

@@ -17,5 +17,6 @@
         <Setter Property="FontSize" Value="64"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontFamily" Value="{StaticResource Belwe}"/>
+        <Setter Property="TextAlignment" Value="Center"/>
     </Style>
 </ResourceDictionary>
