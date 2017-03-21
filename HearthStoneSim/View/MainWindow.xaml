@@ -42,8 +42,16 @@
             <view:TableView DataContext="{Binding TableViewModelPlayer1}"
                 Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
             </view:TableView>
+            <view:TableView DataContext="{Binding TableViewModelPlayer2}"
+                Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+            </view:TableView>            
             <view:HandView DataContext="{Binding HandViewModelPlayer1}" Grid.Row="3" Grid.Column="1" ></view:HandView>
-            <view:HandView DataContext="{Binding HandViewModelPlayer2}" Grid.Row="0" Grid.Column="1"></view:HandView>
+            <view:HandView DataContext="{Binding HandViewModelPlayer2}" Grid.Row="0" Grid.Column="1"
+                RenderTransformOrigin="0.5,0.5">
+                <view:HandView.RenderTransform>
+                    <RotateTransform Angle="180"/>
+                </view:HandView.RenderTransform>
+            </view:HandView>
         </Grid>
     </Grid>
 </Window>

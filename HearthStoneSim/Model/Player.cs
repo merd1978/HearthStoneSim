@@ -8,7 +8,7 @@ namespace HearthStoneSim.Model
 {
     public class Player
     {
-        public Deck Deck { get; private set; };
+        public Deck Deck { get; private set; }
         public string FriendlyName { get; }
 
         public Player(Deck deck)

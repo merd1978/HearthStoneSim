@@ -15,7 +15,7 @@
     
     <ListBox x:Name="TableViewListBox" Background="{x:Null}" ItemsSource="{Binding Cards}" 
              ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-             dd:DragDrop.IsDragSource="True"
+             dd:DragDrop.IsDragSource="False"
              dd:DragDrop.IsDropTarget="True"
              dd:DragDrop.UseDefaultDragAdorner="True"
              dd:DragDrop.DragMouseAnchorPoint="0.5,0.5"

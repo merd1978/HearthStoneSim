@@ -62,8 +62,9 @@ namespace HearthStoneSim.ViewModel
             Game = new Game();
 
             HandViewModelPlayer1 = new HandViewModel(Game.Player1.Deck);
-            HandViewModelPlayer2 = new HandViewModel(Game.Player2.Deck);
+            HandViewModelPlayer2 = new HandViewModel(Game.Player1.Deck);
             TableViewModelPlayer1 = new TableViewModel();
+            TableViewModelPlayer2 = new TableViewModel();
         }
 
         ////public override void Cleanup()
