@@ -116,6 +116,7 @@
     <Compile Include="Model\DataItem.cs" />
     <Compile Include="Model\DataService.cs" />
     <Compile Include="Model\Deck.cs" />
+    <Compile Include="Model\DragDrop\TargetPointerAdorner.cs" />
     <Compile Include="Model\Enums\Enums.cs" />
     <Compile Include="Model\Game.cs" />
     <Compile Include="Model\IDataService.cs" />

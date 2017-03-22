@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HearthStoneSim.Model;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace HearthStoneSim.View
 {
@@ -20,9 +12,27 @@ namespace HearthStoneSim.View
     /// </summary>
     public partial class TableView : UserControl
     {
+        private TargetPointerAdorner _targetPointer;
+
         public TableView()
         {
             InitializeComponent();
         }
+
+        private void TableViewLoaded(object sender, EventArgs e)
+        {
+            var layer = AdornerLayer.GetAdornerLayer(TableViewListBox);
+            _targetPointer = new TargetPointerAdorner((IInputElement)sender);
+            layer.Add(_targetPointer);
+        }
+
+        private void OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var anchor = e.GetPosition((IInputElement)sender);
+            _targetPointer.CaptureMouse();
+            _targetPointer.StartSelection(anchor);
+        }
     }
 }
+
+
