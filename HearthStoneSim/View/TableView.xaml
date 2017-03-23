@@ -21,7 +21,11 @@
              dd:DragDrop.UseDefaultDragAdorner="True"
              dd:DragDrop.DragMouseAnchorPoint="0.5,0.5"
              dd:DragDrop.DefaultDragAdornerOpacity="1.0"
-             MouseDown="OnMouseDown">
+             PreviewMouseLeftButtonDown="DoMouseButtonDown"
+             PreviewMouseLeftButtonUp="DoMouseButtonUp"
+             PreviewMouseMove="DragSourceOnMouseMove"
+             DragEnter="DropTargetOnDragOver"
+             DragOver="DropTargetOnDragOver">
         <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>

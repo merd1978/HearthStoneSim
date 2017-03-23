@@ -11,14 +11,33 @@ namespace HearthStoneSim.Model
     {
         private readonly AdornerLayer _adornerLayer;
         private readonly UIElement _adornedElement;
+        private Point m_MousePosition;
         private readonly RectangleGeometry _geometry;
         private Point _anchorPoint;
         private Rect _selectRect;
+        public Rect SelectRect => _selectRect;
+        public Path Rubberband { get; }
+        protected override int VisualChildrenCount => 1;
+
+        public Point MousePosition
+        {
+            get { return this.m_MousePosition; }
+            set
+            {
+                if (this.m_MousePosition != value)
+                {
+                    this.m_MousePosition = value;
+                    this._adornerLayer.Update(this.AdornedElement);
+                }
+            }
+        }
 
         public TargetPointerAdorner(UIElement adornedElement)
             : base(adornedElement)
         {
             _adornedElement = adornedElement;
+            _adornerLayer = AdornerLayer.GetAdornerLayer(_adornedElement);
+            _adornerLayer.Add(this);
             _selectRect = new Rect();
             _geometry = new RectangleGeometry();
             Rubberband = new Path
@@ -30,13 +49,12 @@ namespace HearthStoneSim.Model
                 Visibility = Visibility.Hidden
             };
             AddVisualChild(Rubberband);
-            MouseMove += DrawSelection;
-            MouseUp += EndSelection;
         }
 
-        public Rect SelectRect => _selectRect;
-        public Path Rubberband { get; }
-        protected override int VisualChildrenCount => 1;
+        public void Detatch()
+        {
+            _adornerLayer.Remove(this);
+        }
 
         protected override Size ArrangeOverride(Size size)
         {
@@ -55,19 +73,21 @@ namespace HearthStoneSim.Model
                 Rubberband.Visibility = Visibility.Visible;
         }
 
-        private void DrawSelection(object sender, MouseEventArgs e)
+        public void DrawSelection(object sender, DragEventArgs e, Point anchorPoint)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                var mousePosition = e.GetPosition(_adornedElement);
-                _selectRect.X = mousePosition.X < _anchorPoint.X ? mousePosition.X : _anchorPoint.X;
-                _selectRect.Y = mousePosition.Y < _anchorPoint.Y ? mousePosition.Y : _anchorPoint.Y;
-                _selectRect.Width = Math.Abs(mousePosition.X - _anchorPoint.X);
-                _selectRect.Height = Math.Abs(mousePosition.Y - _anchorPoint.Y);
-                _geometry.Rect = _selectRect;
-                var layer = AdornerLayer.GetAdornerLayer(_adornedElement);
-                layer.InvalidateArrange();
-            }
+            _anchorPoint = anchorPoint;
+
+            var mousePosition = e.GetPosition((IInputElement)sender); ;
+            _selectRect.Location = _anchorPoint;
+            _selectRect.X = mousePosition.X < _anchorPoint.X ? mousePosition.X : _anchorPoint.X;
+            _selectRect.Y = mousePosition.Y < _anchorPoint.Y ? mousePosition.Y : _anchorPoint.Y;
+            _selectRect.Width = Math.Abs(mousePosition.X - _anchorPoint.X);
+            _selectRect.Height = Math.Abs(mousePosition.Y - _anchorPoint.Y);
+            _geometry.Rect = _selectRect;
+            if (Visibility.Visible != Rubberband.Visibility)
+                Rubberband.Visibility = Visibility.Visible;
+            var layer = AdornerLayer.GetAdornerLayer(_adornedElement);
+            layer.InvalidateArrange();
         }
 
         private void EndSelection(object sender, MouseButtonEventArgs e)

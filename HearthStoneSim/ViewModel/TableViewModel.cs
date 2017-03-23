@@ -18,7 +18,7 @@ namespace HearthStoneSim.ViewModel
         /// </summary>
         public TableViewModel()
         {
-            Cards = new ObservableCollection<Card> {  };
+            Cards = new ObservableCollection<Card> { Model.Cards.All["EX1_306"] };
         }
     }
 }
