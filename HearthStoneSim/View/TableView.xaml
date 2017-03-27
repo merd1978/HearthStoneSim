@@ -24,8 +24,6 @@
              PreviewMouseLeftButtonDown="DoMouseButtonDown"
              PreviewMouseLeftButtonUp="DoMouseButtonUp"
              PreviewMouseMove="DragSourceOnMouseMove"
-             DragEnter="DropTargetOnDragOver"
-             DragOver="DropTargetOnDragOver">
         <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>

@@ -116,6 +116,15 @@
     <Compile Include="Model\DataItem.cs" />
     <Compile Include="Model\DataService.cs" />
     <Compile Include="Model\Deck.cs" />
+    <Compile Include="Model\DragDrop\DefaultDragHandler.cs" />
+    <Compile Include="Model\DragDrop\DefaultDropHandler.cs" />
+    <Compile Include="Model\DragDrop\DragDrop.cs" />
+    <Compile Include="Model\DragDrop\DragInfo.cs" />
+    <Compile Include="Model\DragDrop\DropInfo.cs" />
+    <Compile Include="Model\DragDrop\IDragInfo.cs" />
+    <Compile Include="Model\DragDrop\IDragSource.cs" />
+    <Compile Include="Model\DragDrop\IDropInfo.cs" />
+    <Compile Include="Model\DragDrop\IDropTarget.cs" />
     <Compile Include="Model\DragDrop\TargetPointerAdorner.cs" />
     <Compile Include="Model\Enums\Enums.cs" />
     <Compile Include="Model\Game.cs" />

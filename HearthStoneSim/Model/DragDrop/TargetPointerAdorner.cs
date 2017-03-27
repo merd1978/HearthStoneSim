@@ -73,7 +73,7 @@ namespace HearthStoneSim.Model
                 Rubberband.Visibility = Visibility.Visible;
         }
 
-        public void DrawSelection(object sender, DragEventArgs e, Point anchorPoint)
+        public void DrawSelection(object sender, MouseEventArgs e, Point anchorPoint)
         {
             _anchorPoint = anchorPoint;
 
