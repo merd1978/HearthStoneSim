@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
-using GongSolutions.Wpf.DragDrop.Utilities;
+//using GongSolutions.Wpf.DragDrop.Utilities;
 using System.Windows.Controls;
 
 namespace GongSolutions.Wpf.DragDrop
@@ -85,68 +85,68 @@ namespace GongSolutions.Wpf.DragDrop
         }
       }
 
-      var destinationList = dropInfo.TargetCollection.TryGetList();
-      var data = ExtractData(dropInfo.Data).OfType<object>().ToList();
+      //var destinationList = dropInfo.TargetCollection.TryGetList();
+      //var data = ExtractData(dropInfo.Data).OfType<object>().ToList();
 
-      var copyData = ShouldCopyData(dropInfo);
-      if (!copyData)
-      {
-        var sourceList = dropInfo.DragInfo.SourceCollection.TryGetList();
-        if (sourceList != null)
-        {
-          foreach (var o in data)
-          {
-            var index = sourceList.IndexOf(o);
-            if (index != -1)
-            {
-              sourceList.RemoveAt(index);
-              // so, is the source list the destination list too ?
-              if (destinationList != null && Equals(sourceList, destinationList) && index < insertIndex)
-              {
-                --insertIndex;
-              }
-            }
-          }
-        }
-      }
+      //var copyData = ShouldCopyData(dropInfo);
+      //if (!copyData)
+      //{
+      //  var sourceList = dropInfo.DragInfo.SourceCollection.TryGetList();
+      //  if (sourceList != null)
+      //  {
+      //    foreach (var o in data)
+      //    {
+      //      var index = sourceList.IndexOf(o);
+      //      if (index != -1)
+      //      {
+      //        sourceList.RemoveAt(index);
+      //        // so, is the source list the destination list too ?
+      //        if (destinationList != null && Equals(sourceList, destinationList) && index < insertIndex)
+      //        {
+      //          --insertIndex;
+      //        }
+      //      }
+      //    }
+      //  }
+      //}
 
-      if (destinationList != null)
-      {
-        var tabControl = dropInfo.VisualTarget as TabControl;
+      //if (destinationList != null)
+      //{
+      //  var tabControl = dropInfo.VisualTarget as TabControl;
 
-        // check for cloning
-        var cloneData = dropInfo.Effects.HasFlag(DragDropEffects.Copy)
-                        || dropInfo.Effects.HasFlag(DragDropEffects.Link);
-        foreach (var o in data)
-        {
-          var obj2Insert = o;
-          if (cloneData)
-          {
-            var cloneable = o as ICloneable;
-            if (cloneable != null)
-            {
-              obj2Insert = cloneable.Clone();
-            }
-          }
+      //  // check for cloning
+      //  var cloneData = dropInfo.Effects.HasFlag(DragDropEffects.Copy)
+      //                  || dropInfo.Effects.HasFlag(DragDropEffects.Link);
+      //  foreach (var o in data)
+      //  {
+      //    var obj2Insert = o;
+      //    if (cloneData)
+      //    {
+      //      var cloneable = o as ICloneable;
+      //      if (cloneable != null)
+      //      {
+      //        obj2Insert = cloneable.Clone();
+      //      }
+      //    }
 
-          destinationList.Insert(insertIndex++, obj2Insert);
+      //    destinationList.Insert(insertIndex++, obj2Insert);
 
-          if (tabControl != null)
-          {
-            // call ApplyTemplate for TabItem in TabControl to avoid this error:
-            //
-            // System.Windows.Data Error: 4 : Cannot find source for binding with reference
-            // 'RelativeSource FindAncestor, AncestorType='System.Windows.Controls.TabControl', AncestorLevel='1''.
-            // BindingExpression:Path=TabStripPlacement; DataItem=null; target element is 'TabItem' (Name='');
-            // target property is 'NoTarget' (type 'Object')
-            var container = tabControl.ItemContainerGenerator.ContainerFromItem(obj2Insert) as TabItem;
-            container?.ApplyTemplate();
+      //    if (tabControl != null)
+      //    {
+      //      // call ApplyTemplate for TabItem in TabControl to avoid this error:
+      //      //
+      //      // System.Windows.Data Error: 4 : Cannot find source for binding with reference
+      //      // 'RelativeSource FindAncestor, AncestorType='System.Windows.Controls.TabControl', AncestorLevel='1''.
+      //      // BindingExpression:Path=TabStripPlacement; DataItem=null; target element is 'TabItem' (Name='');
+      //      // target property is 'NoTarget' (type 'Object')
+      //      var container = tabControl.ItemContainerGenerator.ContainerFromItem(obj2Insert) as TabItem;
+      //      container?.ApplyTemplate();
 
-            // for better experience: select the dragged TabItem
-            tabControl.SetSelectedItem(obj2Insert);
-          }
-        }
-      }
+      //      // for better experience: select the dragged TabItem
+      //      tabControl.SetSelectedItem(obj2Insert);
+      //    }
+      //  }
+      //}
     }
 
     /// <summary>
@@ -211,23 +211,6 @@ namespace GongSolutions.Wpf.DragDrop
       }
 
       return false;
-    }
-
-    protected static bool TestCompatibleTypes(IEnumerable target, object data)
-    {
-      TypeFilter filter = (t, o) => {
-                            return (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>));
-                          };
-
-      var enumerableInterfaces = target.GetType().FindInterfaces(filter, null);
-      var enumerableTypes = from i in enumerableInterfaces select i.GetGenericArguments().Single();
-
-      if (enumerableTypes.Count() > 0) {
-        var dataType = TypeUtilities.GetCommonBaseClass(ExtractData(data));
-        return enumerableTypes.Any(t => t.IsAssignableFrom(dataType));
-      } else {
-        return target is IList;
-      }
     }
   }
 }

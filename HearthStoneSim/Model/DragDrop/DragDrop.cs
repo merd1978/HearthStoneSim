@@ -21,12 +21,13 @@ namespace HearthStoneSim.Model.DragDrop
                 _dragAdorner = value;
             }
         }
-        public static IDropTarget DefaultDropHandler { get; } = new DefaultDropHandler();
+        //public static IDropTarget DefaultDropHandler { get; } = new DefaultDropHandler();
         public static IDragSource DefaultDragHandler { get; } = new DefaultDragHandler();
 
-        private static void CreateDragAdorner(DropInfo dropInfo)
+        private static void CreateDragAdorner()
         {
-            var rootElement = RootElementFinder.FindRoot(dropInfo.VisualTarget ?? m_DragInfo.VisualSource);
+            var parentWindow = Window.GetWindow(m_DragInfo.VisualSource);
+            var rootElement = parentWindow != null ? parentWindow.Content as UIElement : null;
             DragAdorner = new TargetPointerAdorner(rootElement);
         }
 
@@ -137,18 +138,10 @@ namespace HearthStoneSim.Model.DragDrop
                         }
                     }
 
-                    DragAdorner.DrawSelection(sender, e, _anchorPoint);
+                    DragAdorner.DrawSelection(sender, e, m_DragInfo.DragStartPosition);
 
                     DragAdorner.MousePosition = _adornerPos;
                     DragAdorner.InvalidateVisual();
-                }
-
-                e.Effects = dropInfo.Effects;
-                e.Handled = !dropInfo.NotHandled;
-
-                if (!dropInfo.IsSameDragDropContextAsSource)
-                {
-                    e.Effects = DragDropEffects.None;
                 }
             }
         }
@@ -156,69 +149,6 @@ namespace HearthStoneSim.Model.DragDrop
         private static void DoMouseButtonUp(object sender, MouseButtonEventArgs e)
         {
             m_DragInfo = null;
-        }
-
-        private static void DropTargetOnDragOver(object sender, DragEventArgs e)
-        {
-            var elementPosition = e.GetPosition((IInputElement)sender);
-
-            var dropInfo = new DropInfo(sender, e, m_DragInfo);
-            var dropHandler = DefaultDropHandler;
-            var itemsControl = dropInfo.VisualTarget;
-
-            dropHandler.DragOver(dropInfo);
-
-            if (DragAdorner == null && m_DragInfo != null)
-            {
-                CreateDragAdorner(dropInfo);
-            }
-
-            if (DragAdorner != null)
-            {
-                var tempAdornerPos = e.GetPosition(DragAdorner.AdornedElement);
-
-                if (tempAdornerPos.X >= 0 && tempAdornerPos.Y >= 0)
-                {
-                    _adornerPos = tempAdornerPos;
-                }
-
-                // Fixed the flickering adorner - Size changes to zero 'randomly'...?
-                if (DragAdorner.RenderSize.Width > 0 && DragAdorner.RenderSize.Height > 0)
-                {
-                    _adornerSize = DragAdorner.RenderSize;
-                }
-
-                if (m_DragInfo != null)
-                {
-                    // move the adorner
-                    var offsetX = _adornerSize.Width;
-                    var offsetY = _adornerSize.Height;
-                    _adornerPos.Offset(offsetX, offsetY);
-                    var maxAdornerPosX = DragAdorner.AdornedElement.RenderSize.Width;
-                    var adornerPosRightX = (_adornerPos.X + _adornerSize.Width);
-                    if (adornerPosRightX > maxAdornerPosX)
-                    {
-                        _adornerPos.Offset(-adornerPosRightX + maxAdornerPosX, 0);
-                    }
-                    if (_adornerPos.Y < 0)
-                    {
-                        _adornerPos.Y = 0;
-                    }
-                }
-
-                DragAdorner.DrawSelection(sender, e, _anchorPoint);
-
-                DragAdorner.MousePosition = _adornerPos;
-                DragAdorner.InvalidateVisual();
-            }
-
-            e.Effects = dropInfo.Effects;
-            e.Handled = !dropInfo.NotHandled;
-
-            if (!dropInfo.IsSameDragDropContextAsSource)
-            {
-                e.Effects = DragDropEffects.None;
-            }
         }
     }
 }
