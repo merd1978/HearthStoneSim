@@ -6,7 +6,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using GongSolutions.Wpf.DragDrop.Utilities;
 
-namespace HearthStoneSim.Model.DragDrop
+namespace HearthStoneSim.DragDrop
 {
   /// <summary>
   /// Holds information about a the source of a drag drop operation.

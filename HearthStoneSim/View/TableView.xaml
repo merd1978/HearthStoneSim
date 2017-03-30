@@ -5,25 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:view="clr-namespace:HearthStoneSim.View"
              xmlns:viewModel="clr-namespace:HearthStoneSim.ViewModel"
+             xmlns:dragDrop="clr-namespace:HearthStoneSim.DragDrop"
              xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance Type=viewModel:TableViewModel, IsDesignTimeCreatable=True}"
-             Loaded="TableViewLoaded">
+             d:DataContext="{d:DesignInstance Type=viewModel:TableViewModel, IsDesignTimeCreatable=True}">
     <!--<UserControl.DataContext>
         <viewModel:TableViewModel />
     </UserControl.DataContext>-->
 
     <ListBox x:Name="TableViewListBox" Background="{x:Null}" ItemsSource="{Binding Cards}" 
              ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-             dd:DragDrop.IsDragSource="False"
-             dd:DragDrop.IsDropTarget="True"
-             dd:DragDrop.UseDefaultDragAdorner="True"
-             dd:DragDrop.DragMouseAnchorPoint="0.5,0.5"
-             dd:DragDrop.DefaultDragAdornerOpacity="1.0"
-             PreviewMouseLeftButtonDown="DoMouseButtonDown"
-             PreviewMouseLeftButtonUp="DoMouseButtonUp"
-             PreviewMouseMove="DragSourceOnMouseMove"
+             dragDrop:DragDrop.IsDragSource="True">
         <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>

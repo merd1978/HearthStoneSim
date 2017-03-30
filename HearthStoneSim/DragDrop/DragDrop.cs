@@ -2,9 +2,9 @@
 using System.Windows;
 using System.Windows.Input;
 
-namespace HearthStoneSim.Model.DragDrop
+namespace HearthStoneSim.DragDrop
 {
-    public static class DragDrop
+    public static partial class DragDrop
     {
         private static DragInfo m_DragInfo;
         private static bool m_DragInProgress;
@@ -31,7 +31,7 @@ namespace HearthStoneSim.Model.DragDrop
             DragAdorner = new TargetPointerAdorner(rootElement);
         }
 
-        private static void DoMouseButtonDown(object sender, MouseButtonEventArgs e)
+        private static void DragSourceOnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             // Ignore the click if clickCount != 1 or source is ignored.
             var elementPosition = e.GetPosition((IInputElement)sender);
@@ -146,7 +146,7 @@ namespace HearthStoneSim.Model.DragDrop
             }
         }
 
-        private static void DoMouseButtonUp(object sender, MouseButtonEventArgs e)
+        private static void DragSourceOnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             m_DragInfo = null;
         }

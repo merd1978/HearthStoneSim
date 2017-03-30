@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace GongSolutions.Wpf.DragDrop
+namespace HearthStoneSim.DragDrop
 {
   /// <summary>
   /// Interface implemented by Drop Handlers.

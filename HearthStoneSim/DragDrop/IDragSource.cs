@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace HearthStoneSim.Model.DragDrop
+namespace HearthStoneSim.DragDrop
 {
   /// <summary>
   /// Interface implemented by Drag Handlers.

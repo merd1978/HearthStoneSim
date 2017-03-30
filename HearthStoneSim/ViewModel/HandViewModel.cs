@@ -20,11 +20,14 @@ namespace HearthStoneSim.ViewModel
         public HandViewModel(Deck Deck)
         {
             HandCards = new ObservableCollection<Card>(Deck.Cards);
-            //HandCards = new ObservableCollection<Card>
-            //{
-            //    Cards.All["EX1_306"], Cards.All["CS2_172"], Cards.All["CS2_124"], Cards.All["CS2_182"],
-            //    Cards.All["CS2_222"], Cards.All["OG_279"]
-            //};
+        }
+        public HandViewModel()
+        {
+            HandCards = new ObservableCollection<Card>
+            {
+                Cards.All["EX1_306"], Cards.All["CS2_172"], Cards.All["CS2_124"], Cards.All["CS2_182"],
+                Cards.All["CS2_222"], Cards.All["OG_279"]
+            };
         }
     }
 }

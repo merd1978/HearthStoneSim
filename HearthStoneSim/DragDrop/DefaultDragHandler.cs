@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows;
 using GongSolutions.Wpf.DragDrop.Utilities;
 
-namespace HearthStoneSim.Model.DragDrop
+namespace HearthStoneSim.DragDrop
 {
   /// <summary>
   /// The default drag handler for GongSolutions.Wpf.DragDrop.

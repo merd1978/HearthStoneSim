@@ -8,34 +8,13 @@ using System.Windows;
 //using GongSolutions.Wpf.DragDrop.Utilities;
 using System.Windows.Controls;
 
-namespace GongSolutions.Wpf.DragDrop
+namespace HearthStoneSim.DragDrop
 {
   /// <summary>
   /// A default insertion drop handler for the most common usages
   /// </summary>
   public class DefaultDropHandler : IDropTarget
   {
-    /// <summary>
-    /// Determines whether the data of the drag drop action should be copied otherwise moved.
-    /// </summary>
-    /// <param name="dropInfo">The DropInfo with a valid DragInfo.</param>
-    public static bool ShouldCopyData(IDropInfo dropInfo)
-    {
-      // default should always the move action/effect
-      if (dropInfo == null || dropInfo.DragInfo == null)
-      {
-        return false;
-      }
-      var copyData = ((dropInfo.DragInfo.DragDropCopyKeyState != default(DragDropKeyStates)) && dropInfo.KeyStates.HasFlag(dropInfo.DragInfo.DragDropCopyKeyState))
-                     || dropInfo.DragInfo.DragDropCopyKeyState.HasFlag(DragDropKeyStates.LeftMouseButton);
-      copyData = copyData
-                 //&& (dropInfo.DragInfo.VisualSource != dropInfo.VisualTarget)
-                 && !(dropInfo.DragInfo.SourceItem is HeaderedContentControl)
-                 && !(dropInfo.DragInfo.SourceItem is HeaderedItemsControl)
-                 && !(dropInfo.DragInfo.SourceItem is ListBoxItem);
-      return copyData;
-    }
-
     /// <summary>
     /// Updates the current drag state.
     /// </summary>
@@ -47,11 +26,6 @@ namespace GongSolutions.Wpf.DragDrop
     /// </remarks>
     public virtual void DragOver(IDropInfo dropInfo)
     {
-      if (CanAcceptData(dropInfo)) {
-        dropInfo.Effects = ShouldCopyData(dropInfo) ? DragDropEffects.Copy : DragDropEffects.Move;
-        var isTreeViewItem = dropInfo.InsertPosition.HasFlag(RelativeInsertPosition.TargetItemCenter) && dropInfo.VisualTargetItem is TreeViewItem;
-        dropInfo.DropTargetAdorner = isTreeViewItem ? DropTargetAdorners.Highlight : DropTargetAdorners.Insert;
-      }
     }
 
     /// <summary>
@@ -158,35 +132,7 @@ namespace GongSolutions.Wpf.DragDrop
       if (dropInfo == null || dropInfo.DragInfo == null) {
         return false;
       }
-
-      if (!dropInfo.IsSameDragDropContextAsSource) {
-        return false;
-      }
-
-      // do not drop on itself
-      var isTreeViewItem = dropInfo.InsertPosition.HasFlag(RelativeInsertPosition.TargetItemCenter)
-                           && dropInfo.VisualTargetItem is TreeViewItem;
-      if (isTreeViewItem && dropInfo.VisualTargetItem == dropInfo.DragInfo.VisualSourceItem) {
-        return false;
-      }
-
-      if (dropInfo.DragInfo.SourceCollection == dropInfo.TargetCollection) {
-        var targetList = dropInfo.TargetCollection.TryGetList();
-        return targetList != null;
-      }
-//      else if (dropInfo.DragInfo.SourceCollection is ItemCollection) {
-//        return false;
-//      }
-      else if (dropInfo.TargetCollection == null) {
-        return false;
-      } else {
-        if (TestCompatibleTypes(dropInfo.TargetCollection, dropInfo.Data)) {
-          var isChildOf = IsChildOf(dropInfo.VisualTargetItem, dropInfo.DragInfo.VisualSourceItem);
-          return !isChildOf;
-        } else {
-          return false;
-        }
-      }
+      return true;
     }
 
     public static IEnumerable ExtractData(object data)

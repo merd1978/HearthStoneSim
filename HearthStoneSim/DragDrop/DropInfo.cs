@@ -7,7 +7,7 @@ using System.Windows.Controls.Primitives;
 using GongSolutions.Wpf.DragDrop.Utilities;
 using System.Windows.Data;
 
-namespace HearthStoneSim.Model.DragDrop
+namespace HearthStoneSim.DragDrop
 {
   /// <summary>
   /// Holds information about a the target of a drag drop operation.
@@ -40,8 +40,8 @@ namespace HearthStoneSim.Model.DragDrop
     /// </param>
     public DropInfo(object sender, DragEventArgs e, DragInfo dragInfo)
     {
-      var dataFormat = DragDrop.DataFormat.Name;
-      this.Data = (e.Data.GetDataPresent(dataFormat)) ? e.Data.GetData(dataFormat) : e.Data;
+      //var dataFormat = DragDrop.DataFormat.Name;
+      //this.Data = (e.Data.GetDataPresent(dataFormat)) ? e.Data.GetData(dataFormat) : e.Data;
       this.DragInfo = dragInfo;
       this.KeyStates = e.KeyStates;
 
