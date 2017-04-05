@@ -16,6 +16,7 @@
 
     <ListBox x:Name="TableViewListBox" Background="{x:Null}" ItemsSource="{Binding Cards}" 
              ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+             
              dragDrop:DragDrop.IsDragSource="True">
         <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
