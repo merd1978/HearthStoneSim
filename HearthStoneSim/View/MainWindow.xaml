@@ -5,17 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ignore="http://www.galasoft.ch/ignore"
         xmlns:view="clr-namespace:HearthStoneSim.View"
-        xmlns:dd="urn:gong-wpf-dragdrop"
         mc:Ignorable="d ignore"
         Height="700"
         Width="1200"
         Background="Silver"
         WindowStartupLocation="CenterScreen"
         Title="{Binding MainWindowTitle}"
-        dd:DragDrop.IsDropTarget="True"
-        dd:DragDrop.DropHandler="{Binding}"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
-    
+    <!--xmlns:dd="urn:gong-wpf-dragdrop"-->
+    <!--dd:DragDrop.IsDropTarget="True"
+    dd:DragDrop.DropHandler="{Binding}"-->
+
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

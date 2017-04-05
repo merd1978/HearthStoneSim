@@ -16,7 +16,23 @@ namespace HearthStoneSim.DragDrop
                                                 typeof(DragDrop),
                                                 new UIPropertyMetadata(false, IsDragSourceChanged));
 
-        private static void IsDragSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Gets whether the control can be used as drag source.
+        /// </summary>
+        public static bool GetIsDragSource(UIElement target)
+        {
+          return (bool)target.GetValue(IsDragSourceProperty);
+        }
+
+        /// <summary>
+        /// Sets whether the control can be used as drag source.
+        /// </summary>
+        public static void SetIsDragSource(UIElement target, bool value)
+        {
+          target.SetValue(IsDragSourceProperty, value);
+        }
+
+    private static void IsDragSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var uiElement = (UIElement)d;
 

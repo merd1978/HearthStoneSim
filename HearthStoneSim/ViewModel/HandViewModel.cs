@@ -1,6 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using HearthStoneSim.Model;
+using System.Collections.ObjectModel;
 
 namespace HearthStoneSim.ViewModel
 {
@@ -17,9 +17,9 @@ namespace HearthStoneSim.ViewModel
         /// <summary>
         /// Initializes a new instance of the HandViewModel class.
         /// </summary>
-        public HandViewModel(Deck Deck)
+        public HandViewModel(Deck deck)
         {
-            HandCards = new ObservableCollection<Card>(Deck.Cards);
+            HandCards = new ObservableCollection<Card>(deck.Cards);
         }
         public HandViewModel()
         {
