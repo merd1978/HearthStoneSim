@@ -138,6 +138,7 @@ namespace HearthStoneSim.DragDrop
                         }
                     }
 
+                    //DragAdorner.DrawSelection(sender, e, m_DragInfo.DragStartPosition);
                     DragAdorner.DrawSelection(sender, e, m_DragInfo.DragStartPosition);
 
                     DragAdorner.MousePosition = _adornerPos;

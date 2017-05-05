@@ -77,7 +77,7 @@ namespace HearthStoneSim.DragDrop
         {
             _anchorPoint = anchorPoint;
 
-            var mousePosition = e.GetPosition((IInputElement)sender); ;
+            var mousePosition = e.GetPosition((IInputElement)sender);
             _selectRect.Location = _anchorPoint;
             _selectRect.X = mousePosition.X < _anchorPoint.X ? mousePosition.X : _anchorPoint.X;
             _selectRect.Y = mousePosition.Y < _anchorPoint.Y ? mousePosition.Y : _anchorPoint.Y;
