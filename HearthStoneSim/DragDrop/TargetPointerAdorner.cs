@@ -13,7 +13,7 @@ namespace HearthStoneSim.DragDrop
         private readonly UIElement _adornedElement;
         private Point m_MousePosition;
         private readonly RectangleGeometry _geometry;
-        private Point _anchorPoint;
+        public Point _anchorPoint;
         private Rect _selectRect;
         public Rect SelectRect => _selectRect;
         public Path Rubberband { get; }
@@ -39,6 +39,7 @@ namespace HearthStoneSim.DragDrop
             _adornerLayer = AdornerLayer.GetAdornerLayer(_adornedElement);
             _adornerLayer.Add(this);
             _selectRect = new Rect();
+            //_selectRect.Size = new Size(10, 10);
             _geometry = new RectangleGeometry();
             Rubberband = new Path
             {
@@ -63,21 +64,18 @@ namespace HearthStoneSim.DragDrop
             return finalSize;
         }
 
-        public void StartSelection(Point anchorPoint)
-        {
-            _anchorPoint = anchorPoint;
-            _selectRect.Size = new Size(10, 10);
-            _selectRect.Location = _anchorPoint;
-            _geometry.Rect = _selectRect;
-            if (Visibility.Visible != Rubberband.Visibility)
-                Rubberband.Visibility = Visibility.Visible;
-        }
+        //public void StartSelection(Point anchorPoint)
+        //{
+        //    _anchorPoint = anchorPoint;
+        //    _selectRect.Size = new Size(10, 10);
+        //    _selectRect.Location = _anchorPoint;
+        //    _geometry.Rect = _selectRect;
+        //    if (Visibility.Visible != Rubberband.Visibility)
+        //        Rubberband.Visibility = Visibility.Visible;
+        //}
 
-        public void DrawSelection(object sender, MouseEventArgs e, Point anchorPoint)
+        public void DrawSelection(Point _anchorPoint, Point mousePosition)
         {
-            _anchorPoint = anchorPoint;
-
-            var mousePosition = e.GetPosition((IInputElement)sender);
             _selectRect.Location = _anchorPoint;
             _selectRect.X = mousePosition.X < _anchorPoint.X ? mousePosition.X : _anchorPoint.X;
             _selectRect.Y = mousePosition.Y < _anchorPoint.Y ? mousePosition.Y : _anchorPoint.Y;
