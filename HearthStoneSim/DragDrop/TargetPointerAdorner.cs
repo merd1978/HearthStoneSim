@@ -20,7 +20,7 @@ namespace HearthStoneSim.DragDrop
          {
             if (_targetPointer.EndPoint == value) return;
             _targetPointer.EndPoint = value;
-            //_adornerLayer.Update(AdornedElement);
+            _adornerLayer.Update(AdornedElement);
          }
       }
 

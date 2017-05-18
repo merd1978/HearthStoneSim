@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
-//using GongSolutions.Wpf.DragDrop.Utilities;
 using System.Windows.Controls;
 
 namespace HearthStoneSim.DragDrop
@@ -26,6 +25,10 @@ namespace HearthStoneSim.DragDrop
     /// </remarks>
     public virtual void DragOver(IDropInfo dropInfo)
     {
+      if (CanAcceptData(dropInfo))
+      {
+        dropInfo.Effects = DragDropEffects.Copy;
+      }
     }
 
     /// <summary>

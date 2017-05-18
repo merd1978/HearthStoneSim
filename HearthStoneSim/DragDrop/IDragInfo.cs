@@ -74,11 +74,6 @@ namespace HearthStoneSim.DragDrop
     IEnumerable SourceItems { get; }
 
     /// <summary>
-    /// Gets the group from a dragged item if the drag is currently from an ItemsControl with groups.
-    /// </summary>
-    CollectionViewGroup SourceGroup { get; }
-
-    /// <summary>
     /// Gets the control that initiated the drag.
     /// </summary>
     UIElement VisualSource { get; }

@@ -40,8 +40,8 @@ namespace HearthStoneSim.DragDrop
     /// </param>
     public DropInfo(object sender, DragEventArgs e, DragInfo dragInfo)
     {
-      //var dataFormat = DragDrop.DataFormat.Name;
-      //this.Data = (e.Data.GetDataPresent(dataFormat)) ? e.Data.GetData(dataFormat) : e.Data;
+      var dataFormat = DragDrop.DataFormat.Name;
+      this.Data = (e.Data.GetDataPresent(dataFormat)) ? e.Data.GetData(dataFormat) : e.Data;
       this.DragInfo = dragInfo;
       this.KeyStates = e.KeyStates;
 
@@ -59,12 +59,6 @@ namespace HearthStoneSim.DragDrop
 
       // visual target can be null, so give us a point...
       this.DropPosition = this.VisualTarget != null ? e.GetPosition(this.VisualTarget) : new Point();
-
-      if (this.VisualTarget is TabControl) {
-        if (!HitTestUtilities.HitTest4Type<TabPanel>(this.VisualTarget, this.DropPosition)) {
-          return;
-        }
-      }
 
       if (this.VisualTarget is ItemsControl) {
         var itemsControl = (ItemsControl)this.VisualTarget;

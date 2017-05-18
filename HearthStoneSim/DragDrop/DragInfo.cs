@@ -47,7 +47,6 @@ namespace HearthStoneSim.DragDrop
       if (sender is ItemsControl) {
         var itemsControl = (ItemsControl)sender;
 
-        this.SourceGroup = itemsControl.FindGroup(this.DragStartPosition);
         this.VisualSourceFlowDirection = itemsControl.GetItemsPanelFlowDirection();
 
         UIElement item = null;
@@ -184,11 +183,6 @@ namespace HearthStoneSim.DragDrop
     /// If the control that initated the drag is unbound or not an ItemsControl, this will be empty.
     /// </remarks>
     public IEnumerable SourceItems { get; private set; }
-
-    /// <summary>
-    /// Gets the group from a dragged item if the drag is currently from an ItemsControl with groups.
-    /// </summary>
-    public CollectionViewGroup SourceGroup { get; private set; }
 
     /// <summary>
     /// Gets the control that initiated the drag.

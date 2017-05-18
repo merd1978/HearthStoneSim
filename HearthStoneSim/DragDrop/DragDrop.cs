@@ -22,7 +22,7 @@ namespace HearthStoneSim.DragDrop
             var parentWindow = Window.GetWindow(m_DragInfo.VisualSource);
             _rootElement = parentWindow?.Content as UIElement;
             return _rootElement;
-         } 
+         }
       }
       private static TargetPointerAdorner _dragAdorner;
       private static TargetPointerAdorner DragAdorner
@@ -34,7 +34,7 @@ namespace HearthStoneSim.DragDrop
             _dragAdorner = value;
          }
       }
-      //public static IDropTarget DefaultDropHandler { get; } = new DefaultDropHandler();
+      public static IDropTarget DefaultDropHandler { get; } = new DefaultDropHandler();
       public static IDragSource DefaultDragHandler { get; } = new DefaultDragHandler();
 
       private static void CreateDragAdorner()
@@ -76,79 +76,66 @@ namespace HearthStoneSim.DragDrop
 
       private static void DragSourceOnMouseMove(object sender, MouseEventArgs e)
       {
-         if (m_DragInfo == null) return;
+         if (m_DragInfo == null || m_DragInProgress) return;
          // the start from the source
          var dragStart = m_DragInfo.DragStartPosition;
-         if (!m_DragInProgress)
+
+         // do nothing if mouse left button is released or the pointer is captured
+         if (m_DragInfo.MouseButton == MouseButton.Left && e.LeftButton == MouseButtonState.Released)
          {
-            // do nothing if mouse left button is released or the pointer is captured
-            if (m_DragInfo.MouseButton == MouseButton.Left && e.LeftButton == MouseButtonState.Released)
-            {
-               m_DragInfo = null;
-               return;
-            }
-
-            // current mouse position
-            var position = e.GetPosition((IInputElement)sender);
-
-            // prevent selection changing while drag operation
-            //m_DragInfo.VisualSource?.ReleaseMouseCapture();
-
-            // only if the sender is the source control and the mouse point differs from an offset
-            if (m_DragInfo.VisualSource == sender
-                && (Math.Abs(position.X - dragStart.X) > SystemParameters.MinimumHorizontalDragDistance ||
-                    Math.Abs(position.Y - dragStart.Y) > SystemParameters.MinimumVerticalDragDistance))
-            {
-               var dragHandler = DefaultDragHandler;
-               if (dragHandler.CanStartDrag(m_DragInfo))
-               {
-                  dragHandler.StartDrag(m_DragInfo);
-               }
-            }
-
-            m_DragInProgress = true;
+            m_DragInfo = null;
+            return;
          }
-         else
+
+         // current mouse position
+         var position = e.GetPosition((IInputElement)sender);
+
+         // prevent selection changing while drag operation
+         //m_DragInfo.VisualSource?.ReleaseMouseCapture();
+
+         // only if the sender is the source control and the mouse point differs from an offset
+         if (m_DragInfo.VisualSource == sender
+               && (Math.Abs(position.X - dragStart.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                  Math.Abs(position.Y - dragStart.Y) > SystemParameters.MinimumVerticalDragDistance))
          {
-            //var dropInfo = new DropInfo(sender, e, m_DragInfo);
-            if (DragAdorner == null && m_DragInfo != null)
+            var dragHandler = DefaultDragHandler;
+            if (dragHandler.CanStartDrag(m_DragInfo))
             {
-               CreateDragAdorner();
-            }
-
-            if (DragAdorner != null)
-            {
-               var tempAdornerPos = e.GetPosition(DragAdorner.AdornedElement);
-
-               if (tempAdornerPos.X >= 0 && tempAdornerPos.Y >= 0)
+               dragHandler.StartDrag(m_DragInfo);
+               if (m_DragInfo.Effects != DragDropEffects.None && m_DragInfo.Data != null)
                {
-                  _adornerPos = tempAdornerPos;
-               }
+                  var data = m_DragInfo.DataObject;
 
-               // Fixed the flickering adorner - Size changes to zero 'randomly'...?
-               if (DragAdorner.RenderSize.Width > 0 && DragAdorner.RenderSize.Height > 0)
-               {
-                  _adornerSize = DragAdorner.RenderSize;
-               }
-
-               if (m_DragInfo != null)
-               {
-                  // move the adorner
-                  var offsetX = _adornerSize.Width;
-                  var offsetY = _adornerSize.Height;
-                  _adornerPos.Offset(offsetX, offsetY);
-                  var maxAdornerPosX = DragAdorner.AdornedElement.RenderSize.Width;
-                  var adornerPosRightX = (_adornerPos.X + _adornerSize.Width);
-                  if (adornerPosRightX > maxAdornerPosX)
+                  if (data == null)
                   {
-                     _adornerPos.Offset(-adornerPosRightX + maxAdornerPosX, 0);
+                     data = new DataObject(DataFormat.Name, m_DragInfo.Data);
                   }
-                  if (_adornerPos.Y < 0)
+                  else
                   {
-                     _adornerPos.Y = 0;
+                     data.SetData(DataFormat.Name, m_DragInfo.Data);
                   }
+
+                  try
+                  {
+                     m_DragInProgress = true;
+                     var result = System.Windows.DragDrop.DoDragDrop(m_DragInfo.VisualSource, data, m_DragInfo.Effects);
+                     if (result == DragDropEffects.None)
+                        dragHandler.DragCancelled();
+                  }
+                  catch (Exception ex)
+                  {
+                     if (!dragHandler.TryCatchOccurredException(ex))
+                     {
+                        throw;
+                     }
+                  }
+                  finally
+                  {
+                     m_DragInProgress = false;
+                  }
+
+                  m_DragInfo = null;
                }
-               DragAdorner.EndPoint = tempAdornerPos;
             }
          }
       }
@@ -156,7 +143,106 @@ namespace HearthStoneSim.DragDrop
       private static void DragSourceOnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
       {
          m_DragInfo = null;
-        DragAdorner = null;
+      }
+
+      private static void DragSourceOnQueryContinueDrag(object sender, QueryContinueDragEventArgs e)
+      {
+         if (e.Action == DragAction.Cancel || e.EscapePressed)
+         {
+            DragAdorner = null;
+            //DropTargetAdorner = null;
+            Mouse.OverrideCursor = null;
+         }
+      }
+
+      private static void DropTargetOnDragOver(object sender, DragEventArgs e)
+      {
+         var elementPosition = e.GetPosition((IInputElement)sender);
+
+         var dropInfo = new DropInfo(sender, e, m_DragInfo);
+         var dropHandler = DefaultDropHandler;
+
+         dropHandler.DragOver(dropInfo);
+
+         if (DragAdorner == null && m_DragInfo != null)
+         {
+            CreateDragAdorner();
+         }
+
+         if (DragAdorner != null)
+         {
+            var tempAdornerPos = e.GetPosition(DragAdorner.AdornedElement);
+
+            if (tempAdornerPos.X >= 0 && tempAdornerPos.Y >= 0)
+            {
+               _adornerPos = tempAdornerPos;
+            }
+
+            // Fixed the flickering adorner - Size changes to zero 'randomly'...?
+            if (DragAdorner.RenderSize.Width > 0 && DragAdorner.RenderSize.Height > 0)
+            {
+               _adornerSize = DragAdorner.RenderSize;
+            }
+
+            if (m_DragInfo != null)
+            {
+               // move the adorner
+               //var offsetX = _adornerSize.Width * -GetDragMouseAnchorPoint(m_DragInfo.VisualSource).X;
+               //var offsetY = _adornerSize.Height * -GetDragMouseAnchorPoint(m_DragInfo.VisualSource).Y;
+               //_adornerPos.Offset(offsetX, offsetY);
+               //var maxAdornerPosX = DragAdorner.AdornedElement.RenderSize.Width;
+               //var adornerPosRightX = (_adornerPos.X + _adornerSize.Width);
+               //if (adornerPosRightX > maxAdornerPosX)
+               //{
+               //   _adornerPos.Offset(-adornerPosRightX + maxAdornerPosX, 0);
+               //}
+               //if (_adornerPos.Y < 0)
+               //{
+               //   _adornerPos.Y = 0;
+               //}
+            }
+
+            //DragAdorner.MousePosition = _adornerPos;
+            //DragAdorner.InvalidateVisual();
+            DragAdorner.EndPoint = tempAdornerPos;
+         }
+
+         e.Effects = dropInfo.Effects;
+         e.Handled = !dropInfo.NotHandled;
+      }
+
+      private static void DropTargetOnGiveFeedback(object sender, GiveFeedbackEventArgs e)
+      {
+         //e.UseDefaultCursors = false;
+         //e.Handled = true;
+         //if (Mouse.OverrideCursor != Cursors.Arrow)
+         //{
+         //   Mouse.OverrideCursor = Cursors.Arrow;
+         //}
+
+         e.UseDefaultCursors = true;
+         e.Handled = true;
+         if (Mouse.OverrideCursor != null)
+         {
+            Mouse.OverrideCursor = null;
+         }
+      }
+
+      private static void DropTargetOnDrop(object sender, DragEventArgs e)
+      {
+         var dropInfo = new DropInfo(sender, e, m_DragInfo);
+         var dropHandler = DefaultDropHandler;
+         var dragHandler = DefaultDragHandler;
+
+         DragAdorner = null;
+         //DropTargetAdorner = null;
+
+         dropHandler.DragOver(dropInfo);
+         dropHandler.Drop(dropInfo);
+         dragHandler.Dropped(dropInfo);
+
+         Mouse.OverrideCursor = null;
+         e.Handled = !dropInfo.NotHandled;
       }
    }
 }
