@@ -13,10 +13,21 @@ namespace HearthStoneSim.DragDrop
       private static object m_ClickSupressItem;
       private static Point _adornerPos;
       private static Size _adornerSize;
+      private static UIElement _rootElement;
+      public static UIElement RootElement
+      {
+         get
+         {
+            if (_rootElement != null) return _rootElement;
+            var parentWindow = Window.GetWindow(m_DragInfo.VisualSource);
+            _rootElement = parentWindow?.Content as UIElement;
+            return _rootElement;
+         } 
+      }
       private static TargetPointerAdorner _dragAdorner;
       private static TargetPointerAdorner DragAdorner
       {
-         get { return _dragAdorner; }
+         get => _dragAdorner;
          set
          {
             _dragAdorner?.Detatch();
@@ -28,9 +39,7 @@ namespace HearthStoneSim.DragDrop
 
       private static void CreateDragAdorner()
       {
-         var parentWindow = Window.GetWindow(m_DragInfo.VisualSource);
-         var rootElement = parentWindow != null ? parentWindow.Content as UIElement : null;
-         DragAdorner = new TargetPointerAdorner(rootElement);
+         DragAdorner = new TargetPointerAdorner(_rootElement, DragStartPosition);
       }
 
       private static void DragSourceOnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -48,9 +57,7 @@ namespace HearthStoneSim.DragDrop
          }
 
          m_DragInfo = new DragInfo(sender, e);
-         var parentWindow = Window.GetWindow(m_DragInfo.VisualSource);
-         var rootElement = parentWindow != null ? parentWindow.Content as UIElement : null;
-         DragStartPosition = e.GetPosition(rootElement);
+         DragStartPosition = e.GetPosition(RootElement);
 
 
          if (m_DragInfo.VisualSourceItem == null)
@@ -85,7 +92,7 @@ namespace HearthStoneSim.DragDrop
             var position = e.GetPosition((IInputElement)sender);
 
             // prevent selection changing while drag operation
-            m_DragInfo.VisualSource?.ReleaseMouseCapture();
+            //m_DragInfo.VisualSource?.ReleaseMouseCapture();
 
             // only if the sender is the source control and the mouse point differs from an offset
             if (m_DragInfo.VisualSource == sender
@@ -141,10 +148,7 @@ namespace HearthStoneSim.DragDrop
                      _adornerPos.Y = 0;
                   }
                }
-               DragAdorner._anchorPoint = _adornerPos;
-               DragAdorner.MousePosition = _adornerPos;
-               DragAdorner.DrawSelection(DragStartPosition, tempAdornerPos);
-               DragAdorner.InvalidateVisual();
+               DragAdorner.EndPoint = tempAdornerPos;
             }
          }
       }
@@ -152,6 +156,7 @@ namespace HearthStoneSim.DragDrop
       private static void DragSourceOnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
       {
          m_DragInfo = null;
+        DragAdorner = null;
       }
    }
 }

@@ -7,177 +7,56 @@ using System.Windows.Shapes;
 
 namespace HearthStoneSim.DragDrop
 {
-    public class TargetPointerAdorner : Adorner
-    {
-        private readonly AdornerLayer _adornerLayer;
-        private readonly UIElement _adornedElement;
-        private Point m_MousePosition;
-        private readonly RectangleGeometry _geometry;
-        public Point _anchorPoint;
-        private Rect _selectRect;
-        public Rect SelectRect => _selectRect;
-        public Path Rubberband { get; }
-        protected override int VisualChildrenCount => 1;
+   public class TargetPointerAdorner : Adorner
+   {
+      private readonly AdornerLayer _adornerLayer;
+      private readonly LineGeometry _targetPointer;
+      protected override int VisualChildrenCount => 1;
+      public Path Rubberband { get; }
+      public Point EndPoint
+      {
+         get => _targetPointer.EndPoint;
+         set
+         {
+            if (_targetPointer.EndPoint == value) return;
+            _targetPointer.EndPoint = value;
+            //_adornerLayer.Update(AdornedElement);
+         }
+      }
 
-        public Point MousePosition
-        {
-            get { return this.m_MousePosition; }
-            set
-            {
-                if (this.m_MousePosition != value)
-                {
-                    this.m_MousePosition = value;
-                    this._adornerLayer.Update(this.AdornedElement);
-                }
-            }
-        }
+      public TargetPointerAdorner(UIElement adornedElement, Point startPoint)
+          : base(adornedElement)
+      {
+         _adornerLayer = AdornerLayer.GetAdornerLayer(adornedElement);
+         _adornerLayer.Add(this);
+         _targetPointer = new LineGeometry {StartPoint = startPoint};
+         Rubberband = new Path
+         {
+            Data = _targetPointer,
+            StrokeThickness = 2,
+            Stroke = Brushes.Yellow,
+            Opacity = .6,
+         };
+         AddVisualChild(Rubberband);
+      }
 
-        public TargetPointerAdorner(UIElement adornedElement)
-            : base(adornedElement)
-        {
-            _adornedElement = adornedElement;
-            _adornerLayer = AdornerLayer.GetAdornerLayer(_adornedElement);
-            _adornerLayer.Add(this);
-            _selectRect = new Rect();
-            //_selectRect.Size = new Size(10, 10);
-            _geometry = new RectangleGeometry();
-            Rubberband = new Path
-            {
-                Data = _geometry,
-                StrokeThickness = 2,
-                Stroke = Brushes.Yellow,
-                Opacity = .6,
-                Visibility = Visibility.Hidden
-            };
-            AddVisualChild(Rubberband);
-        }
+      public void Detatch()
+      {
+         _adornerLayer.Remove(this);
+      }
 
-        public void Detatch()
-        {
-            _adornerLayer.Remove(this);
-        }
+      protected override Size ArrangeOverride(Size size)
+      {
+         var finalSize = base.ArrangeOverride(size);
+         ((UIElement)GetVisualChild(0))?.Arrange(new Rect(finalSize));
+         return finalSize;
+      }
 
-        protected override Size ArrangeOverride(Size size)
-        {
-            var finalSize = base.ArrangeOverride(size);
-            ((UIElement) GetVisualChild(0))?.Arrange(new Rect(new Point(), finalSize));
-            return finalSize;
-        }
+      private void EndSelection(object sender, MouseButtonEventArgs e)
+      {
+         ReleaseMouseCapture();
+      }
 
-        //public void StartSelection(Point anchorPoint)
-        //{
-        //    _anchorPoint = anchorPoint;
-        //    _selectRect.Size = new Size(10, 10);
-        //    _selectRect.Location = _anchorPoint;
-        //    _geometry.Rect = _selectRect;
-        //    if (Visibility.Visible != Rubberband.Visibility)
-        //        Rubberband.Visibility = Visibility.Visible;
-        //}
-
-        public void DrawSelection(Point _anchorPoint, Point mousePosition)
-        {
-            _selectRect.Location = _anchorPoint;
-            _selectRect.X = mousePosition.X < _anchorPoint.X ? mousePosition.X : _anchorPoint.X;
-            _selectRect.Y = mousePosition.Y < _anchorPoint.Y ? mousePosition.Y : _anchorPoint.Y;
-            _selectRect.Width = Math.Abs(mousePosition.X - _anchorPoint.X);
-            _selectRect.Height = Math.Abs(mousePosition.Y - _anchorPoint.Y);
-            _geometry.Rect = _selectRect;
-            if (Visibility.Visible != Rubberband.Visibility)
-                Rubberband.Visibility = Visibility.Visible;
-            var layer = AdornerLayer.GetAdornerLayer(_adornedElement);
-            layer.InvalidateArrange();
-        }
-
-        private void EndSelection(object sender, MouseButtonEventArgs e)
-        {
-            if (3 >= _selectRect.Width || 3 >= _selectRect.Height)
-                Rubberband.Visibility = Visibility.Hidden;
-            ReleaseMouseCapture();
-        }
-
-        protected override Visual GetVisualChild(int index) => Rubberband;
-    }
-#if NoVISUALCHILD
-
-
-    public class RubberbandAdorner : Adorner
-    {
-
-        private UIElement _adornedElement;
-        private bool _showRect;
-        private Window1 _window;
-        SolidColorBrush _brush;
-        Pen _pen;
-        private Rect _selectRect;
-        public Rect SelectRect { get { return _selectRect; } set { _selectRect = value; } }
-        public bool ShowRect { get { return _showRect; } set { _showRect = value; } }
-        public Window1 Window { set { _window = value; } }
-
-        public RubberbandAdorner(UIElement adornedElement)
-            : base(adornedElement)
-        {
-            _adornedElement = adornedElement;
-            _selectRect = new Rect();
-            _brush = new SolidColorBrush();
-            _brush.Color = Colors.Yellow;
-            _brush.Opacity = .6;
-            _pen = new Pen();
-            _pen.Thickness = 2;
-            _pen.Brush = _brush;
-            _showRect = false;
-            MouseMove += new MouseEventHandler(DrawSelection);
-            MouseUp += new MouseButtonEventHandler(EndSelection);
-        }
-
-        public void StartSelection(Point anchorPoint)
-        {
-            _anchorPoint = anchorPoint;
-            _selectRect.Size = new Size(0, 0);
-            _selectRect.Location = _anchorPoint;
-            if (!_showRect)
-                _showRect = true;
-        }
-
-        private void DrawSelection(object sender, MouseEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                Point mousePosition = e.GetPosition(_adornedElement);
-                if (mousePosition.X < _anchorPoint.X)
-                    _selectRect.X = mousePosition.X;
-                else
-                    _selectRect.X = _anchorPoint.X;
-                if (mousePosition.Y < _anchorPoint.Y)
-                    _selectRect.Y = mousePosition.Y;
-                else
-                    _selectRect.Y = _anchorPoint.Y;
-                _selectRect.Width = Math.Abs(mousePosition.X - _anchorPoint.X);
-                _selectRect.Height = Math.Abs(mousePosition.Y - _anchorPoint.Y);
-                InvalidateArrange();
-                AdornerLayer layer = AdornerLayer.GetAdornerLayer(_adornedElement);
-                layer.InvalidateArrange();
-            }
-        }
-
-        private void EndSelection(object sender, MouseButtonEventArgs e)
-        {
-            if (3 >= _selectRect.Width || 3 >= _selectRect.Height)
-                ShowRect = false;
-            else
-                _window.CropButton.IsEnabled = true;
-            ReleaseMouseCapture();
-        }
-
-        protected override void OnRender(DrawingContext drawingContext)
-        {
-            if (_showRect)
-            {
-                base.OnRender(drawingContext);
-                drawingContext.DrawRectangle(Brushes.Transparent, _pen, _selectRect);
-            }
-            else
-                return;
-        }
-    }
-#endif
+      protected override Visual GetVisualChild(int index) => Rubberband;
+   }
 }
