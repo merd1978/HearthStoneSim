@@ -89,21 +89,22 @@ namespace HearthStoneSim.DragDrop
          {
             uiElement.AllowDrop = true;
 
-            //uiElement.PreviewDragEnter += DropTargetOnDragEnter;
-            //uiElement.PreviewDragLeave += DropTargetOnDragLeave;
-            uiElement.PreviewDragOver += DropTargetOnDragOver;
-            uiElement.PreviewDrop += DropTargetOnDrop;
-            uiElement.PreviewGiveFeedback += DropTargetOnGiveFeedback;
+            // use normal events for ItemsControls
+            uiElement.DragEnter += DropTargetOnDragEnter;
+            uiElement.DragLeave += DropTargetOnDragLeave;
+            uiElement.DragOver += DropTargetOnDragOver;
+            uiElement.Drop += DropTargetOnDrop;
+            uiElement.GiveFeedback += DropTargetOnGiveFeedback;
          }
          else
          {
             uiElement.AllowDrop = false;
 
-            //uiElement.PreviewDragEnter -= DropTargetOnDragEnter;
-            //uiElement.PreviewDragLeave -= DropTargetOnDragLeave;
-            uiElement.PreviewDragOver -= DropTargetOnDragOver;
-            uiElement.PreviewDrop -= DropTargetOnDrop;
-            uiElement.PreviewGiveFeedback -= DropTargetOnGiveFeedback;
+            uiElement.DragEnter -= DropTargetOnDragEnter;
+            uiElement.DragLeave -= DropTargetOnDragLeave;
+            uiElement.DragOver -= DropTargetOnDragOver;
+            uiElement.Drop -= DropTargetOnDrop;
+            uiElement.GiveFeedback -= DropTargetOnGiveFeedback;
 
             Mouse.OverrideCursor = null;
          }
