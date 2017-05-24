@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:view="clr-namespace:HearthStoneSim.View"
              xmlns:viewModel="clr-namespace:HearthStoneSim.ViewModel"
-             xmlns:dd="urn:gong-wpf-dragdrop"
+             xmlns:dragDrop="clr-namespace:HearthStoneSim.DragDrop"
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="310"
              d:DataContext="{d:DesignInstance Type=viewModel:HandViewModel, IsDesignTimeCreatable=True}">
@@ -27,17 +27,11 @@
         <!--<ItemsControl ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding Cards}">
         </ItemsControl>-->
 
-             <!--d:DragDrop.UseDefaultEffectDataTemplate="True"  
-                 d:DragDrop.DragAdornerTemplate="{StaticResource CardTemplate}"
-                 d:DragDrop.EffectMoveAdornerTemplate="{StaticResource CardTemplate}"
-                 d:DragDrop.EffectNoneAdornerTemplate="{StaticResource CardTemplate}"-->
-    <ListBox Name="HandList" Background="{x:Null}" ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding HandCards}" 
-                 dd:DragDrop.IsDragSource="True"
-                 dd:DragDrop.IsDropTarget="True"
-                 dd:DragDrop.UseDefaultDragAdorner="True"
-                 dd:DragDrop.DefaultDragAdornerOpacity="1.0"
-                 dd:DragDrop.DragMouseAnchorPoint="0.5,0.5">
-            <ListBox.ItemTemplate>
+    <ListBox Name="HandList" Background="{x:Null}" ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding HandCards}"
+        dragDrop:DragDrop.IsDragSource="True"
+        dragDrop:DragDrop.IsDropTarget="True"
+        dragDrop:DragDrop.UseDefaultDragAdorner="True">
+        <ListBox.ItemTemplate>
                 <DataTemplate>
                     <view:CardView Height="{Binding ActualHeight, ElementName=HandList}"/>
                 </DataTemplate>

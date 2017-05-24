@@ -6,7 +6,6 @@
              xmlns:view="clr-namespace:HearthStoneSim.View"
              xmlns:viewModel="clr-namespace:HearthStoneSim.ViewModel"
              xmlns:dragDrop="clr-namespace:HearthStoneSim.DragDrop"
-             xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance Type=viewModel:TableViewModel, IsDesignTimeCreatable=True}">

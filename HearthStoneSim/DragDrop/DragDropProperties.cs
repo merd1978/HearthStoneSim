@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace HearthStoneSim.DragDrop
 {
@@ -108,6 +107,87 @@ namespace HearthStoneSim.DragDrop
 
             Mouse.OverrideCursor = null;
          }
+      }
+
+      /// <summary>
+      /// Gets or Sets whether an element under the mouse should be ignored for the drag action.
+      /// </summary>
+      public static readonly DependencyProperty DragSourceIgnoreProperty
+         = DependencyProperty.RegisterAttached("DragSourceIgnore",
+                                                typeof(bool),
+                                                typeof(DragDrop),
+                                                new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.Inherits));
+
+      /// <summary>
+      /// Gets whether an element under the mouse should be ignored for the drag action.
+      /// </summary>
+      public static bool GetDragSourceIgnore(UIElement source)
+      {
+         return (bool)source.GetValue(DragSourceIgnoreProperty);
+      }
+
+      /// <summary>
+      /// Sets whether an element under the mouse should be ignored for the drag action.
+      /// </summary>
+      public static void SetDragSourceIgnore(UIElement source, bool value)
+      {
+         source.SetValue(DragSourceIgnoreProperty, value);
+      }
+
+      /// <summary>
+      /// Gets or Sets the Orientation which should be used for the drag drop action (default null).
+      /// Normally it will be look up to find the correct orientaion of the inner ItemsPanel,
+      /// but sometimes it's necessary to force the oreintation, if the look up is wrong.
+      /// </summary>
+      public static readonly DependencyProperty ItemsPanelOrientationProperty
+         = DependencyProperty.RegisterAttached("ItemsPanelOrientation",
+                                                typeof(Orientation?),
+                                                typeof(DragDrop),
+                                                new PropertyMetadata(null));
+
+      /// <summary>
+      /// Gets the Orientation which should be used for the drag drop action (default null).
+      /// Normally it will be look up to find the correct orientaion of the inner ItemsPanel,
+      /// but sometimes it's necessary to force the oreintation, if the look up is wrong.
+      /// </summary>
+      public static Orientation? GetItemsPanelOrientation(UIElement source)
+      {
+         return (Orientation?)source.GetValue(ItemsPanelOrientationProperty);
+      }
+
+      /// <summary>
+      /// Sets the Orientation which should be used for the drag drop action (default null).
+      /// Normally it will be look up to find the correct orientaion of the inner ItemsPanel,
+      /// but sometimes it's necessary to force the oreintation, if the look up is wrong.
+      /// </summary>
+      public static void SetItemsPanelOrientation(UIElement source, Orientation? value)
+      {
+         source.SetValue(ItemsPanelOrientationProperty, value);
+      }
+
+      /// <summary>
+      /// Gets or Sets whether if the default DragAdorner should be use.
+      /// </summary>
+      public static readonly DependencyProperty UseDefaultDragAdornerProperty
+         = DependencyProperty.RegisterAttached("UseDefaultDragAdorner",
+                                                typeof(bool),
+                                                typeof(DragDrop),
+                                                new PropertyMetadata(false));
+
+      /// <summary>
+      /// Gets whether if the default DragAdorner is used.
+      /// </summary>
+      public static bool GetUseDefaultDragAdorner(UIElement target)
+      {
+         return (bool)target.GetValue(UseDefaultDragAdornerProperty);
+      }
+
+      /// <summary>
+      /// Sets whether if the default DragAdorner should be use.
+      /// </summary>
+      public static void SetUseDefaultDragAdorner(UIElement target, bool value)
+      {
+         target.SetValue(UseDefaultDragAdornerProperty, value);
       }
    }
 }

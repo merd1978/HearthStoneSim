@@ -12,9 +12,9 @@
         WindowStartupLocation="CenterScreen"
         Title="{Binding MainWindowTitle}"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
-    <!--xmlns:dd="urn:gong-wpf-dragdrop"-->
-    <!--dd:DragDrop.IsDropTarget="True"
-    dd:DragDrop.DropHandler="{Binding}"-->
+         <!--xmlns:dragDrop="clr-namespace:HearthStoneSim.DragDrop"
+        dragDrop:DragDrop.IsDropTarget="True"
+        dragDrop:DragDrop.DropHandler="{Binding}">-->
 
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>

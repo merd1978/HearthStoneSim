@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using GalaSoft.MvvmLight;
-using GongSolutions.Wpf.DragDrop;
+using HearthStoneSim.DragDrop;
 using HearthStoneSim.Model;
 
 namespace HearthStoneSim.ViewModel

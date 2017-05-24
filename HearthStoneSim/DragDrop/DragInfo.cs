@@ -2,9 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
-using GongSolutions.Wpf.DragDrop.Utilities;
 
 namespace HearthStoneSim.DragDrop
 {
@@ -47,7 +45,7 @@ namespace HearthStoneSim.DragDrop
       if (sender is ItemsControl) {
         var itemsControl = (ItemsControl)sender;
 
-        this.VisualSourceFlowDirection = itemsControl.GetItemsPanelFlowDirection();
+        VisualSourceFlowDirection = itemsControl.GetItemsPanelFlowDirection();
 
         UIElement item = null;
         if (sourceElement != null) {

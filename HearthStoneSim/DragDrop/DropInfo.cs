@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using GongSolutions.Wpf.DragDrop.Utilities;
 using System.Windows.Data;
 
 namespace HearthStoneSim.DragDrop
@@ -20,7 +19,7 @@ namespace HearthStoneSim.DragDrop
   /// </remarks>
   public class DropInfo : IDropInfo
   {
-    private ItemsControl itemParent = null;
+    private readonly ItemsControl itemParent = null;
     private UIElement item = null;
     
     /// <summary>
@@ -96,16 +95,10 @@ namespace HearthStoneSim.DragDrop
           this.InsertIndex = itemParent.ItemContainerGenerator.IndexFromContainer(item);
           this.TargetCollection = itemParent.ItemsSource ?? itemParent.Items;
 
-          var tvItem = item as TreeViewItem;
-          
-          if (directlyOverItem || tvItem != null)
-          {
-            this.VisualTargetItem = item;
-            this.TargetItem = itemParent.ItemContainerGenerator.ItemFromContainer(item);
-          }
+          this.VisualTargetItem = item;
+          this.TargetItem = itemParent.ItemContainerGenerator.ItemFromContainer(item);
 
-          var expandedTVItem = tvItem != null && tvItem.HasHeader && tvItem.HasItems && tvItem.IsExpanded;
-          var itemRenderSize = expandedTVItem ? tvItem.GetHeaderSize() : item.RenderSize;
+          var itemRenderSize =  item.RenderSize;
 
           if (this.VisualTargetOrientation == Orientation.Vertical) {
             var currentYPos = e.GetPosition(item).Y;
@@ -115,19 +108,8 @@ namespace HearthStoneSim.DragDrop
             var bottomGap = targetHeight * 0.75;
             if (currentYPos > targetHeight / 2)
             {
-              if (expandedTVItem && (currentYPos < topGap || currentYPos > bottomGap))
-              {
-                this.VisualTargetItem = tvItem.ItemContainerGenerator.ContainerFromIndex(0) as UIElement;
-                this.TargetItem = this.VisualTargetItem != null ? tvItem.ItemContainerGenerator.ItemFromContainer(this.VisualTargetItem) : null;
-                this.TargetCollection = tvItem.ItemsSource ?? tvItem.Items;
-                this.InsertIndex = 0;
-                this.InsertPosition = RelativeInsertPosition.BeforeTargetItem;
-              }
-              else
-              {
                 this.InsertIndex++;
                 this.InsertPosition = RelativeInsertPosition.AfterTargetItem;
-              }
             }
             else
             {
@@ -135,11 +117,6 @@ namespace HearthStoneSim.DragDrop
             }
 
             if (currentYPos > topGap && currentYPos < bottomGap) {
-              if (tvItem != null)
-              {
-                this.TargetCollection = tvItem.ItemsSource ?? tvItem.Items;
-                this.InsertIndex = this.TargetCollection != null ? this.TargetCollection.OfType<object>().Count() : 0;
-              }
               this.InsertPosition |= RelativeInsertPosition.TargetItemCenter;
             }
             //System.Diagnostics.Debug.WriteLine("==> DropInfo: pos={0}, idx={1}, Y={2}, Item={3}", this.InsertPosition, this.InsertIndex, currentYPos, item);
@@ -165,11 +142,6 @@ namespace HearthStoneSim.DragDrop
             }
 
             if (currentXPos > targetWidth * 0.25 && currentXPos < targetWidth * 0.75) {
-              if (tvItem != null)
-              {
-                this.TargetCollection = tvItem.ItemsSource ?? tvItem.Items;
-                this.InsertIndex = this.TargetCollection != null ? this.TargetCollection.OfType<object>().Count() : 0;
-              }
               this.InsertPosition |= RelativeInsertPosition.TargetItemCenter;
             }
             //System.Diagnostics.Debug.WriteLine("==> DropInfo: pos={0}, idx={1}, X={2}, Item={3}", this.InsertPosition, this.InsertIndex, currentXPos, item);
