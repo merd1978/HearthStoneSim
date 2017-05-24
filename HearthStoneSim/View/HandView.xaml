@@ -19,9 +19,9 @@
             <view:RadialPanel/>
         </ItemsPanelTemplate>
 
-        <!--<DataTemplate x:Key="CardTemplate">
+        <DataTemplate x:Key="CardTemplate">
             <view:CardView/>
-        </DataTemplate>-->
+        </DataTemplate>
     </UserControl.Resources>
     
         <!--<ItemsControl ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding Cards}">
@@ -30,11 +30,12 @@
     <ListBox Name="HandList" Background="{x:Null}" ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding HandCards}"
         dragDrop:DragDrop.IsDragSource="True"
         dragDrop:DragDrop.IsDropTarget="True"
-        dragDrop:DragDrop.UseDefaultDragAdorner="True">
+        dragDrop:DragDrop.UseDefaultDragAdorner="True"
+        dragDrop:DragDrop.DragAdornerTemplate="{StaticResource CardTemplate}">
         <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <view:CardView Height="{Binding ActualHeight, ElementName=HandList}"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
+            <DataTemplate>
+                <view:CardView Height="{Binding ActualHeight, ElementName=HandList}"/>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
     </ListBox>
 </UserControl>

@@ -189,5 +189,29 @@ namespace HearthStoneSim.DragDrop
       {
          target.SetValue(UseDefaultDragAdornerProperty, value);
       }
+      
+      /// <summary>
+      /// Gets or Sets a DataTemplate for the DragAdorner.
+      /// </summary>
+      public static readonly DependencyProperty DragAdornerTemplateProperty
+         = DependencyProperty.RegisterAttached("DragAdornerTemplate",
+                                                typeof(DataTemplate),
+                                                typeof(DragDrop));
+
+      /// <summary>
+      /// Gets the DataTemplate for the DragAdorner.
+      /// </summary>
+      public static DataTemplate GetDragAdornerTemplate(UIElement target)
+      {
+         return (DataTemplate)target.GetValue(DragAdornerTemplateProperty);
+      }
+
+      /// <summary>
+      /// Sets the DataTemplate for the DragAdorner.
+      /// </summary>
+      public static void SetDragAdornerTemplate(UIElement target, DataTemplate value)
+      {
+         target.SetValue(DragAdornerTemplateProperty, value);
+      }
    }
 }
