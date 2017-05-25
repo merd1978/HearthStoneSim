@@ -12,7 +12,7 @@ namespace HearthStoneSim.DragDrop
    public static partial class DragDrop
    {
       private static DragInfo _dragInfo;
-      private static Point _dragStartPosition;     //drag start point relative to the RootElement
+      private static Point _dragStartPosition;        //drag start point relative to the RootElement
       private static bool _dragInProgress;
       private static Point _adornerPos;
       private static Size _adornerSize;
@@ -37,6 +37,7 @@ namespace HearthStoneSim.DragDrop
             _dragAdorner = value;
          }
       }
+      private const double DragAdornerScale = 1.3;    //scale sourse size up to 130%
       private static TargetPointerAdorner _targetPointerAdorner;
       private static TargetPointerAdorner TargetPointerAdorner
       {
@@ -47,8 +48,6 @@ namespace HearthStoneSim.DragDrop
             _targetPointerAdorner = value;
          }
       }
-      public static IDropTarget DefaultDropHandler { get; } = new DefaultDropHandler();
-      public static IDragSource DefaultDragHandler { get; } = new DefaultDragHandler();
 
       private static void CreateDragAdorner()
       {
@@ -79,7 +78,7 @@ namespace HearthStoneSim.DragDrop
             {
                Content = _dragInfo.Data,
                ContentTemplate = template,
-               Height = _dragInfo.VisualSource.RenderSize.Height * 1.3
+               Height = _dragInfo.VisualSource.RenderSize.Height * DragAdornerScale
             };
 
             adornment = contentPresenter;
@@ -136,6 +135,46 @@ namespace HearthStoneSim.DragDrop
          return rtb;
       }
 
+      /// <summary>
+      /// Gets the drag handler from the drag info or from the sender, if the drag info is null
+      /// </summary>
+      /// <param name="dragInfo">the drag info object</param>
+      /// <param name="sender">the sender from an event, e.g. mouse down, mouse move</param>
+      /// <returns></returns>
+      private static IDragSource TryGetDragHandler(DragInfo dragInfo, UIElement sender)
+      {
+         IDragSource dragHandler = null;
+         if (dragInfo?.VisualSource != null)
+         {
+            dragHandler = GetDragHandler(dragInfo.VisualSource);
+         }
+         if (dragHandler == null && sender != null)
+         {
+            dragHandler = GetDragHandler(sender);
+         }
+         return dragHandler ?? DefaultDragHandler;
+      }
+
+      /// <summary>
+      /// Gets the drop handler from the drop info or from the sender, if the drop info is null
+      /// </summary>
+      /// <param name="dropInfo">the drop info object</param>
+      /// <param name="sender">the sender from an event, e.g. drag over</param>
+      /// <returns></returns>
+      private static IDropTarget TryGetDropHandler(DropInfo dropInfo, UIElement sender)
+      {
+         IDropTarget dropHandler = null;
+         if (dropInfo?.VisualTarget != null)
+         {
+            dropHandler = GetDropHandler(dropInfo.VisualTarget);
+         }
+         if (dropHandler == null && sender != null)
+         {
+            dropHandler = GetDropHandler(sender);
+         }
+         return dropHandler ?? DefaultDropHandler;
+      }
+
       private static void DragSourceOnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
       {
          // Ignore the click if clickCount != 1 or source is ignored.
@@ -158,7 +197,7 @@ namespace HearthStoneSim.DragDrop
             return;
          }
 
-         var dragHandler = DefaultDragHandler;
+         var dragHandler = TryGetDragHandler(_dragInfo, sender as UIElement);
          if (!dragHandler.CanStartDrag(_dragInfo))
          {
             _dragInfo = null;
@@ -190,7 +229,7 @@ namespace HearthStoneSim.DragDrop
                   && (Math.Abs(position.X - dragStart.X) > SystemParameters.MinimumHorizontalDragDistance ||
                      Math.Abs(position.Y - dragStart.Y) > SystemParameters.MinimumVerticalDragDistance))
          {
-            var dragHandler = DefaultDragHandler;
+            var dragHandler = TryGetDragHandler(_dragInfo, sender as UIElement);
             if (!dragHandler.CanStartDrag(_dragInfo)) return;
 
             dragHandler.StartDrag(_dragInfo);
@@ -260,7 +299,7 @@ namespace HearthStoneSim.DragDrop
       private static void DropTargetOnDragOver(object sender, DragEventArgs e)
       {
          var dropInfo = new DropInfo(sender, e, _dragInfo);
-         var dropHandler = DefaultDropHandler;
+         var dropHandler = TryGetDropHandler(dropInfo, sender as UIElement);
 
          dropHandler.DragOver(dropInfo);
 
@@ -336,8 +375,8 @@ namespace HearthStoneSim.DragDrop
       private static void DropTargetOnDrop(object sender, DragEventArgs e)
       {
          var dropInfo = new DropInfo(sender, e, _dragInfo);
-         var dropHandler = DefaultDropHandler;
-         var dragHandler = DefaultDragHandler;
+         var dropHandler = TryGetDropHandler(dropInfo, sender as UIElement);
+         var dragHandler = TryGetDragHandler(_dragInfo, sender as UIElement);
 
          DragAdorner = null;
          TargetPointerAdorner = null;

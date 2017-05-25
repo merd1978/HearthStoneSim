@@ -5,19 +5,35 @@ using System.Windows.Shapes;
 
 namespace HearthStoneSim.DragDrop
 {
-  public class TargetPointerAdorner : Adorner
+   public class TargetPointerAdorner : Adorner
    {
       private readonly AdornerLayer _adornerLayer;
-      private readonly LineGeometry _targetPointer;
+      private const double ArrowLength = 12;
+      private const double ArrowAngle = 45;
+      private readonly Point _startPoint;
+      private readonly Point _endPoint;
+      private readonly PathGeometry _pathgeo;
+      private readonly PathFigure _pathfigLine;
+      private readonly PolyLineSegment _polysegLine;
+      private readonly PathFigure _pathfigHead2;
       protected override int VisualChildrenCount => 1;
       private readonly Path _rubberband;
       public Point EndPoint
       {
-         get => _targetPointer.EndPoint;
+         get => _endPoint;
          set
          {
-            if (_targetPointer.EndPoint == value) return;
-            _targetPointer.EndPoint = value;
+            if (_endPoint == value) return;
+
+            // Clear out the PathGeometry.
+            _pathgeo.Figures.Clear();
+
+            // Define a single PathFigure with the points.
+            _polysegLine.Points.Clear();
+            _polysegLine.Points.Add(value);
+            _pathgeo.Figures.Add(_pathfigLine);
+            _pathgeo.Figures.Add(CalculateArrow(_pathfigHead2, _startPoint, value));
+
             //_adornerLayer.Update(AdornedElement);
             //_adornerLayer.InvalidateArrange();
          }
@@ -31,15 +47,49 @@ namespace HearthStoneSim.DragDrop
          //SnapsToDevicePixels = true;
          _adornerLayer = AdornerLayer.GetAdornerLayer(adornedElement);
          _adornerLayer.Add(this);
-         _targetPointer = new LineGeometry { StartPoint = startPoint };
+   
+         _endPoint = _startPoint = startPoint;
+
+         _pathgeo = new PathGeometry();
+         _pathfigLine = new PathFigure();
+         _polysegLine = new PolyLineSegment();
+         _pathfigLine.Segments.Add(_polysegLine);
+
+         _pathfigHead2 = new PathFigure();
+         var polysegHead2 = new PolyLineSegment();
+         _pathfigHead2.Segments.Add(polysegHead2);
+
+         _pathfigLine.StartPoint = _startPoint;
+         _pathgeo.Figures.Add(_pathfigLine);
+
          _rubberband = new Path
          {
-            Data = _targetPointer,
+            Data = _pathgeo,
             StrokeThickness = 10,
             Stroke = Brushes.Red,
-            Opacity = .6,
+            Opacity = .7,
          };
          AddVisualChild(_rubberband);
+      }
+
+      PathFigure CalculateArrow(PathFigure pathfig, Point pt1, Point pt2)
+      {
+         Matrix matx = new Matrix();
+         Vector vect = pt1 - pt2;
+         vect.Normalize();
+         vect *= ArrowLength;
+
+         PolyLineSegment polyseg = pathfig.Segments[0] as PolyLineSegment;
+         polyseg.Points.Clear();
+         matx.Rotate(ArrowAngle / 2);
+         pathfig.StartPoint = pt2 + vect * matx;
+         polyseg.Points.Add(pt2);
+
+         matx.Rotate(-ArrowAngle);
+         polyseg.Points.Add(pt2 + vect * matx);
+         pathfig.IsClosed = false;
+
+         return pathfig;
       }
 
       public void Detatch()

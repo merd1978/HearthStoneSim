@@ -28,6 +28,7 @@
         </ItemsControl>-->
 
     <ListBox Name="HandList" Background="{x:Null}" ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding HandCards}"
+        BorderThickness="0"
         dragDrop:DragDrop.IsDragSource="True"
         dragDrop:DragDrop.IsDropTarget="True"
         dragDrop:DragDrop.UseDefaultDragAdorner="True"

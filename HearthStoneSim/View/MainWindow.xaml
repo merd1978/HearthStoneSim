@@ -25,7 +25,7 @@
             <MenuItem Header="EDIT"></MenuItem>
             <MenuItem Header="START GAME"></MenuItem>
         </Menu>
-        <Grid Grid.Row="1" ShowGridLines="True">
+        <Grid Grid.Row="1" ShowGridLines="False">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>

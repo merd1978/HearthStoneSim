@@ -213,5 +213,63 @@ namespace HearthStoneSim.DragDrop
       {
          target.SetValue(DragAdornerTemplateProperty, value);
       }
+
+      /// <summary>
+      /// Gets the default DragHandler.
+      /// </summary>
+      public static IDragSource DefaultDragHandler { get; } = new DefaultDragHandler();
+
+      /// <summary>
+      /// Gets the default DropHandler.
+      /// </summary>
+      public static IDropTarget DefaultDropHandler { get; } = new DefaultDropHandler();
+
+      /// <summary>
+      /// Gets or Sets the handler for the drag action.
+      /// </summary>
+      public static readonly DependencyProperty DragHandlerProperty
+         = DependencyProperty.RegisterAttached("DragHandler",
+                                                typeof(IDragSource),
+                                                typeof(DragDrop));
+
+      /// <summary>
+      /// Gets the handler for the drag action.
+      /// </summary>
+      public static IDragSource GetDragHandler(UIElement target)
+      {
+         return (IDragSource)target.GetValue(DragHandlerProperty);
+      }
+
+      /// <summary>
+      /// Sets the handler for the drag action.
+      /// </summary>
+      public static void SetDragHandler(UIElement target, IDragSource value)
+      {
+         target.SetValue(DragHandlerProperty, value);
+      }
+
+      /// <summary>
+      /// Gets or Sets the handler for the drop action.
+      /// </summary>
+      public static readonly DependencyProperty DropHandlerProperty
+         = DependencyProperty.RegisterAttached("DropHandler",
+                                                typeof(IDropTarget),
+                                                typeof(DragDrop));
+
+      /// <summary>
+      /// Gets the handler for the drop action.
+      /// </summary>
+      public static IDropTarget GetDropHandler(UIElement target)
+      {
+         return (IDropTarget)target.GetValue(DropHandlerProperty);
+      }
+
+      /// <summary>
+      /// Sets the handler for the drop action.
+      /// </summary>
+      public static void SetDropHandler(UIElement target, IDropTarget value)
+      {
+         target.SetValue(DropHandlerProperty, value);
+      }
    }
 }
