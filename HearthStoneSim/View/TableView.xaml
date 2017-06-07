@@ -13,7 +13,7 @@
         <viewModel:TableViewModel />
     </UserControl.DataContext>-->
 
-    <ListBox x:Name="TableViewListBox" Background="{x:Null}" ItemsSource="{Binding Cards}" 
+    <ListBox x:Name="TableViewListBox" Background="{x:Null}" ItemsSource="{Binding BoardCards}" 
         ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
         BorderThickness="0"
         dragDrop:DragDrop.IsDragSource="True"

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HearthStoneSim.Model
+﻿namespace HearthStoneSim.Model.GameCore
 {
    public class Game
    {
@@ -21,11 +15,17 @@ namespace HearthStoneSim.Model
          deck1.Add(new Card(Cards.All["CS2_222"]));
          deck1.Add(new Card(Cards.All["OG_279"]));
          Player1 = new Player(deck1);
+         Player1.Hand.Add(new Card(Cards.All["EX1_306"]));
+         Player1.Hand.Add(new Card(Cards.All["CS2_172"]));
+         Player1.Hand.Add(new Card(Cards.All["CS2_124"]));
+         Player1.Hand.Add(new Card(Cards.All["CS2_182"]));
+         Player1.Hand.Add(new Card(Cards.All["CS2_222"]));
+         Player1.Hand.Add(new Card(Cards.All["OG_279"]));
       }
 
       public void Attack(int indexPlayer1, int indexPlayer2)
       {
-         //Player1.Deck.Cards[0].Attack = 0;
+         Player1.Board.Cards[0].Damage += 1;
       }
    }
 }

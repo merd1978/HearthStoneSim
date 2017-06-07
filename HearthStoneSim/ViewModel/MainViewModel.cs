@@ -6,6 +6,7 @@ using System.Windows;
 using GalaSoft.MvvmLight;
 using HearthStoneSim.DragDrop;
 using HearthStoneSim.Model;
+using HearthStoneSim.Model.GameCore;
 
 namespace HearthStoneSim.ViewModel
 {
@@ -61,10 +62,10 @@ namespace HearthStoneSim.ViewModel
             });
             Game = new Game();
 
-            HandViewModelPlayer1 = new HandViewModel(Game.Player1.Deck);
-            HandViewModelPlayer2 = new HandViewModel(Game.Player1.Deck);
-            TableViewModelPlayer1 = new TableViewModel();
-            TableViewModelPlayer2 = new TableViewModel();
+            HandViewModelPlayer1 = new HandViewModel(Game.Player1.Hand);
+            HandViewModelPlayer2 = new HandViewModel(Game.Player1.Hand);
+            TableViewModelPlayer1 = new TableViewModel(Game.Player1.Board);
+            TableViewModelPlayer2 = new TableViewModel(Game.Player1.Board);
         }
 
         ////public override void Cleanup()
