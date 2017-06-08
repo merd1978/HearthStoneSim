@@ -1,4 +1,6 @@
-﻿namespace HearthStoneSim.Model.GameCore
+﻿using HearthStoneSim.Model.Enums;
+
+namespace HearthStoneSim.Model.GameCore
 {
    public class Game
    {
@@ -21,11 +23,20 @@
          Player1.Hand.Add(new Card(Cards.All["CS2_182"]));
          Player1.Hand.Add(new Card(Cards.All["CS2_222"]));
          Player1.Hand.Add(new Card(Cards.All["OG_279"]));
+         Player1.Board.Add(new Core(Cards.All["EX1_306"]));
       }
 
       public void Attack(int indexPlayer1, int indexPlayer2)
       {
          Player1.Board.Cards[0].Damage += 1;
+      }
+
+      public void Move(int indexCard)
+      {
+         var card = Player1.Hand.Cards[indexCard];
+         card.Zone = Zone.PLAY;
+         Player1.Board.Add(card);
+         //Player1.Hand.Cards.RemoveAt(indexCard);
       }
    }
 }

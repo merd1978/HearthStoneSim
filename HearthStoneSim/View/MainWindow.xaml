@@ -39,12 +39,12 @@
             </Grid.ColumnDefinitions>
             <!--<Button x:Name="EndTurn" Grid.Row="1" Grid.Column="1" Content="END TURN" Canvas.Left="446" Canvas.Top="149"   />-->
             <!--<view:CardView Grid.Row="2" Grid.Column="0"/>-->
-            <view:TableView DataContext="{Binding TableViewModelPlayer1}"
+            <view:BoardView DataContext="{Binding BoardViewModelPlayer1}"
                 Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
-            </view:TableView>
-            <view:TableView DataContext="{Binding TableViewModelPlayer2}"
+            </view:BoardView>
+            <view:BoardView DataContext="{Binding BoardViewModelPlayer2}"
                 Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
-            </view:TableView>            
+            </view:BoardView>            
             <view:HandView DataContext="{Binding HandViewModelPlayer1}" Grid.Row="3" Grid.Column="1" ></view:HandView>
             <view:HandView DataContext="{Binding HandViewModelPlayer2}" Grid.Row="0" Grid.Column="1"
                 RenderTransformOrigin="0.5,0.5">
@@ -55,3 +55,6 @@
         </Grid>
     </Grid>
 </Window>
+
+
+

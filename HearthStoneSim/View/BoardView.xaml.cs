@@ -5,9 +5,9 @@ namespace HearthStoneSim.View
     /// <summary>
     /// Interaction logic for TableView.xaml
     /// </summary>
-    public partial class TableView : UserControl
+    public partial class BoardView : UserControl
     {
-        public TableView()
+        public BoardView()
         {
             InitializeComponent();
         }

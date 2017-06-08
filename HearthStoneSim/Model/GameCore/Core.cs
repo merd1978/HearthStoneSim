@@ -15,6 +15,8 @@ namespace HearthStoneSim.Model.GameCore
       public int Cost => _data.Card.Cost;
       public int Attack => _data.Card.Attack;
 
+      public Zone Zone;
+
       public int this[GameTag t]
       {
          get => _data[t];

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="HearthStoneSim.View.TableView"
+﻿<UserControl x:Class="HearthStoneSim.View.BoardView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,16 +8,17 @@
              xmlns:dragDrop="clr-namespace:HearthStoneSim.DragDrop"
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance Type=viewModel:TableViewModel, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance Type=viewModel:BoardViewModel, IsDesignTimeCreatable=True}">
     <!--<UserControl.DataContext>
         <viewModel:TableViewModel />
     </UserControl.DataContext>-->
 
-    <ListBox x:Name="TableViewListBox" Background="{x:Null}" ItemsSource="{Binding BoardCards}" 
+    <ListBox x:Name="BoardViewListBox" Background="{x:Null}" ItemsSource="{Binding BoardCards}" 
         ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
         BorderThickness="0"
         dragDrop:DragDrop.IsDragSource="True"
-        dragDrop:DragDrop.IsDropTarget="True">
+        dragDrop:DragDrop.IsDropTarget="True"
+        dragDrop:DragDrop.DropHandler="{Binding}">
         <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
