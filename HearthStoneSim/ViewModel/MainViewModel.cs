@@ -64,9 +64,9 @@ namespace HearthStoneSim.ViewModel
          Game = new Game();
 
          HandViewModelPlayer1 = new HandViewModel(Game.Player1.Hand);
-         HandViewModelPlayer2 = new HandViewModel(Game.Player1.Hand);
+         HandViewModelPlayer2 = new HandViewModel(Game.Player2.Hand);
          BoardViewModelPlayer1 = new BoardViewModel(Game, Game.Player1.Board);
-         BoardViewModelPlayer2 = new BoardViewModel(Game, Game.Player1.Board);
+         BoardViewModelPlayer2 = new BoardViewModel(Game, Game.Player2.Board);
 
          MessengerInstance.Register<NotificationMessage>(this, NotifyMe);
       }
@@ -75,8 +75,9 @@ namespace HearthStoneSim.ViewModel
       {
          //string notification = notificationMessage.Notification;
          BoardViewModelPlayer1.UpdateBoardState();
-         //do your work
+         BoardViewModelPlayer2.UpdateBoardState();
       }
+
       ////public override void Cleanup()
       ////{
       ////    // Clean up if needed

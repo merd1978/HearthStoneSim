@@ -18,7 +18,13 @@ namespace HearthStoneSim.ViewModel
    /// </summary>
    public class BoardViewModel : ViewModelBase, IDropTarget
    {
-      public ObservableCollection<Core> BoardCards { get; private set; }
+      private ObservableCollection<Core> _boardCards;
+      public ObservableCollection<Core> BoardCards
+      {
+         get => _boardCards;
+         set => Set(nameof(BoardCards), ref _boardCards, value);
+      }
+
       public Board Board { get; set; }
       public Game Game { get; set; }
 
@@ -39,8 +45,7 @@ namespace HearthStoneSim.ViewModel
 
       public void UpdateBoardState()
       {
-         BoardCards.Clear();
-         Board.Cards.ToList().ForEach(BoardCards.Add);
+         BoardCards = new ObservableCollection<Core>(Board.Cards);
       }
 
       #region DragDrop
@@ -63,20 +68,19 @@ namespace HearthStoneSim.ViewModel
          if (sourceItem == null || target == null) return;
          if (sourceItem.Zone == Zone.HAND)
          {
-            Game.Move(dropInfo.DragInfo.SourceIndex);
+            Game.PlayMinion(dropInfo.DragInfo.SourceIndex, dropInfo.InsertIndex);
             //sourceItem.Zone = Zone.PLAY;
             //target.Add(sourceItem);
             MessengerInstance.Send(new NotificationMessage("ViewRefresh"));
             return;
          }
+         //Check is it attacking enemy minion
          var targetItem = dropInfo.TargetItem as Core;
          if (targetItem == null) return;
+         if (ReferenceEquals(dropInfo.DragInfo.SourceCollection, dropInfo.TargetCollection)) return;
          if (sourceItem.Zone == Zone.PLAY)
          {
-            //targetItem.Damage += 1;
-            //BoardCards[0].Health = 0;
-            //sourceItem.Damage += 1;
-            Game.Attack(0,0);
+            Game.Attack(dropInfo.DragInfo.SourceIndex, dropInfo.TargetItemIndex);
             MessengerInstance.Send(new NotificationMessage("ViewRefresh"));
          }
          //if (dropInfo.DragInfo.SourceItem != null) var i = 5;

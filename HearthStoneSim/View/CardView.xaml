@@ -34,13 +34,13 @@
                        FontSize="14" Foreground="Black"
                        TextWrapping="Wrap">
             </TextBlock>
-            <TextBlock Text="{Binding Cost}" Canvas.Left="2" Canvas.Top="0" Width="66" Height="65"
+            <TextBlock Text="{Binding Cost}" Canvas.Left="2" Canvas.Top="0"
                        Style="{StaticResource NumericTextBlock}">
             </TextBlock>
-            <TextBlock Text="{Binding Attack}" Canvas.Left="12" Canvas.Top="310" Width="66" Height="65"
+            <TextBlock Text="{Binding Attack}" Canvas.Left="12" Canvas.Top="310"
                        Style="{StaticResource NumericTextBlock}">
             </TextBlock>
-            <TextBlock Text="{Binding Health}"  Canvas.Left="217" Canvas.Top="310" Width="66" Height="65"
+            <TextBlock Text="{Binding Health}"  Canvas.Left="217" Canvas.Top="310"
                        Style="{StaticResource NumericTextBlock}">
             </TextBlock>
         </Canvas>

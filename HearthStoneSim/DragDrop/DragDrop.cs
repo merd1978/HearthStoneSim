@@ -188,7 +188,15 @@ namespace HearthStoneSim.DragDrop
          }
 
          _dragInfo = new DragInfo(sender, e);
-         _dragStartPosition = e.GetPosition(RootElement);
+         //get center of VisualSourceItem related to RootElement
+         var visualSourceItem = _dragInfo.VisualSourceItem as FrameworkElement;
+         if (visualSourceItem != null)
+         {
+            var visualSourceItemCenter = new Point(visualSourceItem.ActualWidth / 2, visualSourceItem.ActualHeight / 2);
+            _dragStartPosition = visualSourceItem.TransformToAncestor(RootElement).Transform(visualSourceItemCenter);
+         }
+         //get current mouse position related to RootElement
+         //_dragStartPosition = e.GetPosition(RootElement);
 
 
          if (_dragInfo.VisualSourceItem == null)

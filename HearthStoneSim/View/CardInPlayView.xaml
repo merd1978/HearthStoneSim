@@ -11,7 +11,7 @@
        <viewModel:TableViewModel/>
     </UserControl.DataContext>-->
 
-   <!--<UserControl.Resources>
+    <!--<UserControl.Resources>
     <ResourceDictionary>
         <ResourceDictionary.MergedDictionaries>
             <ResourceDictionary Source="/Skins/MainSkin.xaml" />
@@ -19,20 +19,44 @@
     </ResourceDictionary>
     </UserControl.Resources>-->
 
+    <UserControl.Resources>
+        <Style x:Key="HideImage" TargetType="{x:Type Image}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsDamaged}" Value="true">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                    From="1.0" To="0.5" Duration="0:0:3">
+                                </DoubleAnimation>
+                                <ObjectAnimationUsingKeyFrames 
+                                    Storyboard.TargetProperty="Visibility">
+                                    <DiscreteObjectKeyFrame KeyTime="0:0:3" Value="{x:Static Visibility.Hidden}"/>
+                                </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
     <Viewbox>
-        <Canvas Width="300" Height="350">
+        <Canvas Width="300" Height="350" ClipToBounds="True">
             <Ellipse Canvas.Top="32" Canvas.Left="44"  Width="208" Height="286">
                 <Ellipse.Fill>
                     <ImageBrush ImageSource="{Binding ArtImageSource}" Stretch="UniformToFill"/>
                 </Ellipse.Fill>
             </Ellipse>
             <Image Width="366" Height="428" Source="../Images/inplay_minion_premium.png" Canvas.Left="-36" Canvas.Top="-24"/>
-            <TextBlock Text="{Binding Attack}" Canvas.Left="55" Canvas.Top="232"
+            <TextBlock Text="{Binding Attack}" Canvas.Left="38" Canvas.Top="230"
                        Style="{StaticResource NumericTextBlock}">
             </TextBlock>
-            <TextBlock Text="{Binding Health}" Canvas.Left="207" Canvas.Top="232"
+            <TextBlock Name="Health" Text="{Binding Health}" Canvas.Left="190" Canvas.Top="230"
                        Style="{StaticResource NumericTextBlock}">
             </TextBlock>
+            <Image Style="{StaticResource HideImage}" Source="../Images/damage.png" Width="240" Height="240" Canvas.Left="30" Canvas.Top="41"></Image>
         </Canvas>
     </Viewbox>
 </UserControl>

@@ -6,41 +6,41 @@ namespace HearthStoneSim.DragDrop
 {
    internal class DragAdorner : Adorner
    {
-      private readonly AdornerLayer m_AdornerLayer;
-      private readonly UIElement m_Adornment;
-      private Point m_MousePosition;
+      private readonly AdornerLayer _adornerLayer;
+      private readonly UIElement _adornment;
+      private Point _mousePosition;
 
       public DragAdorner(UIElement adornedElement, UIElement adornment, DragDropEffects effects = DragDropEffects.None)
       : base(adornedElement)
       {
-         this.m_AdornerLayer = AdornerLayer.GetAdornerLayer(adornedElement);
-         this.m_AdornerLayer.Add(this);
-         this.m_Adornment = adornment;
-         this.IsHitTestVisible = false;
-         this.Effects = effects;
+         _adornerLayer = AdornerLayer.GetAdornerLayer(adornedElement);
+         _adornerLayer.Add(this);
+         _adornment = adornment;
+         IsHitTestVisible = false;
+         Effects = effects;
       }
 
       public DragDropEffects Effects { get; private set; }
 
       public Point MousePosition
       {
-         get { return this.m_MousePosition; }
+         get => _mousePosition;
          set
          {
-            if (this.m_MousePosition == value) return;
-            this.m_MousePosition = value;
-            this.m_AdornerLayer.Update(this.AdornedElement);
+            if (_mousePosition == value) return;
+            _mousePosition = value;
+            _adornerLayer.Update(AdornedElement);
          }
       }
 
       public void Detatch()
       {
-         this.m_AdornerLayer.Remove(this);
+         _adornerLayer.Remove(this);
       }
 
       protected override Size ArrangeOverride(Size finalSize)
       {
-         this.m_Adornment.Arrange(new Rect(finalSize));
+         _adornment.Arrange(new Rect(finalSize));
          return finalSize;
       }
 
@@ -48,27 +48,22 @@ namespace HearthStoneSim.DragDrop
       {
          var result = new GeneralTransformGroup();
          result.Children.Add(base.GetDesiredTransform(transform));
-         result.Children.Add(new TranslateTransform(this.MousePosition.X - 4, this.MousePosition.Y - 4));
+         result.Children.Add(new TranslateTransform(MousePosition.X - 4, MousePosition.Y - 4));
 
          return result;
       }
 
       protected override Visual GetVisualChild(int index)
       {
-         return this.m_Adornment;
+         return _adornment;
       }
 
       protected override Size MeasureOverride(Size constraint)
       {
-         this.m_Adornment.Measure(constraint);
-         return this.m_Adornment.DesiredSize;
+         _adornment.Measure(constraint);
+         return _adornment.DesiredSize;
       }
 
-      protected override int VisualChildrenCount
-      {
-         get { return 1; }
-      }
-
-
+      protected override int VisualChildrenCount => 1;
    }
 }

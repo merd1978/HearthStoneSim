@@ -14,6 +14,12 @@ namespace HearthStoneSim.Model.GameCore
       public string FrameImageSource => _data.Card.FrameImageSource;
       public int Cost => _data.Card.Cost;
       public int Attack => _data.Card.Attack;
+      public int PreDamage
+      {
+         get => this[GameTag.PREDAMAGE];
+         set => this[GameTag.PREDAMAGE] = value;
+      }
+      public bool IsDamaged { get; set; } = false;
 
       public Zone Zone;
 
@@ -32,11 +38,6 @@ namespace HearthStoneSim.Model.GameCore
          }
       }
 
-      protected internal Core(Card card, Dictionary<GameTag, int> tags = null)
-      {
-         _data = new CoreData(card, tags);
-      }
-
       public int Damage
       {
          get => this[GameTag.DAMAGE];
@@ -52,6 +53,18 @@ namespace HearthStoneSim.Model.GameCore
             this[GameTag.HEALTH] = value;
             this[GameTag.DAMAGE] = 0;
          }
+      }
+
+      protected internal Core(Card card, Dictionary<GameTag, int> tags = null)
+      {
+         _data = new CoreData(card, tags);
+      }
+
+      // Cloning copy constructor
+      protected internal Core(Core cloneFrom)
+      {
+         Zone = cloneFrom.Zone;
+         _data = new CoreData(cloneFrom._data);
       }
    }
 }

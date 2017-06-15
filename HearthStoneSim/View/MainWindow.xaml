@@ -11,9 +11,9 @@
         Background="Silver"
         WindowStartupLocation="CenterScreen"
         Title="{Binding MainWindowTitle}"
-        DataContext="{Binding Main, Source={StaticResource Locator}}">
-         <!--xmlns:dragDrop="clr-namespace:HearthStoneSim.DragDrop"
-        dragDrop:DragDrop.IsDropTarget="True"
+        DataContext="{Binding Main, Source={StaticResource Locator}}"
+        xmlns:dragDrop="clr-namespace:HearthStoneSim.DragDrop">
+    <!--dragDrop:DragDrop.IsDropTarget="True"
         dragDrop:DragDrop.DropHandler="{Binding}">-->
 
     <Grid x:Name="LayoutRoot">

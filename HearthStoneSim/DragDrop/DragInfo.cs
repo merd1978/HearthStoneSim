@@ -67,16 +67,7 @@ namespace HearthStoneSim.DragDrop
             this.SourceCollection = itemParent.ItemsSource ?? itemParent.Items;
             if (itemParent != itemsControl)
             {
-              var tvItem = item as TreeViewItem;
-              if (tvItem != null)
-              {
-                var tv = tvItem.GetVisualAncestor<TreeView>();
-                if (tv != null && tv != itemsControl && !tv.IsDragSource())
-                {
-                  return;
-                }
-              }
-              else if (itemsControl.ItemContainerGenerator.IndexFromContainer(itemParent) < 0 && !itemParent.IsDragSource())
+              if (itemsControl.ItemContainerGenerator.IndexFromContainer(itemParent) < 0 && !itemParent.IsDragSource())
               {
                 return;
               }

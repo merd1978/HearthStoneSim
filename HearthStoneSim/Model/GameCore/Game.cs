@@ -17,6 +17,7 @@ namespace HearthStoneSim.Model.GameCore
          deck1.Add(new Card(Cards.All["CS2_222"]));
          deck1.Add(new Card(Cards.All["OG_279"]));
          Player1 = new Player(deck1);
+         Player2 = new Player(deck1);
          Player1.Hand.Add(new Card(Cards.All["EX1_306"]));
          Player1.Hand.Add(new Card(Cards.All["CS2_172"]));
          Player1.Hand.Add(new Card(Cards.All["CS2_124"]));
@@ -24,18 +25,24 @@ namespace HearthStoneSim.Model.GameCore
          Player1.Hand.Add(new Card(Cards.All["CS2_222"]));
          Player1.Hand.Add(new Card(Cards.All["OG_279"]));
          Player1.Board.Add(new Core(Cards.All["EX1_306"]));
+         Player2.Board.Add(new Core(Cards.All["EX1_306"]));
       }
 
       public void Attack(int indexPlayer1, int indexPlayer2)
       {
-         Player1.Board.Cards[0].Damage += 1;
+         Core source = Player1.Board.Cards[indexPlayer1];
+         Core target = Player2.Board.Cards[indexPlayer2];
+         target.Damage += source.Attack;
+         source.Damage += target.Attack;
+
+         target.PreDamage = source.Attack;
+         target.IsDamaged = true;
       }
 
-      public void Move(int indexCard)
+      public void PlayMinion(int cardIndex, int insertIndex)
       {
-         var card = Player1.Hand.Cards[indexCard];
-         card.Zone = Zone.PLAY;
-         Player1.Board.Add(card);
+         var card = Player1.Hand.Cards[cardIndex];
+         Player1.Board.Insert(new Core(card), insertIndex);
          //Player1.Hand.Cards.RemoveAt(indexCard);
       }
    }

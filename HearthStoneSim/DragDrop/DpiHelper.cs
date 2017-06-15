@@ -13,8 +13,8 @@ namespace HearthStoneSim.DragDrop
     private static Matrix _transformToDevice;
     private static Matrix _transformToLogical;
 
-    public static double DpiX = 0d;
-    public static double DpiY = 0d;
+    public static double DpiX;
+    public static double DpiY;
 
     [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline")]
     static DpiHelper()

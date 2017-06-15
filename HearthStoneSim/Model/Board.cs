@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.CodeDom;
+using System.Collections.Generic;
+using HearthStoneSim.Model.Enums;
 using HearthStoneSim.Model.GameCore;
 
 namespace HearthStoneSim.Model
@@ -10,7 +12,16 @@ namespace HearthStoneSim.Model
 
       public void Add(Core card)
       {
+         if (Cards.Count == MaxSize) return;
+         card.Zone = Zone.PLAY;
          Cards.Add(card);
+      }
+
+      public void Insert(Core card, int index)
+      {
+         if (Cards.Count == MaxSize) return;
+         card.Zone = Zone.PLAY;
+         Cards.Insert(index, card);
       }
    }
 }

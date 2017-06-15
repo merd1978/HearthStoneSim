@@ -12,22 +12,19 @@
     <!--<UserControl.DataContext>
         <viewModel:TableViewModel />
     </UserControl.DataContext>-->
-
-    <ListBox x:Name="BoardViewListBox" Background="{x:Null}" ItemsSource="{Binding BoardCards}" 
-        ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-        BorderThickness="0"
+    <ItemsControl x:Name="BoardViewListBox" Background="Transparent" ItemsSource="{Binding BoardCards}"
         dragDrop:DragDrop.IsDragSource="True"
         dragDrop:DragDrop.IsDropTarget="True"
         dragDrop:DragDrop.DropHandler="{Binding}">
-        <ListBox.ItemsPanel>
+        <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
             </ItemsPanelTemplate>
-        </ListBox.ItemsPanel>
-        <ListBox.ItemTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
             <DataTemplate>
                 <view:CardInPlayView/>
             </DataTemplate>
-        </ListBox.ItemTemplate>
-    </ListBox>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
 </UserControl>
