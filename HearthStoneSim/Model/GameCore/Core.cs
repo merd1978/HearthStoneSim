@@ -19,7 +19,7 @@ namespace HearthStoneSim.Model.GameCore
          get => this[GameTag.PREDAMAGE];
          set => this[GameTag.PREDAMAGE] = value;
       }
-      public bool IsDamaged { get; set; } = false;
+      public bool IsDamaged { get; set; }
 
       public Zone Zone;
 
