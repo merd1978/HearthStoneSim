@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using GalaSoft.MvvmLight;
@@ -68,6 +69,7 @@ namespace HearthStoneSim.ViewModel
          if (sourceItem == null || target == null) return;
          if (sourceItem.Zone == Zone.HAND)
          {
+            Game.ClearPreDamage();
             Game.PlayMinion(dropInfo.DragInfo.SourceIndex, dropInfo.InsertIndex);
             //sourceItem.Zone = Zone.PLAY;
             //target.Add(sourceItem);
@@ -80,11 +82,17 @@ namespace HearthStoneSim.ViewModel
          if (ReferenceEquals(dropInfo.DragInfo.SourceCollection, dropInfo.TargetCollection)) return;
          if (sourceItem.Zone == Zone.PLAY)
          {
+            Game.ClearPreDamage();
             Game.Attack(dropInfo.DragInfo.SourceIndex, dropInfo.TargetItemIndex);
             MessengerInstance.Send(new NotificationMessage("ViewRefresh"));
          }
          //if (dropInfo.DragInfo.SourceItem != null) var i = 5;
       }
       #endregion
+
+      private void Timeline_OnCompleted(object sender, EventArgs e)
+      {
+         throw new NotImplementedException();
+      }
    }
 }

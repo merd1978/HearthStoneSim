@@ -33,9 +33,11 @@ namespace HearthStoneSim.Model.GameCore
          Core source = Player1.Board.Cards[indexPlayer1];
          Core target = Player2.Board.Cards[indexPlayer2];
          target.Damage += source.Attack;
+         if (target.Health < 1) target.IsDead = true;
          source.Damage += target.Attack;
+         if (source.Health < 1) source.IsDead = true;
 
-         target.PreDamage = source.Attack;
+         target.PreDamage = -source.Attack;
          target.IsDamaged = true;
       }
 
@@ -44,6 +46,20 @@ namespace HearthStoneSim.Model.GameCore
          var card = Player1.Hand.Cards[cardIndex];
          Player1.Board.Insert(new Core(card), insertIndex);
          //Player1.Hand.Cards.RemoveAt(indexCard);
+      }
+
+      public void ClearPreDamage()
+      {
+         foreach (var card in Player1.Board.Cards)
+         {
+            card.PreDamage = 0;
+            card.IsDamaged = false;
+         }
+         foreach (var card in Player2.Board.Cards)
+         {
+            card.PreDamage = 0;
+            card.IsDamaged = false;
+         }
       }
    }
 }

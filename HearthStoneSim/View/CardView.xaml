@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModel="clr-namespace:HearthStoneSim.ViewModel"
+             xmlns:view="clr-namespace:HearthStoneSim.View"
              mc:Ignorable="d" 
              d:DesignHeight="410" d:DesignWidth="290"
              d:DataContext="{d:DesignInstance Type=viewModel:CardViewModel, IsDesignTimeCreatable=True}">
@@ -26,23 +27,23 @@
                     <EllipseGeometry Center="256,256" RadiusX="100" RadiusY="150"/>
                 </Image.Clip>
             </Image>-->
-            <TextBlock Text="{Binding Name}" Canvas.Left="30" Canvas.Top="200" Width="230" Height="40"
-                       Style="{StaticResource NumericTextBlock}"
-                       FontSize="20">
-            </TextBlock>
+            <Grid Canvas.Left="30" Canvas.Top="200" Width="230" Height="40">
+                <view:TextPath Text="{Binding Name}" Style="{StaticResource NumericTextPath}"
+                               FontSize="20" StrokeThickness="1.0" FontWeight="Bold"/>
+            </Grid>
             <TextBlock Text="{Binding CardTextInHand}" Canvas.Left="45" Canvas.Top="250" Width="195" Height="100"
                        FontSize="14" Foreground="Black"
                        TextWrapping="Wrap">
             </TextBlock>
-            <TextBlock Text="{Binding Cost}" Canvas.Left="2" Canvas.Top="0"
-                       Style="{StaticResource NumericTextBlock}">
-            </TextBlock>
-            <TextBlock Text="{Binding Attack}" Canvas.Left="12" Canvas.Top="310"
-                       Style="{StaticResource NumericTextBlock}">
-            </TextBlock>
-            <TextBlock Text="{Binding Health}"  Canvas.Left="217" Canvas.Top="310"
-                       Style="{StaticResource NumericTextBlock}">
-            </TextBlock>
+            <Grid Canvas.Left="-13" Canvas.Top="3" Width="83" Height="68">
+                <view:TextPath Text="{Binding Cost}" Style="{StaticResource NumericTextPath}"/>
+            </Grid>
+            <Grid Canvas.Top="312" Width="83" Height="68">
+                <view:TextPath Text="{Binding Attack}" Style="{StaticResource NumericTextPath}"/>
+            </Grid>
+            <Grid Canvas.Left="207" Canvas.Top="312" Width="83" Height="68">
+                <view:TextPath Text="{Binding Health}" Style="{StaticResource NumericTextPath}"/>
+            </Grid>
         </Canvas>
     </Viewbox>
 </UserControl>

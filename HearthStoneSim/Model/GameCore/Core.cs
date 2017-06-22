@@ -19,7 +19,8 @@ namespace HearthStoneSim.Model.GameCore
          get => this[GameTag.PREDAMAGE];
          set => this[GameTag.PREDAMAGE] = value;
       }
-      public bool IsDamaged { get; set; } = false;
+      public bool IsDamaged { get; set; }
+      public bool IsDead { get; set; }
 
       public Zone Zone;
 
@@ -28,7 +29,7 @@ namespace HearthStoneSim.Model.GameCore
          get => _data[t];
          set
          {
-            if (value < 0) value = 0;
+            // if (value < 0) value = 0;
             // Ignore unchanged data
             var oldValue = _data[t];
             if (value == oldValue) return;
