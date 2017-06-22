@@ -32,6 +32,12 @@ namespace HearthStoneSim.Model.GameCore
       {
          Core source = Player1.Board.Cards[indexPlayer1];
          Core target = Player2.Board.Cards[indexPlayer2];
+
+         foreach (var card in Player2.Board.Cards)
+         {
+            card.IsDamaged = false;
+         }
+
          target.Damage += source.Attack;
          if (target.Health < 1) target.IsDead = true;
          source.Damage += target.Attack;

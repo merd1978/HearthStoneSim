@@ -47,6 +47,7 @@ namespace HearthStoneSim.ViewModel
       public void UpdateBoardState()
       {
          BoardCards = new ObservableCollection<Core>(Board.Cards);
+         //.._boardCards.CollectionChanged()
       }
 
       #region DragDrop
