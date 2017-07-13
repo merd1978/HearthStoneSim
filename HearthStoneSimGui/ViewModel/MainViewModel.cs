@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Deployment.Application;
-using System.Diagnostics;
 using System.Reflection;
-using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using HearthStoneSim.DragDrop;
-using HearthStoneSim.Model;
-using HearthStoneSim.Model.GameCore;
+using HearthStoneSimCore.Model;
 
 namespace HearthStoneSim.ViewModel
 {
-   /// <summary>
-   /// This class contains properties that the main View can data bind to.
-   /// <para>
-   /// See http://www.mvvmlight.net
-   /// </para>
-   /// </summary>
-   public class MainViewModel : ViewModelBase, IDropTarget
+    /// <summary>
+    /// This class contains properties that the main View can data bind to.
+    /// <para>
+    /// See http://www.mvvmlight.net
+    /// </para>
+    /// </summary>
+    public class MainViewModel : ViewModelBase, IDropTarget
    {
       private readonly IDataService _dataService;
 

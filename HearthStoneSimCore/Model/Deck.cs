@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace HearthStoneSim.Model
+namespace HearthStoneSimCore.Model
 {
     public class Deck
     {

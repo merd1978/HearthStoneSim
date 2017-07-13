@@ -1,5 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
-using HearthStoneSim.Model;
+using HearthStoneSimCore.Model;
 using System.Collections.ObjectModel;
 
 namespace HearthStoneSim.ViewModel

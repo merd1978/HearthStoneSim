@@ -1,4 +1,4 @@
-namespace HearthStoneSim.Model.Enums
+namespace HearthStoneSimCore.Enums
 {
 	public enum GameTag
 	{

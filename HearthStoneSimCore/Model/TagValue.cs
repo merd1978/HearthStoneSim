@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HearthStoneSim.Model
+namespace HearthStoneSimCore.Model
 {
 	public struct TagValue : IEquatable<TagValue>
 	{

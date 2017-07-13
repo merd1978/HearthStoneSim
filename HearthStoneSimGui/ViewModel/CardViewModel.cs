@@ -1,6 +1,5 @@
-﻿using System.Windows.Data;
-using GalaSoft.MvvmLight;
-using HearthStoneSim.Model;
+﻿using GalaSoft.MvvmLight;
+using HearthStoneSimCore.Model;
 
 namespace HearthStoneSim.ViewModel
 {

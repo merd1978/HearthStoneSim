@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
-using HearthStoneSim.Model.Enums;
+using HearthStoneSimCore.Enums;
 
-namespace HearthStoneSim.Model
+namespace HearthStoneSimCore.Model
 {
     public class DataService : IDataService
     {
@@ -21,7 +21,7 @@ namespace HearthStoneSim.Model
         {
             // Get XML definitions from assembly embedded resource
             var assembly = Assembly.GetExecutingAssembly();
-            var def = XDocument.Load(assembly.GetManifestResourceStream("HearthStoneSim.Model.CardDefs.xml"));
+            var def = XDocument.Load(assembly.GetManifestResourceStream("HearthStoneSimCore.Model.CardDefs.xml"));
 
             // Parse XML
             var cards = (from r in def.Descendants("Entity")

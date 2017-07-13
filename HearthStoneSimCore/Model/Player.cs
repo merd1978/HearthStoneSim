@@ -1,4 +1,4 @@
-﻿namespace HearthStoneSim.Model.GameCore
+﻿namespace HearthStoneSimCore.Model
 {
    public class Player
    {

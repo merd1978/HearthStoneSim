@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using HearthStoneSim.Model.Enums;
-using HearthStoneSim.Model.GameCore;
+using HearthStoneSimCore.Enums;
+using HearthStoneSimCore.Model;
 
-namespace HearthStoneSim.Model
+namespace HearthStoneSimCore.Model
 {
     public class Hand
     {

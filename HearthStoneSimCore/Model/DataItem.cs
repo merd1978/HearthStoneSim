@@ -1,4 +1,4 @@
-﻿namespace HearthStoneSim.Model
+﻿namespace HearthStoneSimCore.Model
 {
     public class DataItem
     {

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using HearthStoneSim.DragDrop;
-using HearthStoneSim.Model;
-using HearthStoneSim.Model.Enums;
-using HearthStoneSim.Model.GameCore;
+using HearthStoneSimCore.Model;
+using HearthStoneSimCore.Enums;
 
 namespace HearthStoneSim.ViewModel
 {

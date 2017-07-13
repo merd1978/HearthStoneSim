@@ -1,6 +1,6 @@
-﻿using HearthStoneSim.Model.Enums;
+﻿using HearthStoneSimCore.Enums;
 
-namespace HearthStoneSim.Model
+namespace HearthStoneSimCore.Model
 {
     public struct Tag
     {

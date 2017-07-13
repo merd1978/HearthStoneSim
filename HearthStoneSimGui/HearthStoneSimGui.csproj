@@ -114,15 +114,6 @@
     <Compile Include="DragDrop\ItemsControlExtensions.cs" />
     <Compile Include="DragDrop\TypeUtilities.cs" />
     <Compile Include="DragDrop\VisualTreeExtensions.cs" />
-    <Compile Include="Model\Card.cs" />
-    <Compile Include="Model\Cards.cs" />
-    <Compile Include="Model\GameCore\CoreData.cs" />
-    <Compile Include="Model\GameCore\Core.cs" />
-    <Compile Include="Model\DataItem.cs" />
-    <Compile Include="Model\DataService.cs" />
-    <Compile Include="Model\Board.cs" />
-    <Compile Include="Model\Hand.cs" />
-    <Compile Include="Model\Deck.cs" />
     <Compile Include="DragDrop\DefaultDragHandler.cs" />
     <Compile Include="DragDrop\DefaultDropHandler.cs" />
     <Compile Include="DragDrop\DragDrop.cs" />
@@ -134,12 +125,6 @@
     <Compile Include="DragDrop\IDropInfo.cs" />
     <Compile Include="DragDrop\IDropTarget.cs" />
     <Compile Include="DragDrop\TargetPointerAdorner.cs" />
-    <Compile Include="Model\Enums\Enums.cs" />
-    <Compile Include="Model\GameCore\Game.cs" />
-    <Compile Include="Model\IDataService.cs" />
-    <Compile Include="Model\GameCore\Player.cs" />
-    <Compile Include="Model\Tag.cs" />
-    <Compile Include="Model\TagValue.cs" />
     <Compile Include="ViewModel\CardViewModel.cs" />
     <Compile Include="ViewModel\HandViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -236,9 +221,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Model\CardDefs.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\cardback.png" />
     <Resource Include="Images\damage.png" />
     <Resource Include="Images\effect_sleep.png" />
@@ -319,10 +301,16 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HearthStoneSimCore\HearthStoneSimCore.csproj">
+      <Project>{822b3f6b-f1a3-48c1-895c-eb85f05f37a3}</Project>
+      <Name>HearthStoneSimCore</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_StartDate="2000/1/1" BuildVersion_BuildVersioningStyle="None.None.Increment.None" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_BuildAction="Build" />
+      <UserProperties BuildVersion_BuildAction="Build" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.Increment.None" BuildVersion_StartDate="2000/1/1" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

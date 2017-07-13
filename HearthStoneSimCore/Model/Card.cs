@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Media;
-using HearthStoneSim.Model.Enums;
+using HearthStoneSimCore.Enums;
 
-namespace HearthStoneSim.Model
+namespace HearthStoneSimCore.Model
 {
-   public interface ICard
+    public interface ICard
    {
       string Id { get; }
       string Name { get; }

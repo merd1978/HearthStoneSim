@@ -12,7 +12,7 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
-using HearthStoneSim.Model;
+using HearthStoneSimCore.Model;
 
 namespace HearthStoneSim.ViewModel
 {

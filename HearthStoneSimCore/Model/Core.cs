@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using HearthStoneSim.Model.Enums;
+using HearthStoneSimCore.Enums;
 
-namespace HearthStoneSim.Model.GameCore
+namespace HearthStoneSimCore.Model
 {
    public class Core : ICard
    {

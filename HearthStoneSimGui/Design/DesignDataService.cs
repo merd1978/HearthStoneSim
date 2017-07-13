@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Xml.Linq;
-using HearthStoneSim.Model;
-using HearthStoneSim.Model.Enums;
+using HearthStoneSimCore.Model;
 
 namespace HearthStoneSim.Design
 {
