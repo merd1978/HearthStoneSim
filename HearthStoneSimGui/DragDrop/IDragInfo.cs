@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace HearthStoneSim.DragDrop
+namespace HearthStoneSimGui.DragDrop
 {
   public interface IDragInfo
   {

@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="HearthStoneSim.View.HandView"
+﻿<UserControl x:Class="HearthStoneSimGui.View.HandView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:view="clr-namespace:HearthStoneSim.View"
-             xmlns:viewModel="clr-namespace:HearthStoneSim.ViewModel"
-             xmlns:dragDrop="clr-namespace:HearthStoneSim.DragDrop"
+             xmlns:view="clr-namespace:HearthStoneSimGui.View"
+             xmlns:viewModel="clr-namespace:HearthStoneSimGui.ViewModel"
+             xmlns:dragDrop="clr-namespace:HearthStoneSimGui.DragDrop"
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="310"
              d:DataContext="{d:DesignInstance Type=viewModel:HandViewModel, IsDesignTimeCreatable=True}">
@@ -30,9 +30,9 @@
     <ListBox Name="HandList" Background="{x:Null}" ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding HandCards}"
         BorderThickness="0"
         dragDrop:DragDrop.IsDragSource="True"
-        dragDrop:DragDrop.IsDropTarget="True"
         dragDrop:DragDrop.UseDefaultDragAdorner="True"
-        dragDrop:DragDrop.DragAdornerTemplate="{StaticResource CardTemplate}">
+        dragDrop:DragDrop.DragAdornerTemplate="{StaticResource CardTemplate}"
+        dragDrop:DragDrop.DragHandler="{Binding}">
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <view:CardView Height="{Binding ActualHeight, ElementName=HandList}"/>

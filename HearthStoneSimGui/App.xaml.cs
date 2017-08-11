@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using GalaSoft.MvvmLight.Threading;
 
-namespace HearthStoneSim
+namespace HearthStoneSimGui
 {
     /// <summary>
     /// Interaction logic for App.xaml

@@ -13,7 +13,7 @@ using Microsoft.Windows.Controls;
 using Microsoft.Windows.Controls.Primitives;
 #endif
 
-namespace HearthStoneSim.DragDrop
+namespace HearthStoneSimGui.DragDrop
 {
   public static class ItemsControlExtensions
   {

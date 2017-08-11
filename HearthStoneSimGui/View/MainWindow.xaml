@@ -1,10 +1,10 @@
-﻿<Window x:Class="HearthStoneSim.View.MainWindow"
+﻿<Window x:Class="HearthStoneSimGui.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ignore="http://www.galasoft.ch/ignore"
-        xmlns:view="clr-namespace:HearthStoneSim.View"
+        xmlns:view="clr-namespace:HearthStoneSimGui.View"
         mc:Ignorable="d ignore"
         Height="700"
         Width="1200"
@@ -12,20 +12,25 @@
         WindowStartupLocation="CenterScreen"
         Title="{Binding MainWindowTitle}"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
-        xmlns:dragDrop="clr-namespace:HearthStoneSim.DragDrop">
-    <!--dragDrop:DragDrop.IsDropTarget="True"
-        dragDrop:DragDrop.DropHandler="{Binding}">-->
+        xmlns:dragDrop="clr-namespace:HearthStoneSimGui.DragDrop"
+        dragDrop:DragDrop.IsDropTarget="True"
+        dragDrop:DragDrop.DropHandler="{Binding}">
 
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Menu>
+	    <!--<Grid.ColumnDefinitions>
+		    <ColumnDefinition Width="8*"/>
+		    <ColumnDefinition Width="2*"/>
+	    </Grid.ColumnDefinitions>-->
+		<Menu>
             <MenuItem Header="EDIT"></MenuItem>
             <MenuItem Header="START GAME"></MenuItem>
         </Menu>
-        <Grid Grid.Row="1" ShowGridLines="False">
+		<!--<TextBox Grid.Row="1" Grid.Column="1">zzz</TextBox>-->
+		<Grid Grid.Row="1" Grid.Column="0" ShowGridLines="False">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>

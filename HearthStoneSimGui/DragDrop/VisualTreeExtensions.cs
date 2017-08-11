@@ -6,7 +6,7 @@ using System.Windows.Media;
 using System.Collections.Generic;
 using System.Windows.Media.Media3D;
 
-namespace HearthStoneSim.DragDrop
+namespace HearthStoneSimGui.DragDrop
 {
   public static class VisualTreeExtensions
   {

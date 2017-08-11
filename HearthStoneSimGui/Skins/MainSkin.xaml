@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:view="clr-namespace:HearthStoneSim.View">
+                    xmlns:view="clr-namespace:HearthStoneSimGui.View">
     
     <Style x:Key="DefaultFont" TargetType="{x:Type Control}">
         <Setter Property="Foreground" Value="Red"/>

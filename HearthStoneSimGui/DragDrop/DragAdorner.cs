@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 
-namespace HearthStoneSim.DragDrop
+namespace HearthStoneSimGui.DragDrop
 {
    internal class DragAdorner : Adorner
    {

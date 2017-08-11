@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="HearthStoneSim.View.CardView"
+﻿<UserControl x:Class="HearthStoneSimGui.View.CardView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:viewModel="clr-namespace:HearthStoneSim.ViewModel"
-             xmlns:view="clr-namespace:HearthStoneSim.View"
+             xmlns:viewModel="clr-namespace:HearthStoneSimGui.ViewModel"
+             xmlns:view="clr-namespace:HearthStoneSimGui.View"
              mc:Ignorable="d" 
              d:DesignHeight="410" d:DesignWidth="290"
              d:DataContext="{d:DesignInstance Type=viewModel:CardViewModel, IsDesignTimeCreatable=True}">
@@ -39,7 +39,7 @@
                 <view:TextPath Text="{Binding Cost}" Style="{StaticResource NumericTextPath}"/>
             </Grid>
             <Grid Canvas.Top="312" Width="83" Height="68">
-                <view:TextPath Text="{Binding Attack}" Style="{StaticResource NumericTextPath}"/>
+                <view:TextPath Text="{Binding AttackDamage}" Style="{StaticResource NumericTextPath}"/>
             </Grid>
             <Grid Canvas.Left="207" Canvas.Top="312" Width="83" Height="68">
                 <view:TextPath Text="{Binding Health}" Style="{StaticResource NumericTextPath}"/>

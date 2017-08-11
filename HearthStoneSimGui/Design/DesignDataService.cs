@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using HearthStoneSimCore.Model;
 
-namespace HearthStoneSim.Design
+namespace HearthStoneSimGui.Design
 {
     public class DesignDataService : IDataService
     {

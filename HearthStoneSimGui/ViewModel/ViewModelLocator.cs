@@ -14,7 +14,7 @@ using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using HearthStoneSimCore.Model;
 
-namespace HearthStoneSim.ViewModel
+namespace HearthStoneSimGui.ViewModel
 {
     /// <summary>
     /// This class contains static references to all the view models in the

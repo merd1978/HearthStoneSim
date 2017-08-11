@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 
-namespace HearthStoneSim.DragDrop
+namespace HearthStoneSimGui.DragDrop
 {
   /// <summary>
   /// A helper class for Dpi logicm cause Microsoft hides this with the internal flag.

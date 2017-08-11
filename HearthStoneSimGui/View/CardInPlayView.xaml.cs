@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace HearthStoneSim.View
+namespace HearthStoneSimGui.View
 {
     /// <summary>
     /// Description for CardOnTableView.

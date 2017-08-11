@@ -1,31 +1,65 @@
-﻿using HearthStoneSimCore.Enums;
+﻿using System.ComponentModel;
+using HearthStoneSimCore.Enums;
+using HearthStoneSimCore.Tasks;
 
 namespace HearthStoneSimCore.Model
 {
-    public class Game
+    public class Game : INotifyPropertyChanged
     {
-        public Player Player1 { get; private set; }
-        public Player Player2 { get; private set; }
+	    public event PropertyChangedEventHandler PropertyChanged;
+
+		public Controller Player1 { get; private set; }
+        public Controller Player2 { get; private set; }
+
+        public Controller CurrentPlayer
+	    {
+		    get => Player1[GameTag.CURRENT_PLAYER] == 1
+			    ? Player1
+			    : Player2[GameTag.CURRENT_PLAYER] == 1 ? Player2 : null;
+		    set
+		    {
+			    value.Opponent[GameTag.CURRENT_PLAYER] = 0;
+			    value[GameTag.CURRENT_PLAYER] = 1;
+		    }
+	    }
+
+		//Indicates when to update gui
+		private bool _stateChanged;
+        public bool StateChanged
+        {
+            get => _stateChanged;
+            set
+            {
+                _stateChanged = value;
+                NotifyChanged("StateChanged");
+            }
+        }
+        private void NotifyChanged(string property)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
 
         public Game()
         {
-            var deck1 = new Deck();
-            deck1.Add(new Card(Cards.All["EX1_306"]));
-            deck1.Add(new Card(Cards.All["CS2_172"]));
-            deck1.Add(new Card(Cards.All["CS2_124"]));
-            deck1.Add(new Card(Cards.All["CS2_182"]));
-            deck1.Add(new Card(Cards.All["CS2_222"]));
-            deck1.Add(new Card(Cards.All["OG_279"]));
-            Player1 = new Player(deck1);
-            Player2 = new Player(deck1);
-            Player1.Hand.Add(new Card(Cards.All["EX1_306"]));
-            Player1.Hand.Add(new Card(Cards.All["CS2_172"]));
-            Player1.Hand.Add(new Card(Cards.All["CS2_124"]));
-            Player1.Hand.Add(new Card(Cards.All["CS2_182"]));
-            Player1.Hand.Add(new Card(Cards.All["CS2_222"]));
-            Player1.Hand.Add(new Card(Cards.All["OG_279"]));
-            Player1.Board.Add(new Core(Cards.All["EX1_306"]));
-            Player2.Board.Add(new Core(Cards.All["EX1_306"]));
+            Player1 = new PlayerHuman(this, "Player1", 1);
+            Player2 = new PlayerHuman(this, "Player2", 2);
+			Player1.Hand.Add(Cards.FromName("Суккуб"));
+            Player1.Hand.Add(Cards.FromName("Ящер Кровавой Топи"));
+            Player1.Hand.Add(Cards.FromName("Всадник на волке"));
+            Player1.Hand.Add(Cards.FromName("Морозный йети"));
+            Player1.Hand.Add(Cards.FromName("Герой Штормграда"));
+            Player1.Hand.Add(Cards.FromName("К'Тун"));
+
+            Player1.Board.Add(Cards.FromName("Суккуб"));
+            Player2.Board.Add(Cards.FromName("Герой Штормграда"));
+
+	        CurrentPlayer = Player1;
+		}
+
+        public void Process(IPlayerTask gameTask)
+        {
+            gameTask.Process();
+            StateChanged = true;
         }
 
         public void DeathProcessingAndAuraUpdate()
@@ -48,30 +82,12 @@ namespace HearthStoneSimCore.Model
             //}
         }
 
-        public void Attack(int indexPlayer1, int indexPlayer2)
-        {
-            Core source = Player1.Board.Cards[indexPlayer1];
-            Core target = Player2.Board.Cards[indexPlayer2];
-
-            foreach (var card in Player2.Board.Cards)
-            {
-                card.IsDamaged = false;
-            }
-
-            target.Damage += source.Attack;
-            if (target.Health < 1) target.IsDead = true;
-            source.Damage += target.Attack;
-            if (source.Health < 1) source.IsDead = true;
-
-            target.PreDamage = -source.Attack;
-            target.IsDamaged = true;
-        }
-
         public void PlayMinion(int cardIndex, int insertIndex)
         {
             var card = Player1.Hand.Cards[cardIndex];
-            Player1.Board.Insert(new Core(card), insertIndex);
+            Player1.Board.Insert((Minion)card, insertIndex);
             //Player1.Hand.Cards.RemoveAt(indexCard);
+            StateChanged = true;
         }
 
         public void ClearPreDamage()
@@ -87,6 +103,5 @@ namespace HearthStoneSimCore.Model
                 card.IsDamaged = false;
             }
         }
-
     }
 }

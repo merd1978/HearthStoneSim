@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace HearthStoneSim.View
+namespace HearthStoneSimGui.View
 {
     public class RadialPanel : Panel
     {

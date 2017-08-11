@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace HearthStoneSim.View
+namespace HearthStoneSimGui.View
 {
     /// <summary>
     /// Interaction logic for CardView.xaml

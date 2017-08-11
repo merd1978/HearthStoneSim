@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Collections;
 
-namespace HearthStoneSim.DragDrop
+namespace HearthStoneSimGui.DragDrop
 {
   public static class TypeUtilities
   {
