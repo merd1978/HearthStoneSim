@@ -7,7 +7,7 @@
         xmlns:view="clr-namespace:HearthStoneSimGui.View"
         mc:Ignorable="d ignore"
         Height="700"
-        Width="1200"
+        Width="1300"
         Background="Silver"
         WindowStartupLocation="CenterScreen"
         Title="{Binding MainWindowTitle}"
@@ -21,43 +21,50 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-	    <!--<Grid.ColumnDefinitions>
-		    <ColumnDefinition Width="8*"/>
-		    <ColumnDefinition Width="2*"/>
-	    </Grid.ColumnDefinitions>-->
 		<Menu>
             <MenuItem Header="EDIT"></MenuItem>
             <MenuItem Header="START GAME"></MenuItem>
         </Menu>
-		<!--<TextBox Grid.Row="1" Grid.Column="1">zzz</TextBox>-->
-		<Grid Grid.Row="1" Grid.Column="0" ShowGridLines="False">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <!--<Button x:Name="EndTurn" Grid.Row="1" Grid.Column="1" Content="END TURN" Canvas.Left="446" Canvas.Top="149"   />-->
-            <!--<view:CardView Grid.Row="2" Grid.Column="0"/>-->
-            <view:BoardView DataContext="{Binding BoardViewModelPlayer1}"
-                Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
-            </view:BoardView>
-            <view:BoardView DataContext="{Binding BoardViewModelPlayer2}"
-                Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
-            </view:BoardView>            
-            <view:HandView DataContext="{Binding HandViewModelPlayer1}" Grid.Row="3" Grid.Column="1" ></view:HandView>
-            <view:HandView DataContext="{Binding HandViewModelPlayer2}" Grid.Row="0" Grid.Column="1"
-                RenderTransformOrigin="0.5,0.5">
-                <view:HandView.RenderTransform>
-                    <RotateTransform Angle="180"/>
-                </view:HandView.RenderTransform>
-            </view:HandView>
-        </Grid>
+        <DockPanel Grid.Row="1">
+            <Expander Grid.Row="1" ExpandDirection="Down" IsExpanded="True" Margin="3,0" Header="Log" DockPanel.Dock="Right" MaxWidth="250">
+                <ListBox  ItemsSource="{Binding Log}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          view:ListBoxExtenders.AutoScroll="True">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" TextWrapping="Wrap"></TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Expander>
+            <Grid Grid.Row="1" ShowGridLines="False">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <!--<Button x:Name="EndTurn" Grid.Row="1" Grid.Column="1" Content="END TURN" Canvas.Left="446" Canvas.Top="149"   />-->
+                <!--<view:CardView Grid.Row="2" Grid.Column="0"/>-->
+                <view:BoardView DataContext="{Binding BoardViewModelPlayer1}"
+                    Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+                </view:BoardView>
+                <view:BoardView DataContext="{Binding BoardViewModelPlayer2}"
+                    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+                </view:BoardView>            
+                <view:HandView DataContext="{Binding HandViewModelPlayer1}" Grid.Row="3" Grid.Column="1" ></view:HandView>
+                <view:HandView DataContext="{Binding HandViewModelPlayer2}" Grid.Row="0" Grid.Column="1"
+                    RenderTransformOrigin="0.5,0.5">
+                    <view:HandView.RenderTransform>
+                        <RotateTransform Angle="180"/>
+                    </view:HandView.RenderTransform>
+                </view:HandView>
+            </Grid>
+        </DockPanel>
     </Grid>
 </Window>
 

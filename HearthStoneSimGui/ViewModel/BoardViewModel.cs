@@ -74,7 +74,7 @@ namespace HearthStoneSimGui.ViewModel
             BoardCards.RemoveAt(_insertionIndex);
         }
 
-        void IDropTarget.DragOver(IDropInfo dropInfo)
+	    public void DragOver(IDropInfo dropInfo)
         {
             var sourceItem = dropInfo.Data as Minion;
             if (sourceItem == null) return;
@@ -105,7 +105,7 @@ namespace HearthStoneSimGui.ViewModel
 
         }
 
-        void IDropTarget.Drop(IDropInfo dropInfo)
+	    public void Drop(IDropInfo dropInfo)
         {
             var sourceItem = dropInfo.Data as Minion;
             var target = dropInfo.TargetCollection as ObservableCollection<Minion>;
@@ -130,7 +130,7 @@ namespace HearthStoneSimGui.ViewModel
 			}
         }
 
-        void IDragSource.StartDrag(IDragInfo dragInfo)
+	    public void StartDrag(IDragInfo dragInfo)
         {
             var itemCount = dragInfo.SourceItems.Cast<object>().Count();
 
@@ -141,24 +141,24 @@ namespace HearthStoneSimGui.ViewModel
                 DragDropEffects.None;
         }
 
-        bool IDragSource.CanStartDrag(IDragInfo dragInfo)
+	    public bool CanStartDrag(IDragInfo dragInfo)
         {
             return Game.CurrentPlayer == Controller;
         }
 
-        void IDragSource.Dropped(IDropInfo dropInfo)
+	    public void Dropped(IDropInfo dropInfo)
         {
         }
 
-        void IDragSource.DragCancelled()
+	    public void DragCancelled()
         {
         }
 
-        void IDragSource.DragLeave(object sender)
+	    public void DragLeave(object sender)
         {
         }
 
-        bool IDragSource.TryCatchOccurredException(Exception exception)
+	    public bool TryCatchOccurredException(Exception exception)
         {
             return false;
         }

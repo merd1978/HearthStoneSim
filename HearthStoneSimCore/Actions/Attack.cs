@@ -111,10 +111,10 @@ namespace HearthStoneSimCore.Actions
                 source.IsExhausted = true;
             }
 
-            //c.Game.Log(LogLevel.INFO, BlockType.ATTACK, "AttackPhase",
-            //    $"[AttackPhase]{source}[ATK:{source.AttackDamage}/HP:{source.Health}{(hero != null ? $"/ARM:{hero.Armor}" : "")}] " +
-            //    $"{(hero?.Weapon != null ? $"[{hero.Weapon}[A:{hero.Weapon.AttackDamage}/D:{hero.Weapon.Durability}]] " : "")}attacked " +
-            //    $"{target}[ATK:{target.AttackDamage}/HP:{target.Health}].");
+            player.Game.Log(LogLevel.INFO, BlockType.ATTACK, "AttackPhase",
+                $"[AttackPhase]{source}[ATK:{source.AttackDamage}/HP:{source.Health}{(sourceHero != null ? $"/ARM:{sourceHero.Armor}" : "")}] " +
+                $"{(sourceHero?.Weapon != null ? $"[{sourceHero.Weapon}[A:{sourceHero.Weapon.AttackDamage}/D:{sourceHero.Weapon.Durability}]] " : "")}attacked " +
+                $"{target}[ATK:{target.AttackDamage}/HP:{target.Health}].");
             return true;
         }
     }

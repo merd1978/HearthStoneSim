@@ -11,7 +11,13 @@ namespace HearthStoneSimCore.Model
             set => this[GameTag.ATK] = value;
         }
 
-        public Weapon(Controller controller, Card card, Dictionary<GameTag, int> tags) : base(controller, card, tags)
+	    public int Durability
+	    {
+		    get => this[GameTag.DURABILITY];
+		    set => this[GameTag.DURABILITY] = value;
+	    }
+
+		public Weapon(Controller controller, Card card, Dictionary<GameTag, int> tags) : base(controller, card, tags)
         {
         }
     }

@@ -43,7 +43,7 @@ namespace HearthStoneSimGui.ViewModel
 
         #region DragDrop
 
-        void IDragSource.StartDrag(IDragInfo dragInfo)
+	    public void StartDrag(IDragInfo dragInfo)
         {
             var itemCount = dragInfo.SourceItems.Cast<object>().Count();
 
@@ -54,26 +54,26 @@ namespace HearthStoneSimGui.ViewModel
                                 DragDropEffects.None;
         }
 
-        bool IDragSource.CanStartDrag(IDragInfo dragInfo)
+	    public bool CanStartDrag(IDragInfo dragInfo)
         {
             return true;
         }
 
-        void IDragSource.Dropped(IDropInfo dropInfo)
+	    public void Dropped(IDropInfo dropInfo)
         {
         }
 
-        void IDragSource.DragCancelled()
-        {
-            Messenger.Default.Send(new NotificationMessage("DragCanceled"));
-        }
-
-        void IDragSource.DragLeave(object sender)
+	    public void DragCancelled()
         {
             Messenger.Default.Send(new NotificationMessage("DragCanceled"));
         }
 
-        bool IDragSource.TryCatchOccurredException(Exception exception)
+	    public void DragLeave(object sender)
+        {
+            Messenger.Default.Send(new NotificationMessage("DragCanceled"));
+        }
+
+	    public bool TryCatchOccurredException(Exception exception)
         {
             return false;
         }

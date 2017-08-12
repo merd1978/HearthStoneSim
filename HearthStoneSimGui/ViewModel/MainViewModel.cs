@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reflection;
 using GalaSoft.MvvmLight;
@@ -30,15 +31,7 @@ namespace HearthStoneSimGui.ViewModel
         public BoardViewModel BoardViewModelPlayer1 { get; private set; }
         public BoardViewModel BoardViewModelPlayer2 { get; private set; }
 
-        public void DragOver(IDropInfo dropInfo)
-        {
-            dropInfo.NotHandled = true;
-        }
-
-        public void Drop(IDropInfo dropInfo)
-        {
-            dropInfo.NotHandled = true;
-        }
+        public ObservableCollection<string> Log { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
@@ -67,14 +60,45 @@ namespace HearthStoneSimGui.ViewModel
             HandViewModelPlayer2 = new HandViewModel(Game.Player2, Game.Player2.Hand);
             BoardViewModelPlayer1 = new BoardViewModel(Game.Player1, Game, Game.Player1.Board);
             BoardViewModelPlayer2 = new BoardViewModel(Game.Player2, Game, Game.Player2.Board);
-        }
+
+			Log = new ObservableCollection<string>();
+			Game.Log(LogLevel.INFO, BlockType.PLAY, "Game", "Starting new game now!");
+		}
 
         private void GamePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // Update game state
-            BoardViewModelPlayer1.UpdateBoardState();
-            BoardViewModelPlayer2.UpdateBoardState();
+	        switch (e.PropertyName)
+	        {
+				case "StateChanged":
+					// Update game state
+					BoardViewModelPlayer1.UpdateBoardState();
+					BoardViewModelPlayer2.UpdateBoardState();
+					break;
+				case "LogChanged":
+					while (Game.Logs.Count > 0)
+					{
+						var logEntry = Game.Logs.Dequeue();
+						if (logEntry.Level <= LogLevel.INFO)
+						{
+							Log.Add($"[{logEntry.BlockType}] - {logEntry.Location}: {logEntry.Text}\n");
+						}
+					}
+					break;
+			}
+		}
+
+        #region DragDrop
+
+	    public void DragOver(IDropInfo dropInfo)
+        {
+            dropInfo.NotHandled = true;
         }
+
+	    public void Drop(IDropInfo dropInfo)
+        {
+            dropInfo.NotHandled = true;
+        }
+        #endregion
 
         ////public override void Cleanup()
         ////{

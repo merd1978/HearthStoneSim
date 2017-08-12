@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using HearthStoneSimCore.Enums;
 using HearthStoneSimCore.Tasks;
 
@@ -38,23 +40,24 @@ namespace HearthStoneSimCore.Model
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
+        public Queue<LogEntry> Logs { get; set; } = new Queue<LogEntry>();
 
         public Game()
         {
             Player1 = new PlayerHuman(this, "Player1", 1);
             Player2 = new PlayerHuman(this, "Player2", 2);
 			Player1.Hand.Add(Cards.FromName("Суккуб"));
-            Player1.Hand.Add(Cards.FromName("Ящер Кровавой Топи"));
+            Player1.Hand.Add(Cards.FromName("Главарь банды бесов"));
             Player1.Hand.Add(Cards.FromName("Всадник на волке"));
             Player1.Hand.Add(Cards.FromName("Морозный йети"));
             Player1.Hand.Add(Cards.FromName("Герой Штормграда"));
             Player1.Hand.Add(Cards.FromName("К'Тун"));
 
             Player1.Board.Add(Cards.FromName("Суккуб"));
-            Player2.Board.Add(Cards.FromName("Герой Штормграда"));
+            Player2.Board.Add(Cards.FromName("Ящер Кровавой Топи"));
 
 	        CurrentPlayer = Player1;
-		}
+        }
 
         public void Process(IPlayerTask gameTask)
         {
@@ -103,5 +106,21 @@ namespace HearthStoneSimCore.Model
                 card.IsDamaged = false;
             }
         }
+
+        public void Log(LogLevel level, BlockType block, string location, string text)
+        {
+            //if (!_gameConfig.Logging)
+            //    return;
+
+            Logs.Enqueue(new LogEntry()
+            {
+                TimeStamp = DateTime.Now,
+                Level = level,
+                Location = location,
+                BlockType = block,
+                Text = text
+            });
+	        NotifyChanged("LogChanged");
+		}
     }
 }

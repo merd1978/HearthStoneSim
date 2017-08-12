@@ -55,6 +55,7 @@
     <Compile Include="Model\CoreData.cs" />
     <Compile Include="Model\Game.cs" />
     <Compile Include="Model\Hero.cs" />
+    <Compile Include="Model\Logger.cs" />
     <Compile Include="Model\Minion.cs" />
     <Compile Include="Model\Playable.cs" />
     <Compile Include="Model\PlayerHuman.cs" />
@@ -74,7 +75,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.None" BuildVersion_StartDate="2000/1/1" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_BuildAction="Build" />
+      <UserProperties BuildVersion_BuildAction="Build" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_StartDate="2000/1/1" BuildVersion_BuildVersioningStyle="None.None.Increment.None" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HearthStoneSimCore", "HearthStoneSimCore\HearthStoneSimCore.csproj", "{822B3F6B-F1A3-48C1-895C-EB85F05F37A3}"
 EndProject
@@ -26,11 +26,12 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_IncrementBeforeBuild = False
-		BuildVersion_BuildAction = Build
-		BuildVersion_UpdateFileVersion = True
-		BuildVersion_UpdateAssemblyVersion = True
-		BuildVersion_BuildVersioningStyle = None.None.Increment.None
+		BuildVersion_AssemblyInfoFilename = HearthStoneSimGui\Properties\AssemblyInfo.cs
 		BuildVersion_StartDate = 2000/1/1
+		BuildVersion_BuildVersioningStyle = None.None.Increment.None
+		BuildVersion_UpdateAssemblyVersion = True
+		BuildVersion_UpdateFileVersion = True
+		BuildVersion_BuildAction = Build
+		BuildVersion_IncrementBeforeBuild = False
 	EndGlobalSection
 EndGlobal
