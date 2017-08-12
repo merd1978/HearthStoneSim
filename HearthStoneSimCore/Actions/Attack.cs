@@ -38,7 +38,7 @@ namespace HearthStoneSimCore.Actions
             //var target = c.Game.IdEntityDic[source.ProposedDefender] as ICharacter;
             if (target == null)
             {
-                //c.Game.Log(LogLevel.INFO, BlockType.ATTACK, "AttackPhase", "target wasn't found by proposed defender call.");
+                player.Game.Log(LogLevel.INFO, BlockType.ATTACK, "AttackPhase", "target wasn't found by proposed defender call.");
                 return false;
             }
             //c.Game.Step = Step.MAIN_COMBAT;
@@ -107,12 +107,13 @@ namespace HearthStoneSimCore.Actions
             if (source.NumAttacksThisTurn > 0 && !source.HasWindfury ||
                 source.NumAttacksThisTurn > 1 && source.HasWindfury)
             {
-                //c.Game.Log(LogLevel.INFO, BlockType.ATTACK, "AttackPhase", $"{source} is now exhausted.");
+                player.Game.Log(LogLevel.INFO, BlockType.ATTACK, "AttackPhase", $"{source} is now exhausted.");
                 source.IsExhausted = true;
             }
 
             player.Game.Log(LogLevel.INFO, BlockType.ATTACK, "AttackPhase",
-                $"[AttackPhase]{source}[ATK:{source.AttackDamage}/HP:{source.Health}{(sourceHero != null ? $"/ARM:{sourceHero.Armor}" : "")}] " +
+                $"{source}[ATK:{source.AttackDamage}/HP:{source.Health} +" +
+                $"{(sourceHero != null ? $"/ARM:{sourceHero.Armor}" : "")}] " +
                 $"{(sourceHero?.Weapon != null ? $"[{sourceHero.Weapon}[A:{sourceHero.Weapon.AttackDamage}/D:{sourceHero.Weapon.Durability}]] " : "")}attacked " +
                 $"{target}[ATK:{target.AttackDamage}/HP:{target.Health}].");
             return true;

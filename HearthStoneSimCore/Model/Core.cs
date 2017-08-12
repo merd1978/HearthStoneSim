@@ -14,7 +14,9 @@ namespace HearthStoneSimCore.Model
         public string FrameImageSource => _data.Card.FrameImageSource;
 
 	    public int Cost => this[GameTag.COST];
-        public Zone Zone
+		public Card Card => _data.Card;
+
+		public Zone Zone
         {
             get => (Zone) this[GameTag.ZONE];
             set => this[GameTag.ZONE] = (int) value;
@@ -46,5 +48,10 @@ namespace HearthStoneSimCore.Model
         {
             _data = new CoreData(cloneFrom._data);
         }
-    }
+
+	    public override string ToString()
+	    {
+		    return $"'{Card.Name}[{Id}]'";
+	    }
+	}
 }

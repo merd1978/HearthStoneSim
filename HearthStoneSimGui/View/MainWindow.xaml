@@ -28,7 +28,7 @@
         <DockPanel Grid.Row="1">
             <Expander Grid.Row="1" ExpandDirection="Down" IsExpanded="True" Margin="3,0" Header="Log" DockPanel.Dock="Right" MaxWidth="250">
                 <ListBox  ItemsSource="{Binding Log}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                          view:ListBoxExtenders.AutoScroll="True">
+                    view:ListBoxExtensions.ScrollOnNewItem="True">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding}" TextWrapping="Wrap"></TextBlock>
