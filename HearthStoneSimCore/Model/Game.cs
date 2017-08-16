@@ -25,8 +25,10 @@ namespace HearthStoneSimCore.Model
 		    }
 	    }
 
-		//Indicates when to update gui
-		private bool _stateChanged;
+        public TaskQueue TaskQueue { get; }
+
+        //Indicates when to update gui
+        private bool _stateChanged;
         public bool StateChanged
         {
             get => _stateChanged;
@@ -46,7 +48,9 @@ namespace HearthStoneSimCore.Model
         {
             Player1 = new PlayerHuman(this, "Player1", 1);
             Player2 = new PlayerHuman(this, "Player2", 2);
-			Player1.Hand.Add(Cards.FromName("Суккуб"));
+            TaskQueue = new TaskQueue(this);
+
+            Player1.Hand.Add(Cards.FromName("Суккуб"));
             Player1.Hand.Add(Cards.FromName("Главарь банды бесов"));
             Player1.Hand.Add(Cards.FromName("Всадник на волке"));
             Player1.Hand.Add(Cards.FromName("Морозный йети"));
@@ -73,22 +77,18 @@ namespace HearthStoneSimCore.Model
             //enable enchants and trigers
             //AuraUpdate();
 
-            //while (TaskQueue.Count > 0)
-            //{
-            //    if (TaskQueue.Process() != TaskState.COMPLETE)
-            //    {
-            //        //Log(LogLevel.INFO, BlockType.PLAY, "Game", "Something really bad happend during proccessing, please analyze!");
-            //    }
-            //    //GraveYard();
-
-            //    //AuraUpdate();
-            //}
+            while (TaskQueue.Count > 0)
+            {
+                TaskQueue.Process();
+                //GraveYard();
+                //AuraUpdate();
+            }
         }
 
         public void PlayMinion(int cardIndex, int insertIndex)
         {
             var card = Player1.Hand.Cards[cardIndex];
-            Player1.Board.Insert((Minion)card, insertIndex);
+            Player1.Board.Add((Minion)card, insertIndex);
             //Player1.Hand.Cards.RemoveAt(indexCard);
             StateChanged = true;
         }

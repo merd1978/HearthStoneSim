@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
+using HearthStoneSimCore.CardSets;
 using HearthStoneSimCore.Enums;
 
 namespace HearthStoneSimCore.Model
@@ -11,12 +12,17 @@ namespace HearthStoneSimCore.Model
     {
         public static Dictionary<string, Card> All;
 
-        public static Card FromName(string cardName)
+		public static Card FromName(string cardName)
         {
             return All.FirstOrDefault(x => x.Value.Name == cardName).Value;
         }
 
-        public static Dictionary<string, Card> Load()
+	    public static Card FromId(string cardId)
+	    {
+		    return All[cardId];
+	    }
+
+		public static Dictionary<string, Card> Load()
         {
             // Get XML definitions from assembly embedded resource
             var assembly = Assembly.GetExecutingAssembly();
@@ -78,7 +84,7 @@ namespace HearthStoneSimCore.Model
                         if (tag.Name == GameTag.CARDNAME)
                             c.Name = tag.Value;
                         if (tag.Name == GameTag.CARDTEXT_INHAND)
-                            c.CardTextInHand = tag.Value;
+                            c.Text = tag.Value;
                     }
                 }
                 cardsDict.Add(c.Id, c);
@@ -89,6 +95,9 @@ namespace HearthStoneSimCore.Model
         static Cards()
         {
             Cards.All = Load();
+            
+            // Add enchants
+            CoreCardSet.LoadCoreCardSet();
         }
     }
 }

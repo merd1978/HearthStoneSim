@@ -19,6 +19,18 @@ namespace HearthStoneSimCore.Model
             set => this[GameTag.STEALTH] = value ? 1 : 0;
         }
 
+        public bool HasCharge
+        {
+            get => this[GameTag.CHARGE] == 1;
+            set => this[GameTag.CHARGE] = value ? 1 : 0;
+        }
+
+        public bool IsSummoned
+        {
+            get => this[GameTag.SUMMONED] == 1;
+            set => this[GameTag.SUMMONED] = value ? 1 : 0;
+        }
+
         public Minion(Controller controller, Card card, Dictionary<GameTag, int> tags) : base(controller, card, tags)
         {
         }

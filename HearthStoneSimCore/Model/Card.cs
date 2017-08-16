@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using HearthStoneSimCore.Enchants;
 using HearthStoneSimCore.Enums;
 
 namespace HearthStoneSimCore.Model
@@ -8,7 +9,7 @@ namespace HearthStoneSimCore.Model
         public int this[GameTag t] => Tags.ContainsKey(t) ? Tags[t] : 0;
         public string Id { get; set; }
         public string Name { get; set; }
-        public string CardTextInHand { get; set; }
+        public string Text { get; set; }
         public string ArtImageSource => @"d:/CardArt/Full/" + Id + ".png";
         public string FrameImageSource => @"../Images/inhand_minion_druid.png";
 
@@ -16,7 +17,7 @@ namespace HearthStoneSimCore.Model
 
         public Dictionary<GameTag, int> Tags { get; set; }
         public Dictionary<PlayRequirements, int> Requirements { get; set; }
-
+		public Enchant Enchant { get; set; }
         public override string ToString() { return Name; }
 
         //default constructor
@@ -29,7 +30,7 @@ namespace HearthStoneSimCore.Model
         {
             Id = cloneFrom.Id;
             Name = cloneFrom.Name;
-            CardTextInHand = cloneFrom.CardTextInHand;
+            Text = cloneFrom.Text;
             Tags = new Dictionary<GameTag, int>(cloneFrom.Tags);
         }
 

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using HearthStoneSimCore.Enchants;
 using HearthStoneSimCore.Enums;
 
 namespace HearthStoneSimCore.Model
@@ -20,14 +22,14 @@ namespace HearthStoneSimCore.Model
 
             if (minion != null && minion.HasDivineShield)
             {
-                //Game.Log(LogLevel.INFO, BlockType.ACTION, "Character", $"{this} divine shield absorbed incoming damage.");
+                Game.Log(LogLevel.INFO, BlockType.ATTACK, "Character", $"{this} divine shield absorbed incoming damage.");
                 minion.HasDivineShield = false;
                 return false;
             }
 
             if (minion != null && minion.IsImmune || hero != null && hero.IsImmune)
             {
-                //Game.Log(LogLevel.INFO, BlockType.ACTION, "Character", $"{this} is immune.");
+                Game.Log(LogLevel.INFO, BlockType.ATTACK, "Character", $"{this} is immune.");
                 return false;
             }
 
@@ -52,12 +54,17 @@ namespace HearthStoneSimCore.Model
             // final damage is beeing accumulated
             Damage += PreDamage;
 
-            //Game.Log(LogLevel.INFO, BlockType.ACTION, "Character", $"{this} took damage for {PreDamage}({damage}). {(fatigue ? "(fatigue)" : "")}");
+			Game.Log(LogLevel.INFO, BlockType.ATTACK, "Character", $"{this} took damage for {PreDamage}({damage}). {(fatigue ? "(fatigue)" : "")}");
 
-            // check if there was damage done
-            var tookDamage = PreDamage > 0;
+			// check if there was damage done
+			var tookDamage = PreDamage > 0;
 
-            if (tookDamage) IsDamaged = true;
+            if (tookDamage)
+            {
+                IsDamaged = true;
+                Enchant enchant = Enchants.First();
+                if (enchant != null && enchant.Trigger == TriggerType.OnDamage) Game.TaskQueue.Enqueue(enchant.Effect, this);
+            }
 
             // reset predamage - moved to gui
             // PreDamage = 0;

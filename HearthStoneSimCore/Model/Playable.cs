@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using HearthStoneSimCore.Enchants;
 using HearthStoneSimCore.Enums;
 
 namespace HearthStoneSimCore.Model
@@ -6,10 +7,12 @@ namespace HearthStoneSimCore.Model
     public abstract class Playable : Core
     {
 	    public Controller Controller { get; set; }
+	    public List<Enchant> Enchants { get; } = new List<Enchant>();
 
-		protected Playable(Controller controller, Card card, Dictionary<GameTag, int> tags) : base(card, tags)
+		protected Playable(Controller controller, Card card, Dictionary<GameTag, int> tags) : base(controller.Game, card, tags)
 		{
 			Controller = controller;
+			Enchants.Add(Card.Enchant);
 		}
 
         public static Playable FromCard(Controller controller, Card card, Dictionary<GameTag, int> tags = null, Zone zone = Zone.INVALID)

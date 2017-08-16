@@ -6,10 +6,10 @@ namespace HearthStoneSimCore.Model
     public class Core
     {
         private readonly CoreData _data;
-        //public int Id { get; set; }
+	    public Game Game { get; set; }
         public string Id => _data.Card.Id;
         public string Name => _data.Card.Name;
-        public string CardTextInHand => _data.Card.CardTextInHand;
+        public string CardTextInHand => _data.Card.Text;
         public string ArtImageSource => _data.Card.ArtImageSource;
         public string FrameImageSource => _data.Card.FrameImageSource;
 
@@ -21,7 +21,12 @@ namespace HearthStoneSimCore.Model
             get => (Zone) this[GameTag.ZONE];
             set => this[GameTag.ZONE] = (int) value;
         }
-        //public Zone Zone;
+        public int ZonePosition
+        {
+            get => this[GameTag.ZONE_POSITION];
+            set => this[GameTag.ZONE_POSITION] = value;
+        }
+
 
         public int this[GameTag tag]
         {
@@ -38,15 +43,17 @@ namespace HearthStoneSimCore.Model
             }
         }
 
-        protected internal Core(Card card, Dictionary<GameTag, int> tags)
+        protected internal Core(Game game, Card card, Dictionary<GameTag, int> tags)
         {
-            _data = new CoreData(card, tags);
+	        Game = game;
+			_data = new CoreData(card, tags);
         }
 
         // Cloning copy constructor
         protected internal Core(Core cloneFrom)
         {
-            _data = new CoreData(cloneFrom._data);
+	        Game = cloneFrom.Game;
+			_data = new CoreData(cloneFrom._data);
         }
 
 	    public override string ToString()

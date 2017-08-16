@@ -11,15 +11,17 @@ namespace HearthStoneSimCore.Model
 
 	    public Board(Controller controller)
 	    {
-		    Controller = controller;
+            Controller = controller;
 	    }
 
-        public void Add(Minion card)
+        public void Add(Minion card, int zonePosition = -1)
         {
             if (Cards.Count == MaxSize) return;
             card.Zone = Zone.PLAY;
-            Cards.Add(card);
-        }
+	        card.ZonePosition = zonePosition < 0 ? Cards.Count : zonePosition;
+            Cards.Insert(zonePosition, card);
+	        UpdateZonePositions(zonePosition);
+		}
 
         public void Add(Card card)
         {
@@ -28,11 +30,12 @@ namespace HearthStoneSimCore.Model
             Cards.Add(minion);
         }
 
-        public void Insert(Minion card, int index)
-        {
-            if (Cards.Count == MaxSize) return;
-            card.Zone = Zone.PLAY;
-            Cards.Insert(index, card);
-        }
-    }
+	    private void UpdateZonePositions(int zonePosition = 0)
+	    {
+		    for (var i = zonePosition; i < Cards.Count; i++)
+		    {
+			    Cards[i].ZonePosition = i;
+		    }
+	    }
+	}
 }

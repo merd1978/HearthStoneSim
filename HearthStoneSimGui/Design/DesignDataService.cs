@@ -16,12 +16,12 @@ namespace HearthStoneSimGui.Design
 
         public void GetCardDefs(Action<Dictionary<string, Card>, Exception> callback)
         {
-            var card1 = new Card() { Id = "EX1_306", Name = "Тест1", CardTextInHand = "asd"};
-            var card2 = new Card() { Id = "CS2_172", Name = "Тест2", CardTextInHand = "asd" };
-            var card3 = new Card() { Id = "CS2_124", Name = "Тест3", CardTextInHand = "asd" };
-            var card4 = new Card() { Id = "CS2_182", Name = "Тест4", CardTextInHand = "asd" };
-            var card5 = new Card() { Id = "CS2_222", Name = "Тест5", CardTextInHand = "asd" };
-            var card6 = new Card() { Id = "OG_279", Name = "Тест6", CardTextInHand = "asd" };
+            var card1 = new Card() { Id = "EX1_306", Name = "Тест1", Text = "asd"};
+            var card2 = new Card() { Id = "CS2_172", Name = "Тест2", Text = "asd" };
+            var card3 = new Card() { Id = "CS2_124", Name = "Тест3", Text = "asd" };
+            var card4 = new Card() { Id = "CS2_182", Name = "Тест4", Text = "asd" };
+            var card5 = new Card() { Id = "CS2_222", Name = "Тест5", Text = "asd" };
+            var card6 = new Card() { Id = "OG_279", Name = "Тест6", Text = "asd" };
 
             var cards = new Dictionary<string, Card>
             {

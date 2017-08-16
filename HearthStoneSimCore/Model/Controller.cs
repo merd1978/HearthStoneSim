@@ -6,13 +6,12 @@ namespace HearthStoneSimCore.Model
     public class Controller : Core
     {
 	    public string FriendlyName { get; }
-		public Game Game { get; private set; }
         public Deck Deck { get; private set; }
         public Hand Hand { get; private set; }
         public Board Board { get; private set; }
 	    public Controller Opponent => Game.Player1 == this ? Game.Player2 : Game.Player1;
 
-		public Controller(Game game, string name, int playerId) : base(Card.CardPlayer,
+		public Controller(Game game, string name, int playerId) : base(game, Card.CardPlayer,
 	        new Dictionary<GameTag, int>
 	        {
 		        //[GameTag.HERO_ENTITY] = heroId,
