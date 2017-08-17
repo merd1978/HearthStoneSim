@@ -18,6 +18,7 @@ namespace HearthStoneSimGui.ViewModel
     public class MainViewModel : ViewModelBase, IDropTarget
     {
         private readonly IDataService _dataService;
+        public bool IfFollowTail { get; set; } = true;  //scrolls the listbox to the bottom when a new item is added
 
         /// <summary>
         /// Get the window title (name and assembly version)
@@ -62,40 +63,40 @@ namespace HearthStoneSimGui.ViewModel
             BoardViewModelPlayer1 = new BoardViewModel(Game.Player1, Game, Game.Player1.Board);
             BoardViewModelPlayer2 = new BoardViewModel(Game.Player2, Game, Game.Player2.Board);
 
-			Log = new ObservableCollection<string>();
-			Game.Log(LogLevel.INFO, BlockType.PLAY, "Game", "Starting new game now!");
-		}
+            Log = new ObservableCollection<string>();
+            Game.Log(LogLevel.INFO, BlockType.PLAY, "Game", "Starting new game now!");
+        }
 
         private void GamePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-	        switch (e.PropertyName)
-	        {
-				case "StateChanged":
-					// Update game state
-					BoardViewModelPlayer1.UpdateBoardState();
-					BoardViewModelPlayer2.UpdateBoardState();
-					break;
-				case "LogChanged":
-					while (Game.Logs.Count > 0)
-					{
-						var logEntry = Game.Logs.Dequeue();
-						if (logEntry.Level <= LogLevel.INFO)
-						{
-							Log.Add($"[{logEntry.BlockType}] - {logEntry.Location}: {logEntry.Text}\n");
-						}
-					}
-					break;
-			}
-		}
+            switch (e.PropertyName)
+            {
+                case "StateChanged":
+                    // Update game state
+                    BoardViewModelPlayer1.UpdateBoardState();
+                    BoardViewModelPlayer2.UpdateBoardState();
+                    break;
+                case "LogChanged":
+                    while (Game.Logs.Count > 0)
+                    {
+                        var logEntry = Game.Logs.Dequeue();
+                        if (logEntry.Level <= LogLevel.INFO)
+                        {
+                            Log.Add($"[{logEntry.BlockType}] - {logEntry.Location}: {logEntry.Text}\n");
+                        }
+                    }
+                    break;
+            }
+        }
 
         #region DragDrop
 
-	    public void DragOver(IDropInfo dropInfo)
+        public void DragOver(IDropInfo dropInfo)
         {
             dropInfo.NotHandled = true;
         }
 
-	    public void Drop(IDropInfo dropInfo)
+        public void Drop(IDropInfo dropInfo)
         {
             dropInfo.NotHandled = true;
         }

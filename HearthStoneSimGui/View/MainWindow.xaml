@@ -13,6 +13,7 @@
         Title="{Binding MainWindowTitle}"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
         xmlns:dragDrop="clr-namespace:HearthStoneSimGui.DragDrop"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         dragDrop:DragDrop.IsDropTarget="True"
         dragDrop:DragDrop.DropHandler="{Binding}">
 
@@ -26,9 +27,12 @@
             <MenuItem Header="START GAME"></MenuItem>
         </Menu>
         <DockPanel Grid.Row="1">
-            <Expander Grid.Row="1" ExpandDirection="Down" IsExpanded="True" Margin="3,0" Header="Log" DockPanel.Dock="Right" MaxWidth="250">
-                <ListBox  ItemsSource="{Binding Log}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    view:ListBoxExtensions.ScrollOnNewItem="True">
+            <Expander Grid.Row="1" ExpandDirection="Right" IsExpanded="True" Margin="3,0" Header="Log" DockPanel.Dock="Right" MaxWidth="250">
+                <ListBox  ItemsSource="{Binding Log}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <i:Interaction.Behaviors>
+                        <view:ScrollOnNewItemBehavior 
+                            IsActiveScrollOnNewItem="{Binding IfFollowTail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </i:Interaction.Behaviors>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding}" TextWrapping="Wrap"></TextBlock>
