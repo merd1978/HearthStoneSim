@@ -94,9 +94,11 @@ namespace HearthStoneSimGui.View
             private void incc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
             {
                 if (e.Action != NotifyCollectionChangedAction.Add) return;
-                _listBox.ScrollIntoView(e.NewItems[0]);
-                _listBox.SelectedItem = e.NewItems[0];
-            }
+                _listBox.SelectedIndex = _listBox.Items.Count - 1;
+                _listBox.UpdateLayout();
+                _listBox.ScrollIntoView(_listBox.Items[_listBox.SelectedIndex]);
+                //_listBox.SelectedItem = _listBox.Items[_listBox.Items.Count - 1];
+            } 
 
             public void Dispose()
             {

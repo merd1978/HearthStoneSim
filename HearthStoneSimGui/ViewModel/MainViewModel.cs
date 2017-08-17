@@ -50,8 +50,9 @@ namespace HearthStoneSimGui.ViewModel
             //    Cards.All = cards;
             //});
 
-            Version deploy = Assembly.GetExecutingAssembly().GetName().Version;
-            MainWindowTitle = $"HearthStoneSim v{deploy.Major}.{deploy.Minor}.{deploy.Build}";
+            Version gui = Assembly.GetExecutingAssembly().GetName().Version;
+            Version core = Assembly.GetAssembly(typeof(Core)).GetName().Version;
+            MainWindowTitle = $"HearthStoneSim GUI v{gui.Major}.{gui.Minor}.{gui.Build} Core v{core.Major}.{core.Minor}.{core.Build}";
 
             Game = new Game();
             Game.PropertyChanged += GamePropertyChanged;
