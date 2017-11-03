@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Reflection;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -60,6 +58,13 @@ namespace HearthStoneSimGui.DragDrop
         {
             if (SelectTargetAfterDrop)
             {
+                // Wait for the rendering UI to be done. 
+                // The rendering of the UI is perform on the UI thread via the Dispatcher. It can be considered as a tasks processer,
+                // each of these task being assigned a priority.The rendering of the UI is one of these tasks and all you have to do is tell
+                // the Dispatcher: “perform an action now with a priority less than the rendering”. The current work will then wait for the
+                // rendering to be done.
+               (LastDroppedSource as UIElement)?.Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
+
                 MouseButtonEventArgs arg =
                     new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Left)
                     {
@@ -72,6 +77,7 @@ namespace HearthStoneSimGui.DragDrop
             }
         }
 
+        #region Adorners
         private static void CreateDragAdorner()
         {
             DataTemplate template = GetDragAdornerTemplate(_dragInfo.VisualSource);
@@ -158,6 +164,68 @@ namespace HearthStoneSimGui.DragDrop
             return rtb;
         }
 
+        private static void CreateAdorners()
+        {
+            if (DragAdorner == null && _dragInfo != null)
+            {
+                var useDefaultDragAdorner = GetUseDefaultDragAdorner(_dragInfo.VisualSource);
+                if (useDefaultDragAdorner)
+                {
+                    CreateDragAdorner();
+                }
+                else
+                {
+                    CreateTargetPointerAdorner();
+                }
+            }
+        }
+
+        private static void ShowAdorners(Func<IInputElement, Point> getPosition)
+        {
+            if (DragAdorner != null)
+            {
+                var tempAdornerPos = getPosition(DragAdorner.AdornedElement);
+
+                if (tempAdornerPos.X >= 0 && tempAdornerPos.Y >= 0)
+                {
+                    _adornerPos = tempAdornerPos;
+                }
+
+                // Fixed the flickering adorner - Size changes to zero 'randomly'...?
+                if (DragAdorner.RenderSize.Width > 0 && DragAdorner.RenderSize.Height > 0)
+                {
+                    _adornerSize = DragAdorner.RenderSize;
+                }
+
+                if (_dragInfo != null)
+                {
+                    // move the adorner
+                    var offsetX = _adornerSize.Width * -0.5;
+                    var offsetY = _adornerSize.Height * -0.5;
+                    _adornerPos.Offset(offsetX, offsetY);
+                    var maxAdornerPosX = DragAdorner.AdornedElement.RenderSize.Width;
+                    var adornerPosRightX = (_adornerPos.X + _adornerSize.Width);
+                    if (adornerPosRightX > maxAdornerPosX)
+                    {
+                        _adornerPos.Offset(-adornerPosRightX + maxAdornerPosX, 0);
+                    }
+                    if (_adornerPos.Y < 0)
+                    {
+                        _adornerPos.Y = 0;
+                    }
+                }
+                DragAdorner.MousePosition = _adornerPos;
+                DragAdorner.InvalidateVisual();
+            }
+
+            if (TargetPointerAdorner != null)
+            {
+                var tempAdornerPos = getPosition(TargetPointerAdorner.AdornedElement);
+                TargetPointerAdorner.EndPoint = tempAdornerPos;
+            }
+        }
+        #endregion
+
         /// <summary>
         /// Gets the drag handler from the drag info or from the sender, if the drag info is null
         /// </summary>
@@ -231,12 +299,13 @@ namespace HearthStoneSimGui.DragDrop
                 _dragInfo = null;
                 return;
             }
+
+            CreateAdorners();
+            ShowAdorners(e.GetPosition);
         }
 
         private static void DragSourceOnMouseMove(object sender, MouseEventArgs e)
         {
-            AfterDrop();
-
             if (_dragInfo == null || _dragInProgress) return;
             // the start from the source
             var dragStart = _dragInfo.DragStartPosition;
@@ -270,11 +339,12 @@ namespace HearthStoneSimGui.DragDrop
                     data.SetData(DataFormat.Name, _dragInfo.Data);
                 }
 
+                DragDropEffects result = DragDropEffects.None;
                 try
                 {
                     _dragInProgress = true;
                     _clickToDrag = e.LeftButton != MouseButtonState.Pressed;
-                    var result = System.Windows.DragDrop.DoDragDrop(_dragInfo.VisualSource, data, _dragInfo.Effects);
+                    result = System.Windows.DragDrop.DoDragDrop(_dragInfo.VisualSource, data, _dragInfo.Effects);
                     if (result == DragDropEffects.None)
                         dragHandler.DragCancelled();
                 }
@@ -291,7 +361,7 @@ namespace HearthStoneSimGui.DragDrop
                 }
 
                 _dragInfo = null;
-                //AfterDrop();
+                if (result != DragDropEffects.None) AfterDrop();
             }
         }
 
@@ -363,60 +433,8 @@ namespace HearthStoneSimGui.DragDrop
 
             dropHandler.DragOver(dropInfo);
 
-            if (DragAdorner == null && _dragInfo != null)
-            {
-                var useDefaultDragAdorner = GetUseDefaultDragAdorner(_dragInfo.VisualSource);
-                if (useDefaultDragAdorner)
-                {
-                    CreateDragAdorner();
-                }
-                else
-                {
-                    CreateTargetPointerAdorner();
-                }
-            }
-
-            if (DragAdorner != null)
-            {
-                var tempAdornerPos = e.GetPosition(DragAdorner.AdornedElement);
-
-                if (tempAdornerPos.X >= 0 && tempAdornerPos.Y >= 0)
-                {
-                    _adornerPos = tempAdornerPos;
-                }
-
-                // Fixed the flickering adorner - Size changes to zero 'randomly'...?
-                if (DragAdorner.RenderSize.Width > 0 && DragAdorner.RenderSize.Height > 0)
-                {
-                    _adornerSize = DragAdorner.RenderSize;
-                }
-
-                if (_dragInfo != null)
-                {
-                    // move the adorner
-                    var offsetX = _adornerSize.Width * -0.5;
-                    var offsetY = _adornerSize.Height * -0.5;
-                    _adornerPos.Offset(offsetX, offsetY);
-                    var maxAdornerPosX = DragAdorner.AdornedElement.RenderSize.Width;
-                    var adornerPosRightX = (_adornerPos.X + _adornerSize.Width);
-                    if (adornerPosRightX > maxAdornerPosX)
-                    {
-                        _adornerPos.Offset(-adornerPosRightX + maxAdornerPosX, 0);
-                    }
-                    if (_adornerPos.Y < 0)
-                    {
-                        _adornerPos.Y = 0;
-                    }
-                }
-                DragAdorner.MousePosition = _adornerPos;
-                DragAdorner.InvalidateVisual();
-            }
-
-            if (TargetPointerAdorner != null)
-            {
-                var tempAdornerPos = e.GetPosition(TargetPointerAdorner.AdornedElement);
-                TargetPointerAdorner.EndPoint = tempAdornerPos;
-            }
+            CreateAdorners();
+            ShowAdorners(e.GetPosition);
 
             e.Effects = dropInfo.Effects;
             e.Handled = !dropInfo.NotHandled;
