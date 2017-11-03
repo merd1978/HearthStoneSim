@@ -62,8 +62,8 @@ namespace HearthStoneSimCore.Model
             if (tookDamage)
             {
                 IsDamaged = true;
-                Enchant enchant = Enchants.First();
-                if (enchant != null && enchant.Trigger == TriggerType.OnDamage) Game.TaskQueue.Enqueue(enchant.Effect, this);
+                //Enchantment enchantment = Enchants.First();
+                //if (enchant != null && enchant.Trigger == TriggerType.OnDamage) Game.TaskQueue.Enqueue(enchant.Effect, this);
             }
 
             // reset predamage - moved to gui
@@ -104,7 +104,7 @@ namespace HearthStoneSimCore.Model
             }
         }
 
-        public bool IsAttacking
+		public bool IsAttacking
         {
             get => this[GameTag.ATTACKING] == 1;
             set => this[GameTag.ATTACKING] = value ? 1 : 0;
@@ -130,8 +130,8 @@ namespace HearthStoneSimCore.Model
 
         public bool IsImmune
         {
-            get => this[GameTag.CANT_BE_DAMAGED] == 1;
-            set => this[GameTag.CANT_BE_DAMAGED] = value ? 1 : 0;
+	        get => this[GameTag.IMMUNE] == 1;
+	        set => this[GameTag.IMMUNE] = value ? 1 : 0;
         }
 
         public bool IsFrozen
@@ -164,7 +164,13 @@ namespace HearthStoneSimCore.Model
             set => this[GameTag.WINDFURY] = value ? 1 : 0;
         }
 
-        protected Character(Controller controller, Card card, Dictionary<GameTag, int> tags) : base(controller, card, tags)
+	    public bool HasTaunt
+	    {
+		    get => this[GameTag.TAUNT] == 1;
+		    set => this[GameTag.TAUNT] = value ? 1 : 0;
+	    }
+
+		protected Character(Controller controller, Card card, Dictionary<GameTag, int> tags) : base(controller, card, tags)
         {
         }
         

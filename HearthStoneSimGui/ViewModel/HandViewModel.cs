@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using GalaSoft.MvvmLight.Messaging;
 using HearthStoneSimCore.Enums;
+using HearthStoneSimCore.Model.Zones;
 using HearthStoneSimGui.DragDrop;
 
 namespace HearthStoneSimGui.ViewModel
@@ -20,16 +21,16 @@ namespace HearthStoneSimGui.ViewModel
     {
         public ObservableCollection<Playable> HandCards { get; private set; }
 	    public Controller Controller { get; set; }
-		public Hand Hand { get; set; }
+		public HandZone HandZone { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the HandViewModel class.
 		/// </summary>
-		public HandViewModel(Controller controller, Hand hand)
+		public HandViewModel(Controller controller, HandZone hand)
 		{
 			Controller = controller;
-			Hand = hand;
-            HandCards = new ObservableCollection<Playable>(hand.Cards);
+			HandZone = hand;
+            HandCards = new ObservableCollection<Playable>(hand.Elements);
         }
 
         public HandViewModel()
@@ -52,6 +53,13 @@ namespace HearthStoneSimGui.ViewModel
             dragInfo.Effects = (dragInfo.Data != null) ?
                                 DragDropEffects.Copy | DragDropEffects.Move :
                                 DragDropEffects.None;
+
+            var sourceItem = dragInfo.Data as Targeting;
+            if (sourceItem.NeedsTargetList)
+            {
+                DragDrop.DragDrop.SelectTargetAfterDrop = true;
+            }
+
         }
 
 	    public bool CanStartDrag(IDragInfo dragInfo)
@@ -66,6 +74,7 @@ namespace HearthStoneSimGui.ViewModel
 	    public void DragCancelled()
         {
             Messenger.Default.Send(new NotificationMessage("DragCanceled"));
+            DragDrop.DragDrop.SelectTargetAfterDrop = false;
         }
 
 	    public void DragLeave(object sender)

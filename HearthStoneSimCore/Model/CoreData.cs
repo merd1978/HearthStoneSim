@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using HearthStoneSimCore.Enums;
 
 namespace HearthStoneSimCore.Model
@@ -23,7 +24,7 @@ namespace HearthStoneSimCore.Model
       internal CoreData(Card card, Dictionary<GameTag, int> tags = null)
       {
          Card = card;
-         Tags = tags ?? new Dictionary<GameTag, int>((int)GameTag._COUNT);
+         Tags = tags ?? new Dictionary<GameTag, int>(Enum.GetNames(typeof(GameTag)).Length);
       }
 
       // Cloning copy constructor

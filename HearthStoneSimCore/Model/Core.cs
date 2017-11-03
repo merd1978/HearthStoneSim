@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using HearthStoneSimCore.Enchants;
 using HearthStoneSimCore.Enums;
 
 namespace HearthStoneSimCore.Model
@@ -7,7 +8,8 @@ namespace HearthStoneSimCore.Model
     {
         private readonly CoreData _data;
 	    public Game Game { get; set; }
-        public string Id => _data.Card.Id;
+	    public Controller Controller { get; set; }
+		public int Id => _data.Card.Id;
         public string Name => _data.Card.Name;
         public string CardTextInHand => _data.Card.Text;
         public string ArtImageSource => _data.Card.ArtImageSource;
@@ -16,7 +18,13 @@ namespace HearthStoneSimCore.Model
 	    public int Cost => this[GameTag.COST];
 		public Card Card => _data.Card;
 
-		public Zone Zone
+        /// <summary> Get all enchants hooked onto this entity.</summary>
+        /// <value>
+        /// Enchants force a temporary effect, for as long as this entity is in play, onto the game.
+        /// </value>
+        public List<Enchant> Enchants { get; } = new List<Enchant>();
+
+        public Zone Zone
         {
             get => (Zone) this[GameTag.ZONE];
             set => this[GameTag.ZONE] = (int) value;
@@ -30,7 +38,13 @@ namespace HearthStoneSimCore.Model
 
         public int this[GameTag tag]
         {
-            get => _data[tag];
+	        get
+	        {
+				int value = _data[tag];
+		        for (int i = 0; i < Enchants.Count; i++)
+			        value = Enchants[i].Apply(this, tag, value);
+		        return value;
+			}
             set
             {
                 // if (value < 0) value = 0;

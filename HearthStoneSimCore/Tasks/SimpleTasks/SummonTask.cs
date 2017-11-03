@@ -11,7 +11,7 @@ namespace HearthStoneSimCore.Tasks.SimpleTasks
 
 		public SummonTask(string cardId)
 	    {
-		    Card = Cards.FromId(cardId);
+		    Card = Cards.FromCardId(cardId);
 	    }
 
 	    public void Process()

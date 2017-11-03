@@ -4,15 +4,38 @@ using HearthStoneSimCore.Enums;
 
 namespace HearthStoneSimCore.Model
 {
-    public abstract class Playable : Core
+    public abstract class Playable : Targeting
     {
-	    public Controller Controller { get; set; }
-	    public List<Enchant> Enchants { get; } = new List<Enchant>();
+	    public List<Enchantment> Enchantment { get; } = new List<Enchantment>();
 
-		protected Playable(Controller controller, Card card, Dictionary<GameTag, int> tags) : base(controller.Game, card, tags)
+        public Race Race
+        {
+            get => (Race)this[GameTag.CARDRACE];
+            set => this[GameTag.CARDRACE] = (int)value;
+        }
+
+        /// <summary> Gets or sets the entity ID target.</summary>
+        /// <value><see cref="Core.Id"/></value>
+        public int CardTarget
+		{
+			get => this[GameTag.CARD_TARGET];
+			set => this[GameTag.CARD_TARGET] = value;
+		}
+
+		/// <summary>
+		/// Playable is overloading mana.
+		/// </summary>
+		public int Overload
+        {
+            get => this[GameTag.OVERLOAD];
+            set => this[GameTag.OVERLOAD] = value;
+        }
+
+
+        protected Playable(Controller controller, Card card, Dictionary<GameTag, int> tags) : base(controller, card, tags)
 		{
 			Controller = controller;
-			Enchants.Add(Card.Enchant);
+			Enchantment.Add(Card.Enchantment);
 		}
 
         public static Playable FromCard(Controller controller, Card card, Dictionary<GameTag, int> tags = null, Zone zone = Zone.INVALID)

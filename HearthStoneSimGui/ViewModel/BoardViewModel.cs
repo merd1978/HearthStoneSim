@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using GalaSoft.MvvmLight;
@@ -9,6 +7,7 @@ using GalaSoft.MvvmLight.Messaging;
 using HearthStoneSimGui.DragDrop;
 using HearthStoneSimCore.Model;
 using HearthStoneSimCore.Enums;
+using HearthStoneSimCore.Model.Zones;
 using HearthStoneSimCore.Tasks.PlayerTasks;
 
 namespace HearthStoneSimGui.ViewModel
@@ -29,20 +28,19 @@ namespace HearthStoneSimGui.ViewModel
         }
 
 	    public Controller Controller { get; set; }
-		public Board Board { get; set; }
+		public BoardZone BoardZone { get; set; }
         public Game Game { get; set; }
 
-        private bool _insertionActive;
-        private int _insertionIndex;
+        private BoardMode _boardMode;
 
         /// <summary>
         /// Initializes a new instance of the TableViewModel class.
         /// </summary>
-        public BoardViewModel(Controller controller, Game game, Board board)
+        public BoardViewModel(Controller controller, Game game, BoardZone board)
         {
 	        Controller = controller;
 			Game = game;
-            Board = board;
+            BoardZone = board;
             UpdateBoardState();
             Messenger.Default.Register<NotificationMessage>(this, NotifyMe);
             //BoardCards = new ObservableCollection<Minion>(Board.Cards);
@@ -55,29 +53,30 @@ namespace HearthStoneSimGui.ViewModel
 
         public void UpdateBoardState()
         {
-            BoardCards = new ObservableCollection<Minion>(Board.Cards);
-            //BoardCards = new ObservableCollection<Minion>();
-            //foreach (var card in Board.Cards)
-            //{
-            //    BoardCards.Add(new Minion(card));
-            //}
-
+            BoardCards = new ObservableCollection<Minion>(BoardZone.Elements);
         }
 
         #region DragDrop
+        //preview position where to insert element if the drop occurred, position unknown if -1
+        private int _previewInsertIndex;
+        public int PreviewInsertIndex
+        {
+            get => _previewInsertIndex;
+            set => DragDrop.DragDrop.PreviewInsertIndex = _previewInsertIndex = value;
+        }
+
         public void NotifyMe(NotificationMessage notificationMessage)
         {
             //string notification = notificationMessage.Notification;
-            if (!_insertionActive) return;
-            _insertionActive = false;
-            BoardCards[_insertionIndex].IsHitTest = true;
-            BoardCards.RemoveAt(_insertionIndex);
+            if (_boardMode != BoardMode.INSERTION) return;
+            _boardMode = BoardMode.NORMAL;
+            BoardCards[PreviewInsertIndex].IsHitTest = true;
+            BoardCards.RemoveAt(PreviewInsertIndex);
         }
 
 	    public void DragOver(IDropInfo dropInfo)
         {
-            var sourceItem = dropInfo.Data as Minion;
-            if (sourceItem == null) return;
+            if (!(dropInfo.Data is Minion sourceItem)) return;
             dropInfo.Effects = DragDropEffects.Copy;
 
 			// Attack by minion
@@ -85,43 +84,41 @@ namespace HearthStoneSimGui.ViewModel
 
 			// Play minion
 	        if (sourceItem.Controller != Controller) return;		// Ignoring opponents minion
+            if (Controller.BoardZone.IsFull) return;
 			var target = (ObservableCollection<Minion>)dropInfo.TargetCollection;
-            if (_insertionActive)
+            if (_boardMode == BoardMode.INSERTION)
             {
-                if (_insertionIndex == dropInfo.InsertIndex) return;
-                target.RemoveAt(_insertionIndex);
-                _insertionIndex = dropInfo.InsertIndex > _insertionIndex
+                if (PreviewInsertIndex == dropInfo.InsertIndex) return;
+                target.RemoveAt(PreviewInsertIndex);
+                PreviewInsertIndex = dropInfo.InsertIndex > PreviewInsertIndex
                     ? dropInfo.InsertIndex - 1
                     : dropInfo.InsertIndex;
-                target.Insert(_insertionIndex, sourceItem);
+                target.Insert(PreviewInsertIndex, sourceItem);
             }
             else
             {
-                _insertionActive = true;
-                _insertionIndex = dropInfo.InsertIndex;
+                _boardMode = BoardMode.INSERTION;
+                PreviewInsertIndex = dropInfo.InsertIndex;
                 sourceItem.IsHitTest = false;
-                target.Insert(_insertionIndex, sourceItem);
+                target.Insert(PreviewInsertIndex, sourceItem);
             }
-
         }
 
 	    public void Drop(IDropInfo dropInfo)
         {
-            var sourceItem = dropInfo.Data as Minion;
-            var target = dropInfo.TargetCollection as ObservableCollection<Minion>;
-            if (sourceItem == null || target == null) return;
+            if (!(dropInfo.Data is Minion sourceItem) || !(dropInfo.TargetCollection is ObservableCollection<Minion>)) return;
 			// Play Minion
 			if (sourceItem.Controller == Controller && sourceItem.Zone == Zone.HAND)
-            {
-                _insertionActive = false;
-                sourceItem.IsHitTest = true;
-	            Game.ClearPreDamage();      //resetting predemage will stop the damage animation
-				Game.PlayMinion(dropInfo.DragInfo.SourceIndex, _insertionIndex);
+			{
+			    _boardMode = BoardMode.NORMAL;
+			    sourceItem.IsHitTest = true;
+                Game.ClearPreDamage();      //resetting predemage will stop the damage animation
+
+				Game.Process(new PlayCardTask(Game.Player1, sourceItem, null, PreviewInsertIndex));
                 return;
             }
             //Check is it attacking enemy minion
-            var targetItem = dropInfo.TargetItem as Minion;
-            if (targetItem == null) return;
+            if (!(dropInfo.TargetItem is Minion targetItem)) return;
 	        if (sourceItem.Controller == Controller) return;
             if (sourceItem.Zone == Zone.PLAY)
             {
@@ -163,5 +160,12 @@ namespace HearthStoneSimGui.ViewModel
             return false;
         }
         #endregion
+    }
+
+    internal enum BoardMode
+    {
+        NORMAL = 1,
+        INSERTION = 2,
+        SELECT_TARGET = 3
     }
 }

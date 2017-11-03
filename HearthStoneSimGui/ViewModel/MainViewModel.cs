@@ -58,10 +58,10 @@ namespace HearthStoneSimGui.ViewModel
             Game = new Game();
             Game.PropertyChanged += GamePropertyChanged;
 
-            HandViewModelPlayer1 = new HandViewModel(Game.Player1, Game.Player1.Hand);
-            HandViewModelPlayer2 = new HandViewModel(Game.Player2, Game.Player2.Hand);
-            BoardViewModelPlayer1 = new BoardViewModel(Game.Player1, Game, Game.Player1.Board);
-            BoardViewModelPlayer2 = new BoardViewModel(Game.Player2, Game, Game.Player2.Board);
+            HandViewModelPlayer1 = new HandViewModel(Game.Player1, Game.Player1.HandZone);
+            HandViewModelPlayer2 = new HandViewModel(Game.Player2, Game.Player2.HandZone);
+            BoardViewModelPlayer1 = new BoardViewModel(Game.Player1, Game, Game.Player1.BoardZone);
+            BoardViewModelPlayer2 = new BoardViewModel(Game.Player2, Game, Game.Player2.BoardZone);
 
             Log = new ObservableCollection<string>();
             Game.Log(LogLevel.INFO, BlockType.PLAY, "Game", "Starting new game now!");
@@ -82,7 +82,7 @@ namespace HearthStoneSimGui.ViewModel
                         var logEntry = Game.Logs.Dequeue();
                         if (logEntry.Level <= LogLevel.INFO)
                         {
-                            Log.Add($"[{logEntry.BlockType}] - {logEntry.Location}: {logEntry.Text}\n");
+                            Log.Add($"[{logEntry.BlockType}] - {logEntry.Location}: {logEntry.Text}");
                         }
                     }
                     break;
