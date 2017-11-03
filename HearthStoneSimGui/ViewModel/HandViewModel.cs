@@ -74,6 +74,7 @@ namespace HearthStoneSimGui.ViewModel
 	    public void DragCancelled()
         {
             Messenger.Default.Send(new NotificationMessage("DragCanceled"));
+            DragDrop.DragDrop.SelectTargetAfterDrop = false;
         }
 
 	    public void DragLeave(object sender)
