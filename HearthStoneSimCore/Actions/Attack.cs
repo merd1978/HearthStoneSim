@@ -45,8 +45,7 @@ namespace HearthStoneSimCore.Actions
             //c.Game.Step = Step.MAIN_COMBAT;
 
             // Save defender's attack as it might change after being damaged (e.g. enrage)
-            var targetHero = target as Hero;
-            var targetAttack = targetHero != null ? 0 : target.AttackDamage;
+	        var targetAttack = target is Hero ? 0 : target.AttackDamage;
             var sourceAttack = sourceHero?.TotalAttackDamage ?? source.AttackDamage;
 
             var targetDamaged = target.TakeDamage(source, sourceAttack);
@@ -113,7 +112,7 @@ namespace HearthStoneSimCore.Actions
             }
 
             player.Game.Log(LogLevel.INFO, BlockType.ATTACK, "AttackPhase",
-                $"{source}[ATK:{source.AttackDamage}/HP:{source.Health} +" +
+                $"{source}[ATK:{source.AttackDamage}/HP:{source.Health}" +
                 $"{(sourceHero != null ? $"/ARM:{sourceHero.Armor}" : "")}] " +
                 $"{(sourceHero?.Weapon != null ? $"[{sourceHero.Weapon}[A:{sourceHero.Weapon.AttackDamage}/D:{sourceHero.Weapon.Durability}]] " : "")}attacked " +
                 $"{target}[ATK:{target.AttackDamage}/HP:{target.Health}].");

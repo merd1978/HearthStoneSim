@@ -17,7 +17,7 @@ namespace HearthStoneSimCore.Model
             return All.FirstOrDefault(x => x.Value.Name == cardName).Value;
         }
 
-	    public static Card FromId(string cardId)
+	    public static Card FromCardId(string cardId)
 	    {
 		    return All[cardId];
 	    }
@@ -32,10 +32,11 @@ namespace HearthStoneSimCore.Model
             var cards = (from r in def.Descendants("Entity")
                          select new
                          {
-                             Id = r.Attribute("CardID").Value,
-                             // Unfortunately the file contains some duplicate tags
-                             // so we have to make a list first and weed out the unique ones
-                             Tags = (from tag in r.Descendants("Tag")
+                             CardId = r.Attribute("CardID")?.Value,
+	                         Id = r.Attribute("ID")?.Value,
+							 // Unfortunately the file contains some duplicate tags
+							 // so we have to make a list first and weed out the unique ones
+							 Tags = (from tag in r.Descendants("Tag")
                                      select new Tag((GameTag)Enum.Parse(typeof(GameTag), tag.Attribute("enumID").Value),
                                          tag.Attribute("value") != null ?
                                              (TagValue)int.Parse(tag.Attribute("value").Value) : (tag.Attribute("type").Value == "String" ?
@@ -47,7 +48,7 @@ namespace HearthStoneSimCore.Model
                              Requirements = (from req in r.Descendants("PlayRequirement")
                                              select new
                                              {
-                                                 Req = (PlayRequirements)Enum.Parse(typeof(PlayRequirements), req.Attribute("reqID").Value),
+                                                 Req = (PlayReq)Enum.Parse(typeof(PlayReq), req.Attribute("reqID").Value),
                                                  Param = (req.Attribute("param").Value != "" ? int.Parse(req.Attribute("param").Value) : 0)
                                              }).ToDictionary(x => x.Req, x => x.Param),
 
@@ -60,14 +61,16 @@ namespace HearthStoneSimCore.Model
 
             foreach (var card in cards)
             {
+                if (card.Id == null) continue;      //skip PlaceHolder card and etc
                 var c = new Card()
                 {
-                    Id = card.Id,
-                    Tags = new Dictionary<GameTag, int>(),
-                    Requirements = card.Requirements
+                    CardId = card.CardId,
+	                Id = int.Parse(card.Id),
+					Tags = new Dictionary<GameTag, int>(),
+                    PlayRequirements = card.Requirements
                 };
                 // Get unique int and bool tags, ignore duplicate and string tags
-                foreach (var tag in card.Tags)
+                foreach (Tag tag in card.Tags)
                 {
                     if (c.Tags.ContainsKey(tag.Name))
                         continue;
@@ -87,7 +90,7 @@ namespace HearthStoneSimCore.Model
                             c.Text = tag.Value;
                     }
                 }
-                cardsDict.Add(c.Id, c);
+                cardsDict.Add(c.CardId, c);
             }
             return cardsDict;
         }
@@ -95,9 +98,10 @@ namespace HearthStoneSimCore.Model
         static Cards()
         {
             Cards.All = Load();
-            
+
             // Add enchants
-            CoreCardSet.LoadCoreCardSet();
+            BasicSet.Load();
+            BlackrockMountainSet.Load();
         }
     }
 }

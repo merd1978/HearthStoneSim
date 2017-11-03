@@ -1,16 +1,22 @@
 ﻿using System;
+using System.Reflection;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Collections;
-using System.Linq;
+using System.Windows.Threading;
 
 namespace HearthStoneSimGui.DragDrop
 {
     public static partial class DragDrop
     {
+        public static int PreviewInsertIndex = -1;      //preview position where to insert element if the drop occurred, position unknown if -1
+        public static bool SelectTargetAfterDrop;
+        public static object LastDroppedSource;
+        public static int LastDroppedIndex = -1;
+
         private static DragInfo _dragInfo;
         private static Point _dragStartPosition;        //drag start point relative to the RootElement
         private static bool _dragInProgress;
@@ -47,6 +53,22 @@ namespace HearthStoneSimGui.DragDrop
             {
                 _targetPointerAdorner?.Detatch();
                 _targetPointerAdorner = value;
+            }
+        }
+
+        public static void AfterDrop()
+        {
+            if (SelectTargetAfterDrop)
+            {
+                MouseButtonEventArgs arg =
+                    new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Left)
+                    {
+                        RoutedEvent = UIElement.PreviewMouseLeftButtonDownEvent,
+                        Source = LastDroppedSource
+                    };
+                (LastDroppedSource as UIElement)?.RaiseEvent(arg);
+
+                SelectTargetAfterDrop = false;
             }
         }
 
@@ -213,6 +235,8 @@ namespace HearthStoneSimGui.DragDrop
 
         private static void DragSourceOnMouseMove(object sender, MouseEventArgs e)
         {
+            AfterDrop();
+
             if (_dragInfo == null || _dragInProgress) return;
             // the start from the source
             var dragStart = _dragInfo.DragStartPosition;
@@ -267,6 +291,7 @@ namespace HearthStoneSimGui.DragDrop
                 }
 
                 _dragInfo = null;
+                //AfterDrop();
             }
         }
 
@@ -326,6 +351,9 @@ namespace HearthStoneSimGui.DragDrop
 
             var dragHandler = TryGetDragHandler(_dragInfo, sender as UIElement);
             dragHandler.DragLeave(sender);
+
+            PreviewInsertIndex = -1;
+            //System.Diagnostics.Debug.WriteLine($"==> DragDrop: Leave");
         }
 
         private static void DropTargetOnDragOver(object sender, DragEventArgs e)
@@ -407,6 +435,7 @@ namespace HearthStoneSimGui.DragDrop
         private static void DropTargetOnDrop(object sender, DragEventArgs e)
         {
             var dropInfo = new DropInfo(sender, e, _dragInfo);
+
             var dropHandler = TryGetDropHandler(dropInfo, sender as UIElement);
             var dragHandler = TryGetDragHandler(_dragInfo, sender as UIElement);
 
@@ -419,6 +448,9 @@ namespace HearthStoneSimGui.DragDrop
 
             Mouse.OverrideCursor = null;
             e.Handled = !dropInfo.NotHandled;
+
+            LastDroppedIndex = PreviewInsertIndex;
+            LastDroppedSource = sender;
         }
     }
 }

@@ -5,9 +5,9 @@ using HearthStoneSimCore.Tasks.SimpleTasks;
 
 namespace HearthStoneSimCore.CardSets
 {
-	public static class CoreCardSet
+	public static class BlackrockMountainSet
 	{
-		public static void LoadCoreCardSet()
+		public static void Load()
 	    {
 		    // --------------------------------------- MINION - WARLOCK
 		    // [BRM_006] Imp Gang Boss - COST:3 [ATK:2/HP:4] 
@@ -15,12 +15,11 @@ namespace HearthStoneSimCore.CardSets
 		    // --------------------------------------------------------
 		    // Text: Whenever this minion takes damage, summon a 1/1 Imp.
 		    // --------------------------------------------------------
-	        Cards.All["BRM_006"].Enchant = new Enchant
+	        Cards.All["BRM_006"].Enchantment = new Enchantment
 	        {
 	            //Area = EnchantmentArea.SELF,
-	            Activation = EnchantmentActivation.BOARD,
 	            Trigger = TriggerType.OnDamage,
-	            Effect = new SummonTask("BRM_006t")
+	            Task = new SummonTask("BRM_006t")
 	        };
 	    }
 	}

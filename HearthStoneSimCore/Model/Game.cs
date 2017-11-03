@@ -50,15 +50,16 @@ namespace HearthStoneSimCore.Model
             Player2 = new PlayerHuman(this, "Player2", 2);
             TaskQueue = new TaskQueue(this);
 
-            Player1.Hand.Add(Cards.FromName("Суккуб"));
-            Player1.Hand.Add(Cards.FromName("Главарь банды бесов"));
-            Player1.Hand.Add(Cards.FromName("Всадник на волке"));
-            Player1.Hand.Add(Cards.FromName("Морозный йети"));
-            Player1.Hand.Add(Cards.FromName("Герой Штормграда"));
-            Player1.Hand.Add(Cards.FromName("К'Тун"));
+            Player1.HandZone.Add(Cards.FromName("Суккуб"));
+            Player1.HandZone.Add(Cards.FromName("Главарь банды бесов"));
+            Player1.HandZone.Add(Cards.FromName("Всадник на волке"));
+            Player1.HandZone.Add(Cards.FromName("Морозный йети"));
+            Player1.HandZone.Add(Cards.FromName("Герой Штормграда"));
+            Player1.HandZone.Add(Cards.FromName("К'Тун"));
+            Player1.HandZone.Add(Cards.FromName("Священник син'дорай")); 
 
-            Player1.Board.Add(Cards.FromName("Суккуб"));
-            Player2.Board.Add(Cards.FromName("Ящер Кровавой Топи"));
+            Player1.BoardZone.Add(Cards.FromName("Суккуб"));
+            Player2.BoardZone.Add(Cards.FromName("Ящер Кровавой Топи"));
 
 	        CurrentPlayer = Player1;
         }
@@ -85,22 +86,14 @@ namespace HearthStoneSimCore.Model
             }
         }
 
-        public void PlayMinion(int cardIndex, int insertIndex)
-        {
-            var card = Player1.Hand.Cards[cardIndex];
-            Player1.Board.Add((Minion)card, insertIndex);
-            //Player1.Hand.Cards.RemoveAt(indexCard);
-            StateChanged = true;
-        }
-
         public void ClearPreDamage()
         {
-            foreach (var card in Player1.Board.Cards)
+            foreach (var card in Player1.BoardZone.Elements)
             {
                 card.PreDamage = 0;
                 card.IsDamaged = false;
             }
-            foreach (var card in Player2.Board.Cards)
+            foreach (var card in Player2.BoardZone.Elements)
             {
                 card.PreDamage = 0;
                 card.IsDamaged = false;

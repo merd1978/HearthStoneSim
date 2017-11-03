@@ -27,7 +27,7 @@
             <MenuItem Header="START GAME"></MenuItem>
         </Menu>
         <DockPanel Grid.Row="1">
-            <Expander Grid.Row="1" ExpandDirection="Right" IsExpanded="True" Margin="3,0" Header="Log" DockPanel.Dock="Right" MaxWidth="250">
+            <Expander ExpandDirection="Right" IsExpanded="True" Margin="3,0" Header="Log" DockPanel.Dock="Right" MaxWidth="250">
                 <ListBox  ItemsSource="{Binding Log}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <i:Interaction.Behaviors>
                         <view:ScrollOnNewItemBehavior 
@@ -40,7 +40,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </Expander>
-            <Grid Grid.Row="1" ShowGridLines="False">
+            <Grid ShowGridLines="False">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
