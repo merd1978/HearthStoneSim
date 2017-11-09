@@ -58,7 +58,7 @@ namespace HearthStoneSimGui.DragDrop
 
                 // get LastDroppedItem instead item under mouse pointer when SelectTargetAfterDrop true
                 // used for starting target pointer from that item
-                if (DragDrop.SelectTargetAfterDrop)
+                if (DragDrop.SelectTargetAfterDrop && DragDrop.LastDroppedIndex != -1)
                 {
                     item = (UIElement)itemsControl.ItemContainerGenerator.ContainerFromIndex(DragDrop.LastDroppedIndex);
                     DragDrop.SelectTargetAfterDrop = false;

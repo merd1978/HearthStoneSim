@@ -130,6 +130,7 @@
     <Compile Include="DragDrop\DpiHelper.cs" />
     <Compile Include="DragDrop\DragAdorner.cs" />
     <Compile Include="DragDrop\DragDropExtensions.cs" />
+    <Compile Include="DragDrop\IAdorner.cs" />
     <Compile Include="DragDrop\ItemsControlExtensions.cs" />
     <Compile Include="DragDrop\TypeUtilities.cs" />
     <Compile Include="DragDrop\VisualTreeExtensions.cs" />
@@ -330,7 +331,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_BuildAction="Build" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.Increment.None" BuildVersion_StartDate="2000/1/1" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" />
+      <UserProperties BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_StartDate="2000/1/1" BuildVersion_BuildVersioningStyle="None.None.Increment.None" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_BuildAction="Build" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
