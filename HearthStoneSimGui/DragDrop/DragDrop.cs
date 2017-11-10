@@ -10,15 +10,20 @@ namespace HearthStoneSimGui.DragDrop
 {
     public static partial class DragDrop
     {
+        private const double DragAdornerScale = 1.3;           //scale sourse size in DragAdorner
+        private const double DragAdornerPreviewScale = 2.1;    //scale sourse size when preview DragAdorner
+
         public static int PreviewInsertIndex = -1;      //preview position where to insert element if the drop occurred, position unknown if -1
         public static bool SelectTargetAfterDrop;
-        public static object LastDroppedSource;
+        public static UIElement LastDroppedSource;
         public static int LastDroppedIndex = -1;
 
         private static DragInfo _dragInfo;
         private static Point _dragStartPosition;        //drag start point relative to the RootElement
         private static bool _dragInProgress;
         private static bool _clickToDrag;               //drag card by click (mouse button not pressed during drag)
+        private static bool _previewMode;               //show zoomed card under mouse
+        private static int _previewIndex;
 
         private static UIElement _rootElement;
         private static UIElement RootElement
@@ -41,7 +46,6 @@ namespace HearthStoneSimGui.DragDrop
                 _usedAdorner = value;
             }
         }
-        private const double DragAdornerScale = 1.3;    //scale sourse size up to 130%
 
         public static void AfterDrop()
         {
@@ -52,7 +56,7 @@ namespace HearthStoneSimGui.DragDrop
                 // each of these task being assigned a priority.The rendering of the UI is one of these tasks and all you have to do is tell
                 // the Dispatcher: “perform an action now with a priority less than the rendering”. The current work will then wait for the
                 // rendering to be done.
-                (LastDroppedSource as UIElement)?.Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
+                LastDroppedSource?.Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
 
                 MouseButtonEventArgs arg =
                     new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Left)
@@ -60,21 +64,21 @@ namespace HearthStoneSimGui.DragDrop
                         RoutedEvent = UIElement.PreviewMouseLeftButtonDownEvent,
                         Source = LastDroppedSource
                     };
-                (LastDroppedSource as UIElement)?.RaiseEvent(arg);
+                LastDroppedSource?.RaiseEvent(arg);
 
                 SelectTargetAfterDrop = false;
             }
         }
 
         #region Adorners
-        private static void CreateAdorner()
+        private static void CreateAdorner(double scale = DragAdornerScale)
         {
             if (_dragInfo == null || UsedAdorner != null) return;
             var useDefaultDragAdorner = GetUseDefaultDragAdorner(_dragInfo.VisualSource);
-            UsedAdorner = useDefaultDragAdorner ? CreateDragAdorner() : CreateTargetPointerAdorner();
+            UsedAdorner = useDefaultDragAdorner ? CreateDragAdorner(scale) : CreateTargetPointerAdorner();
         }
 
-        private static IAdorner CreateDragAdorner()
+        private static IAdorner CreateDragAdorner(double scale)
         {
             DataTemplate template = GetDragAdornerTemplate(_dragInfo.VisualSource);
             UIElement adornment = null;
@@ -103,7 +107,7 @@ namespace HearthStoneSimGui.DragDrop
                 {
                     Content = _dragInfo.Data,
                     ContentTemplate = template,
-                    Height = _dragInfo.VisualSource.RenderSize.Height * DragAdornerScale
+                    Height = _dragInfo.VisualSource.RenderSize.Height * scale
                 };
 
                 adornment = contentPresenter;
@@ -111,8 +115,7 @@ namespace HearthStoneSimGui.DragDrop
 
             if (adornment != null)
             {
-                var result = new DragAdorner(_rootElement, adornment);
-                //result.UpdateLayout();
+                var result = new DragAdorner(RootElement, adornment);
                 return result;
             }
 
@@ -121,7 +124,7 @@ namespace HearthStoneSimGui.DragDrop
 
         private static IAdorner CreateTargetPointerAdorner()
         {
-            return new TargetPointerAdorner(_rootElement, _dragStartPosition);
+            return new TargetPointerAdorner(RootElement, _dragStartPosition);
         }
 
         // Helper to generate the image - I grabbed this off Google 
@@ -164,7 +167,6 @@ namespace HearthStoneSimGui.DragDrop
             return rtb;
         }
         #endregion
-
         /// <summary>
         /// Gets the drag handler from the drag info or from the sender, if the drag info is null
         /// </summary>
@@ -217,14 +219,9 @@ namespace HearthStoneSimGui.DragDrop
                 return;
             }
 
+            _previewMode = false;
+
             _dragInfo = new DragInfo(sender, e);
-            //get center of VisualSourceItem related to RootElement
-            var visualSourceItem = _dragInfo.VisualSourceItem as FrameworkElement;
-            if (visualSourceItem != null)
-            {
-                var visualSourceItemCenter = new Point(visualSourceItem.ActualWidth / 2, visualSourceItem.ActualHeight / 2);
-                _dragStartPosition = visualSourceItem.TransformToAncestor(RootElement).Transform(visualSourceItemCenter);
-            }
 
             if (_dragInfo.VisualSourceItem == null)
             {
@@ -239,7 +236,15 @@ namespace HearthStoneSimGui.DragDrop
                 return;
             }
 
-            dragHandler.StartDrag(_dragInfo);
+            //get center of VisualSourceItem relative to RootElement
+            if (_dragInfo.VisualSourceItem is FrameworkElement visualSourceItem)
+            {
+                var visualSourceItemCenter = new Point(visualSourceItem.ActualWidth / 2, visualSourceItem.ActualHeight / 2);
+                _dragStartPosition = visualSourceItem.TransformToAncestor(RootElement).Transform(visualSourceItemCenter);
+            }
+
+            UsedAdorner = null;
+            _dragInfo.Data = _dragInfo.SourceItem;
             CreateAdorner();
             UsedAdorner?.Move(e.GetPosition(UsedAdorner.AdornedElement));
         }
@@ -247,11 +252,51 @@ namespace HearthStoneSimGui.DragDrop
         private static void DragSourceOnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             UsedAdorner = null;
+            _dragInfo = null;
         }
 
         private static void DragSourceOnMouseMove(object sender, MouseEventArgs e)
         {
-            if (_dragInfo == null || _dragInProgress) return;
+            if (_dragInProgress) return;
+
+            #region PreviewMode
+
+            if (_dragInfo == null || _previewMode)
+            {
+                _dragInfo = new DragInfo(sender, e);
+                if (GetUsePreview(_dragInfo.VisualSource) == false || _dragInfo.VisualSourceItem == null)
+                {
+                    UsedAdorner = null;
+                    _dragInfo = null;
+                    _previewMode = false;
+                    return;
+                }
+
+                _dragInfo.Data = _dragInfo.SourceItem;
+
+                if (UsedAdorner == null)
+                {
+                    CreateAdorner(DragAdornerPreviewScale);
+                    _previewIndex = _dragInfo.SourceIndex;
+                }
+                if (_dragInfo.SourceIndex != _previewIndex)
+                {
+                    UsedAdorner = null;
+                    CreateAdorner(DragAdornerPreviewScale);
+                    _previewIndex = _dragInfo.SourceIndex;
+                }
+                if (_dragInfo.VisualSourceItem is FrameworkElement visualSourceItem)
+                {
+                    var visualSourceItemCenter = new Point(visualSourceItem.ActualWidth / 2, visualSourceItem.ActualHeight / 2);
+                    var relativeCenter = visualSourceItem.TransformToAncestor(RootElement).Transform(visualSourceItemCenter);
+                    UsedAdorner?.Move(new Point(relativeCenter.X,
+                        RootElement.RenderSize.Height / 2 + visualSourceItem.ActualHeight * DragAdornerPreviewScale / 2));
+                }
+                _previewMode = true;
+            }
+            
+            #endregion
+
             // the start from the source
             var dragStart = _dragInfo.DragStartPosition;
 
@@ -360,7 +405,7 @@ namespace HearthStoneSimGui.DragDrop
 
         private static void DropTargetOnDragLeave(object sender, DragEventArgs e)
         {
-            //UsedAdorner = null;
+            UsedAdorner = null;
 
             var dragHandler = TryGetDragHandler(_dragInfo, sender as UIElement);
             dragHandler.DragLeave(sender);
@@ -410,7 +455,7 @@ namespace HearthStoneSimGui.DragDrop
             e.Handled = !dropInfo.NotHandled;
 
             LastDroppedIndex = PreviewInsertIndex;
-            LastDroppedSource = sender;
+            LastDroppedSource = sender as UIElement;
         }
     }
 }

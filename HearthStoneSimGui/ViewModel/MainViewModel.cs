@@ -15,7 +15,7 @@ namespace HearthStoneSimGui.ViewModel
     /// See http://www.mvvmlight.net
     /// </para>
     /// </summary>
-    public class MainViewModel : ViewModelBase, IDropTarget
+    public class MainViewModel : ViewModelBase, IDropTarget, IDragSource
     {
         private readonly IDataService _dataService;
         public bool IfFollowTail { get; set; } = true;  //scrolls the listbox to the bottom when a new item is added
@@ -100,6 +100,33 @@ namespace HearthStoneSimGui.ViewModel
         {
             dropInfo.NotHandled = true;
         }
+
+        public void StartDrag(IDragInfo dragInfo)
+        {
+        }
+
+        public bool CanStartDrag(IDragInfo dragInfo)
+        {
+            return false;
+        }
+
+        public void Dropped(IDropInfo dropInfo)
+        {
+        }
+
+        public void DragCancelled()
+        {
+        }
+
+        public void DragLeave(object sender)
+        {
+        }
+
+        public bool TryCatchOccurredException(Exception exception)
+        {
+            return false;
+        }
+
         #endregion
 
         ////public override void Cleanup()

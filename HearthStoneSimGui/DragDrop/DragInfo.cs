@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,16 +33,26 @@ namespace HearthStoneSimGui.DragDrop
         /// </param>
         public DragInfo(object sender, MouseButtonEventArgs e)
         {
-            this.DragStartPosition = e.GetPosition((IInputElement)sender);
+            GetDragInfo(sender, e.ChangedButton, e.GetPosition, e.OriginalSource);
+        }
+
+        public DragInfo(object sender, MouseEventArgs e)
+        {
+            GetDragInfo(sender, MouseButton.Left, e.GetPosition, e.OriginalSource);
+        }
+
+        public void GetDragInfo(object sender, MouseButton changedButton, Func<IInputElement, Point> getPosition, object originalSource)
+        {
+            this.DragStartPosition = getPosition((IInputElement)sender);
             this.Effects = DragDropEffects.None;
-            this.MouseButton = e.ChangedButton;
+            this.MouseButton = changedButton;
             this.VisualSource = sender as UIElement;
 
-            var sourceElement = e.OriginalSource as UIElement;
+            var sourceElement = originalSource as UIElement;
             // If we can't cast object as a UIElement it might be a FrameworkContentElement, if so try and use its parent.
-            if (sourceElement == null && e.OriginalSource is FrameworkContentElement)
+            if (sourceElement == null && originalSource is FrameworkContentElement)
             {
-                sourceElement = ((FrameworkContentElement)e.OriginalSource).Parent as UIElement;
+                sourceElement = ((FrameworkContentElement)originalSource).Parent as UIElement;
             }
 
             if (sender is ItemsControl)
@@ -66,13 +78,13 @@ namespace HearthStoneSimGui.DragDrop
 
                 if (item == null)
                 {
-                    item = itemsControl.GetItemContainerAt(e.GetPosition(itemsControl));
+                    item = itemsControl.GetItemContainerAt(getPosition(itemsControl));
                 }
 
                 if (item != null)
                 {
                     // Remember the relative position of the item being dragged
-                    this.PositionInDraggedItem = e.GetPosition(item);
+                    this.PositionInDraggedItem = getPosition(item);
 
                     var itemParent = ItemsControl.ItemsControlFromItemContainer(item);
 
@@ -94,7 +106,14 @@ namespace HearthStoneSimGui.DragDrop
                         this.SourceIndex = -1;
                     }
 
-                    var selectedItems = itemsControl.GetSelectedItems().OfType<object>().Where(i => i != CollectionView.NewItemPlaceholder).ToList();
+                    var selectedItems = new List<object>();
+                    foreach (object selectedItem in itemsControl.GetSelectedItems())
+                    {
+                        if (selectedItem is object i)
+                        {
+                            if (i != CollectionView.NewItemPlaceholder) selectedItems.Add(i);
+                        }
+                    }
                     this.SourceItems = selectedItems;
 
                     // Some controls (I'm looking at you TreeView!) haven't updated their
@@ -121,7 +140,7 @@ namespace HearthStoneSimGui.DragDrop
                     this.SourceItems = Enumerable.Repeat(this.SourceItem, 1);
                 }
                 this.VisualSourceItem = sourceElement;
-                this.PositionInDraggedItem = sourceElement != null ? e.GetPosition(sourceElement) : this.DragStartPosition;
+                this.PositionInDraggedItem = sourceElement != null ? getPosition(sourceElement) : this.DragStartPosition;
             }
 
             if (this.SourceItems == null)

@@ -273,5 +273,30 @@ namespace HearthStoneSimGui.DragDrop
         {
             target.SetValue(DropHandlerProperty, value);
         }
+
+        /// <summary>
+        /// Gets or Sets if the Preview mode should be used.
+        /// </summary>
+        public static readonly DependencyProperty UsePreviewProperty
+            = DependencyProperty.RegisterAttached("UsePreview",
+                typeof(bool),
+                typeof(DragDrop),
+                new PropertyMetadata(false));
+
+        /// <summary>
+        /// Gets if the Preview mode should be used.
+        /// </summary>
+        public static bool GetUsePreview(UIElement target)
+        {
+            return (bool)target.GetValue(UsePreviewProperty);
+        }
+
+        /// <summary>
+        /// Sets the Preview mode should be used
+        /// </summary>
+        public static void SetUsePreview(UIElement target, bool value)
+        {
+            target.SetValue(UsePreviewProperty, value);
+        }
     }
 }

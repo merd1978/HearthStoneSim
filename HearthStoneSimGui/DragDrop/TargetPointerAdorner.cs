@@ -5,7 +5,7 @@ using System.Windows.Shapes;
 
 namespace HearthStoneSimGui.DragDrop
 {
-    public class TargetPointerAdorner : Adorner, IAdorner
+    internal class TargetPointerAdorner : Adorner, IAdorner
     {
         private readonly AdornerLayer _adornerLayer;
         private const double ArrowLength = 12;

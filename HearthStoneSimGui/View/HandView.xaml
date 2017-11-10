@@ -27,16 +27,17 @@
         <!--<ItemsControl ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding Cards}">
         </ItemsControl>-->
 
-    <ListBox Name="HandList" Background="{x:Null}" ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding HandCards}"
+    <ItemsControl Name="HandList" Background="{x:Null}" ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding HandCards}"
         BorderThickness="0"
         dragDrop:DragDrop.IsDragSource="True"
         dragDrop:DragDrop.UseDefaultDragAdorner="True"
         dragDrop:DragDrop.DragAdornerTemplate="{StaticResource CardTemplate}"
-        dragDrop:DragDrop.DragHandler="{Binding}">
-        <ListBox.ItemTemplate>
+        dragDrop:DragDrop.DragHandler="{Binding}"
+        dragDrop:DragDrop.UsePreview="True">
+        <ItemsControl.ItemTemplate>
             <DataTemplate>
                 <view:CardView Height="{Binding ActualHeight, ElementName=HandList}"/>
             </DataTemplate>
-        </ListBox.ItemTemplate>
-    </ListBox>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
 </UserControl>
