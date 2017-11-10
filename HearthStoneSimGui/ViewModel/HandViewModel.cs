@@ -54,11 +54,15 @@ namespace HearthStoneSimGui.ViewModel
                                 DragDropEffects.Copy | DragDropEffects.Move :
                                 DragDropEffects.None;
 
-            var sourceItem = dragInfo.Data as Targeting;
-            if (sourceItem.NeedsTargetList)
+            if (dragInfo.Data is Minion minion && minion.NeedsTargetList)
             {
                 DragDrop.DragDrop.SelectTargetAfterDrop = true;
             }
+            else if (dragInfo.Data is Spell spell && spell.NeedsTargetList)
+            {
+                DragDrop.DragDrop.SelectTargetForce = true;
+            }
+            
 
         }
 
@@ -75,6 +79,7 @@ namespace HearthStoneSimGui.ViewModel
         {
             Messenger.Default.Send(new NotificationMessage("DragCanceled"));
             DragDrop.DragDrop.SelectTargetAfterDrop = false;
+            DragDrop.DragDrop.SelectTargetForce = false;
         }
 
 	    public void DragLeave(object sender)

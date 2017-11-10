@@ -55,7 +55,7 @@ namespace HearthStoneSimCore.Model
             Player1.HandZone.Add(Cards.FromName("Всадник на волке"));
             Player1.HandZone.Add(Cards.FromName("Морозный йети"));
             Player1.HandZone.Add(Cards.FromName("Герой Штормграда"));
-            Player1.HandZone.Add(Cards.FromName("К'Тун"));
+            Player1.HandZone.Add(Cards.FromName("Лик тлена"));
             Player1.HandZone.Add(Cards.FromName("Священник син'дорай")); 
 
             Player1.BoardZone.Add(Cards.FromName("Суккуб"));

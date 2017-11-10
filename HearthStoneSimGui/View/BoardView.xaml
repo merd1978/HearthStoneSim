@@ -12,11 +12,20 @@
     <!--<UserControl.DataContext>
         <viewModel:TableViewModel />
     </UserControl.DataContext>-->
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="CardTemplate">
+            <view:CardView/>
+        </DataTemplate>
+    </UserControl.Resources>
+
     <ItemsControl x:Name="BoardViewListBox" Background="Transparent" ItemsSource="{Binding BoardCards}"
         dragDrop:DragDrop.IsDragSource="True"
         dragDrop:DragDrop.IsDropTarget="True"
         dragDrop:DragDrop.DragHandler="{Binding}"
-        dragDrop:DragDrop.DropHandler="{Binding}">
+        dragDrop:DragDrop.DropHandler="{Binding}"
+        dragDrop:DragDrop.DragAdornerTemplate="{StaticResource CardTemplate}"
+        dragDrop:DragDrop.UsePreview="True">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>

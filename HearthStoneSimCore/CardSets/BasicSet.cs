@@ -9,7 +9,8 @@ namespace HearthStoneSimCore.CardSets
 	{
 		public static void Load()
 	    {
-			// --------------------------------------- MINION - NEUTRAL
+			#region MINION - NEUTRAL
+		    // --------------------------------------- MINION - NEUTRAL
 		    // [CS2_222] Stormwind Champion - COST:7 [ATK:6/HP:6]
 		    // - Fac: alliance, Set: core, Rarity: free
 		    // --------------------------------------------------------
@@ -25,26 +26,48 @@ namespace HearthStoneSimCore.CardSets
 			    //Task = new SummonTask("BRM_006t")
 		    };
 
-			// --------------------------------------- MINION - NEUTRAL
-			// [EX1_019] Shattered Sun Cleric - COST:3 [ATK:3/HP:2]
+		    // --------------------------------------- MINION - NEUTRAL
+		    // [EX1_019] Shattered Sun Cleric - COST:3 [ATK:3/HP:2]
+		    // - Fac: neutral, Set: core, Rarity: free
+		    // --------------------------------------------------------
+		    // Text: <b>Battlecry:</b> Give a friendly minion +1/+1.
+		    // --------------------------------------------------------
+		    // GameTag:
+		    // - BATTLECRY = 1
+		    // --------------------------------------------------------
+		    // PlayReq:
+		    // - REQ_MINION_TARGET = 0
+		    // - REQ_FRIENDLY_TARGET = 0
+		    // - REQ_TARGET_IF_AVAILABLE = 0
+		    // --------------------------------------------------------
+		    Cards.All["EX1_019"].Enchantment = new Enchantment
+		    {
+			    //Area = EnchantmentArea.TARGET,
+			    //Activation = EnchantmentActivation.BATTLECRY,
+			    //Enchant = Buff.AttackHealth(1)
+		    };
+			#endregion
+
+			#region SPELL - WARLOCK
+			// ---------------------------------------- SPELL - WARLOCK
+			// [EX1_302] Mortal Coil - COST:1
 			// - Fac: neutral, Set: core, Rarity: free
 			// --------------------------------------------------------
-			// Text: <b>Battlecry:</b> Give a friendly minion +1/+1.
-			// --------------------------------------------------------
-			// GameTag:
-			// - BATTLECRY = 1
+			// Text: Deal $1 damage to a minion. If that kills it, draw a card. *spelldmg
 			// --------------------------------------------------------
 			// PlayReq:
 			// - REQ_MINION_TARGET = 0
-			// - REQ_FRIENDLY_TARGET = 0
-			// - REQ_TARGET_IF_AVAILABLE = 0
+			// - REQ_TARGET_TO_PLAY = 0
 			// --------------------------------------------------------
-			Cards.All["EX1_019"].Enchantment = new Enchantment
+			Cards.All["EX1_302"].Enchantment = new Enchantment
 			{
-				//Area = EnchantmentArea.TARGET,
-				//Activation = EnchantmentActivation.BATTLECRY,
-				//Enchant = Buff.AttackHealth(1)
-			};
+				    //Activation = EnchantmentActivation.SPELL,
+				    //SingleTask = ComplexTask.Create(
+					   // new DamageTask(1, EntityType.TARGET, true),
+					   // new ConditionTask(EntityType.TARGET, SelfCondition.IsDead),
+					   // ComplexTask.True(new DrawTask()))
+		    };
+			#endregion
 		}
 	}
 }

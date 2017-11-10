@@ -298,5 +298,55 @@ namespace HearthStoneSimGui.DragDrop
         {
             target.SetValue(UsePreviewProperty, value);
         }
+
+        /// <summary>
+        /// Gets or Sets scale for Preview.
+        /// </summary>
+        public static readonly DependencyProperty PreviewScaleProperty
+            = DependencyProperty.RegisterAttached("PreviewScale",
+                typeof(double),
+                typeof(DragDrop),
+                new PropertyMetadata(false));
+
+        /// <summary>
+        /// Gets scale for Preview.
+        /// </summary>
+        public static double GetPreviewScale(UIElement target)
+        {
+            return (double)target.GetValue(PreviewScaleProperty);
+        }
+
+        /// <summary>
+        /// Sets scale for Preview.
+        /// </summary>
+        public static void SetPreviewScale(UIElement target, double value)
+        {
+            target.SetValue(PreviewScaleProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or Sets scale for Preview.
+        /// </summary>
+        public static readonly DependencyProperty PreviewPositionProperty
+            = DependencyProperty.RegisterAttached("PreviewPosition",
+                typeof(double),
+                typeof(DragDrop),
+                new PropertyMetadata(false));
+
+        /// <summary>
+        /// Gets scale for Preview.
+        /// </summary>
+        public static double GetPreviewPosition(UIElement target)
+        {
+            return (double)target.GetValue(PreviewPositionProperty);
+        }
+
+        /// <summary>
+        /// Sets scale for Preview.
+        /// </summary>
+        public static void SetPreviewPosition(UIElement target, double value)
+        {
+            target.SetValue(PreviewPositionProperty, value);
+        }
     }
 }

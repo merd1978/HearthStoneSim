@@ -48,6 +48,9 @@ namespace HearthStoneSimCore.Model
                 case CardType.MINION:
                     result = new Minion(controller, card, tags);
                     break;
+                case CardType.SPELL:
+                    result = new Spell(controller, card, tags);
+                    break;
             }
             return result;
         }
