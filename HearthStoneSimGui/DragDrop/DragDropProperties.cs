@@ -306,7 +306,7 @@ namespace HearthStoneSimGui.DragDrop
             = DependencyProperty.RegisterAttached("PreviewScale",
                 typeof(double),
                 typeof(DragDrop),
-                new PropertyMetadata(false));
+                new PropertyMetadata(1.5));
 
         /// <summary>
         /// Gets scale for Preview.
@@ -325,28 +325,28 @@ namespace HearthStoneSimGui.DragDrop
         }
 
         /// <summary>
-        /// Gets or Sets scale for Preview.
+        /// Gets or Sets relative position of preview.
         /// </summary>
-        public static readonly DependencyProperty PreviewPositionProperty
-            = DependencyProperty.RegisterAttached("PreviewPosition",
-                typeof(double),
+        public static readonly DependencyProperty PreviewHorizontalAlignmentProperty
+            = DependencyProperty.RegisterAttached("PreviewHorizontalAlignment",
+                typeof(HorizontalAlignment),
                 typeof(DragDrop),
-                new PropertyMetadata(false));
+                new PropertyMetadata(HorizontalAlignment.Center));
 
         /// <summary>
-        /// Gets scale for Preview.
+        /// Gets relative position of preview.
         /// </summary>
-        public static double GetPreviewPosition(UIElement target)
+        public static HorizontalAlignment GetPreviewHorizontalAlignmentn(UIElement target)
         {
-            return (double)target.GetValue(PreviewPositionProperty);
+            return (HorizontalAlignment)target.GetValue(PreviewHorizontalAlignmentProperty);
         }
 
         /// <summary>
-        /// Sets scale for Preview.
+        /// Sets relative position of preview.
         /// </summary>
-        public static void SetPreviewPosition(UIElement target, double value)
+        public static void SetPreviewHorizontalAlignment(UIElement target, HorizontalAlignment value)
         {
-            target.SetValue(PreviewPositionProperty, value);
+            target.SetValue(PreviewHorizontalAlignmentProperty, value);
         }
     }
 }

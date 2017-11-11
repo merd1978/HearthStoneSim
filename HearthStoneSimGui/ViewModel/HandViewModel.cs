@@ -19,8 +19,13 @@ namespace HearthStoneSimGui.ViewModel
     /// </summary>
     public class HandViewModel : ViewModelBase, IDragSource
     {
-        public ObservableCollection<Playable> HandCards { get; private set; }
-	    public Controller Controller { get; set; }
+        private ObservableCollection<Playable> _handCards;
+        public ObservableCollection<Playable> HandCards
+        {
+            get => _handCards;
+            set => Set(nameof(HandCards), ref _handCards, value);
+        }
+        public Controller Controller { get; set; }
 		public HandZone HandZone { get; set; }
 
 		/// <summary>
@@ -30,6 +35,7 @@ namespace HearthStoneSimGui.ViewModel
 		{
 			Controller = controller;
 			HandZone = hand;
+		    UpdateState();
             HandCards = new ObservableCollection<Playable>(hand.Elements);
         }
 
@@ -42,9 +48,14 @@ namespace HearthStoneSimGui.ViewModel
             };
         }
 
+        public void UpdateState()
+        {
+            HandCards = new ObservableCollection<Playable>(HandZone.Elements);
+        }
+
         #region DragDrop
 
-	    public void StartDrag(IDragInfo dragInfo)
+        public void StartDrag(IDragInfo dragInfo)
         {
             var itemCount = dragInfo.SourceItems.Cast<object>().Count();
 

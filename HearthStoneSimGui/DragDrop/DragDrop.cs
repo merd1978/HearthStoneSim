@@ -11,7 +11,6 @@ namespace HearthStoneSimGui.DragDrop
     public static partial class DragDrop
     {
         private const double DragAdornerScale = 1.3;           //scale sourse size in DragAdorner
-        private const double DragAdornerPreviewScale = 2.1;    //scale sourse size when preview DragAdorner
 
         public static int PreviewInsertIndex = -1;      //preview position where to insert element if the drop occurred, position unknown if -1
         public static bool SelectTargetForce;           //Force using TargetPointer, ignoring UseDefaultAdorner
@@ -283,24 +282,34 @@ namespace HearthStoneSimGui.DragDrop
                 }
 
                 _dragInfo.Data = _dragInfo.SourceItem;
+                double previewScale = GetPreviewScale(_dragInfo.VisualSource);
 
                 if (UsedAdorner == null)
                 {
-                    CreateAdorner(DragAdornerPreviewScale, true);
+                    CreateAdorner(previewScale, true);
                     _previewIndex = _dragInfo.SourceIndex;
                 }
                 if (_dragInfo.SourceIndex != _previewIndex)
                 {
                     UsedAdorner = null;
-                    CreateAdorner(DragAdornerPreviewScale, true);
+                    CreateAdorner(previewScale, true);
                     _previewIndex = _dragInfo.SourceIndex;
                 }
                 if (_dragInfo.VisualSourceItem is FrameworkElement visualSourceItem)
                 {
                     var visualSourceItemCenter = new Point(visualSourceItem.ActualWidth / 2, visualSourceItem.ActualHeight / 2);
-                    var relativeCenter = visualSourceItem.TransformToAncestor(RootElement).Transform(visualSourceItemCenter);
-                    UsedAdorner?.Move(new Point(relativeCenter.X,
-                        RootElement.RenderSize.Height / 2 + visualSourceItem.ActualHeight * DragAdornerPreviewScale / 2));
+                    //transform coordinates relative to RootElement
+                    var previewCenter = visualSourceItem.TransformToAncestor(RootElement).Transform(visualSourceItemCenter);
+                    if (GetPreviewHorizontalAlignmentn(_dragInfo.VisualSource) == HorizontalAlignment.Right)
+                    {
+                        previewCenter.X += visualSourceItem.ActualWidth / 2 * (1 + previewScale);
+
+                    }
+                    else if (GetPreviewHorizontalAlignmentn(_dragInfo.VisualSource) == HorizontalAlignment.Center)
+                    {
+                        previewCenter.Y = RootElement.RenderSize.Height / 2 + visualSourceItem.ActualHeight * previewScale / 2;
+                    }
+                    UsedAdorner?.Move(previewCenter);
                 }
                 _previewMode = true;
             }

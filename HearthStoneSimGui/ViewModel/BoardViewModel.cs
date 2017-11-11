@@ -41,7 +41,7 @@ namespace HearthStoneSimGui.ViewModel
 	        Controller = controller;
 			Game = game;
             BoardZone = board;
-            UpdateBoardState();
+            UpdateState();
             Messenger.Default.Register<NotificationMessage>(this, NotifyMe);
             //BoardCards = new ObservableCollection<Minion>(Board.Cards);
         }
@@ -51,7 +51,7 @@ namespace HearthStoneSimGui.ViewModel
             BoardCards = new ObservableCollection<Minion> { new Minion(null, Cards.FromName("Суккуб"), null) };
         }
 
-        public void UpdateBoardState()
+        public void UpdateState()
         {
             BoardCards = new ObservableCollection<Minion>(BoardZone.Elements);
         }

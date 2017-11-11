@@ -73,8 +73,10 @@ namespace HearthStoneSimGui.ViewModel
             {
                 case "StateChanged":
                     // Update game state
-                    BoardViewModelPlayer1.UpdateBoardState();
-                    BoardViewModelPlayer2.UpdateBoardState();
+                    BoardViewModelPlayer1.UpdateState();
+                    HandViewModelPlayer1.UpdateState();
+                        BoardViewModelPlayer2.UpdateState();
+                        HandViewModelPlayer2.UpdateState();
                     break;
                 case "LogChanged":
                     while (Game.Logs.Count > 0)

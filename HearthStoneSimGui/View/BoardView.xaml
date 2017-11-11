@@ -25,7 +25,9 @@
         dragDrop:DragDrop.DragHandler="{Binding}"
         dragDrop:DragDrop.DropHandler="{Binding}"
         dragDrop:DragDrop.DragAdornerTemplate="{StaticResource CardTemplate}"
-        dragDrop:DragDrop.UsePreview="True">
+        dragDrop:DragDrop.UsePreview="True"
+        dragDrop:DragDrop.PreviewHorizontalAlignment="Right"
+        dragDrop:DragDrop.PreviewScale="2.0">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>

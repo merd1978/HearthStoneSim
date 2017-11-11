@@ -33,7 +33,9 @@
         dragDrop:DragDrop.UseDefaultDragAdorner="True"
         dragDrop:DragDrop.DragAdornerTemplate="{StaticResource CardTemplate}"
         dragDrop:DragDrop.DragHandler="{Binding}"
-        dragDrop:DragDrop.UsePreview="True">
+        dragDrop:DragDrop.UsePreview="True"
+        dragDrop:DragDrop.PreviewHorizontalAlignment="Center"
+        dragDrop:DragDrop.PreviewScale="2.1">
         <ItemsControl.ItemTemplate>
             <DataTemplate>
                 <view:CardView Height="{Binding ActualHeight, ElementName=HandList}"/>
