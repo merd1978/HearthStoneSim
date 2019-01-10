@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using HearthStoneSimCore.Enchants;
 using HearthStoneSimCore.Enums;
 
 namespace HearthStoneSimCore.Model

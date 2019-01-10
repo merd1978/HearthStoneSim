@@ -20,6 +20,7 @@ namespace HearthStoneSimGui.DragDrop
 
         private static DragInfo _dragInfo;
         private static Point _dragStartPosition;        //drag start point relative to the RootElement
+        private static Point? _lastDropPosition;        //used in DropTargetOnDragOver to prevent call handler when mouse doesnt move
         private static bool _dragInProgress;
         private static bool _clickToDrag;               //drag card by click (mouse button not pressed during drag)
         private static bool _previewMode;               //show zoomed card under mouse
@@ -80,11 +81,6 @@ namespace HearthStoneSimGui.DragDrop
                 UsedAdorner = CreateDragAdorner(scale);
             }
             else UsedAdorner = CreateTargetPointerAdorner();
-        }
-
-        private static void CreatePreviewAdorner(double scale = DragAdornerScale)
-        {
-            
         }
 
         private static IAdorner CreateDragAdorner(double scale)
@@ -176,6 +172,7 @@ namespace HearthStoneSimGui.DragDrop
             return rtb;
         }
         #endregion
+
         /// <summary>
         /// Gets the drag handler from the drag info or from the sender, if the drag info is null
         /// </summary>
@@ -441,11 +438,22 @@ namespace HearthStoneSimGui.DragDrop
             //System.Diagnostics.Debug.WriteLine($"==> DragDrop: Leave");
         }
 
+        //While dragging an element, the DragOver event fires every 350 milliseconds, even when mouse doesn't move
         private static void DropTargetOnDragOver(object sender, DragEventArgs e)
         {
             var dropInfo = new DropInfo(sender, e, _dragInfo);
+
+            if (_lastDropPosition.HasValue && dropInfo.DropPosition == _lastDropPosition)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            _lastDropPosition = dropInfo.DropPosition;
+
             var dropHandler = TryGetDropHandler(dropInfo, sender as UIElement);
 
+            //System.Diagnostics.Debug.WriteLine($"==> DragDrop: OnDragOver, pos={dropInfo.DropPosition}");
             dropHandler.DragOver(dropInfo);
 
             CreateAdorner();

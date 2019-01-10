@@ -36,7 +36,6 @@ namespace HearthStoneSimGui.ViewModel
 			Controller = controller;
 			HandZone = hand;
 		    UpdateState();
-            HandCards = new ObservableCollection<Playable>(hand.Elements);
         }
 
         public HandViewModel()

@@ -107,62 +107,12 @@ namespace HearthStoneSimGui.DragDrop
 
     public static UIElement GetItemContainerAt(this ItemsControl itemsControl, Point position, Orientation searchDirection)
     {
-      bool isItemContainer;
-      var itemContainerType = GetItemContainerType(itemsControl, out isItemContainer);
+        //original VisualTreeHelper.HitTest method removed because of poor perfomance
 
-      Geometry hitTestGeometry;
+        var items = itemsControl.GetChildrenOfType<ContentPresenter>();
 
-      if (typeof(TreeViewItem).IsAssignableFrom(itemContainerType)) {
-        hitTestGeometry = new LineGeometry(new Point(0, position.Y), new Point(itemsControl.RenderSize.Width, position.Y));
-      } else {
-        var geometryGroup = new GeometryGroup();
-        geometryGroup.Children.Add(new LineGeometry(new Point(0, position.Y), new Point(itemsControl.RenderSize.Width, position.Y)));
-        geometryGroup.Children.Add(new LineGeometry(new Point(position.X, 0), new Point(position.X, itemsControl.RenderSize.Height)));
-        hitTestGeometry = geometryGroup;
-      }
-
-      var hits = new HashSet<DependencyObject>();
-
-      VisualTreeHelper.HitTest(itemsControl,
-        obj =>
-        {
-          // Viewport3D is not good for us
-          // Stop on ScrollBar to improve performance (e.g. at DataGrid)
-          if (obj is Viewport3D || (itemsControl is DataGrid && obj is ScrollBar))
-          {
-            return HitTestFilterBehavior.Stop;
-          }
-          return HitTestFilterBehavior.Continue;
-        },
-        result =>
-        {
-          var itemContainer = isItemContainer
-            ? result.VisualHit.GetVisualAncestor(itemContainerType, itemsControl)
-            : result.VisualHit.GetVisualAncestor(itemContainerType, itemsControl.GetType());
-          if (itemContainer != null && ((UIElement) itemContainer).IsVisible == true)
-          {
-            var tvItem = itemContainer as TreeViewItem;
-            if (tvItem != null)
-            {
-              var tv = tvItem.GetVisualAncestor<TreeView>();
-              if (tv == itemsControl)
-              {
-                hits.Add(itemContainer);
-              }
-            }
-            else
-            {
-              if (itemsControl.ItemContainerGenerator.IndexFromContainer(itemContainer) >= 0)
-              {
-                hits.Add(itemContainer);
-              }
-            }
-          }
-          return HitTestResultBehavior.Continue;
-        },
-        new GeometryHitTestParameters(hitTestGeometry));
-
-      return GetClosest(itemsControl, hits, position, searchDirection);
+        //System.Diagnostics.Debug.WriteLine($"==> Hittest: hits={hits.Count}, {position}");
+        return GetClosest(itemsControl, items, position, searchDirection);
     }
 
     public static Type GetItemContainerType(this ItemsControl itemsControl, out bool isItemContainer)

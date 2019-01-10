@@ -138,5 +138,28 @@ namespace HearthStoneSimGui.DragDrop
 
       yield break;
     }
+
+    //find all children of a specific type
+    public static HashSet<T> GetChildrenOfType<T>(this DependencyObject depObj)
+        where T : DependencyObject
+    {
+        var result = new HashSet<T>();
+        if (depObj == null) return null;
+        var queue = new Queue<DependencyObject>();
+        queue.Enqueue(depObj);
+        while (queue.Count > 0)
+        {
+            var currentElement = queue.Dequeue();
+            var childrenCount = VisualTreeHelper.GetChildrenCount(currentElement);
+            for (var i = 0; i < childrenCount; i++)
+            {
+                var child = VisualTreeHelper.GetChild(currentElement, i);
+                if (child is T item) result.Add(item);
+                queue.Enqueue(child);
+            }
+        }
+
+        return result;
+    }
   }
 }

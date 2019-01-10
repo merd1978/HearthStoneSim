@@ -15,7 +15,6 @@ namespace HearthStoneSimGui.ViewModel
     /// <summary>
     /// This class contains properties that a View can data bind to.
     /// <para>
-    /// See http://www.galasoft.ch/mvvm
     /// </para>
     /// </summary>
     public class BoardViewModel : ViewModelBase, IDropTarget, IDragSource
@@ -76,16 +75,18 @@ namespace HearthStoneSimGui.ViewModel
 
 	    public void DragOver(IDropInfo dropInfo)
         {
+            //Game.Log(LogLevel.INFO, BlockType.PLAY, "BoardViewModel", "DragOver");
+
             if (!(dropInfo.Data is Minion sourceItem)) return;
             dropInfo.Effects = DragDropEffects.Copy;
 
-			// Attack by minion
-			if (sourceItem.Zone == Zone.PLAY) return;
+            // Attack by minion
+            if (sourceItem.Zone == Zone.PLAY) return;
 
-			// Play minion
-	        if (sourceItem.Controller != Controller) return;		// Ignoring opponents minion
+            // Play minion
+            if (sourceItem.Controller != Controller) return;		// Ignoring opponents minion
             if (Controller.BoardZone.IsFull) return;
-			var target = (ObservableCollection<Minion>)dropInfo.TargetCollection;
+            var target = (ObservableCollection<Minion>)dropInfo.TargetCollection;
             if (_boardMode == BoardMode.INSERTION)
             {
                 if (PreviewInsertIndex == dropInfo.InsertIndex) return;
