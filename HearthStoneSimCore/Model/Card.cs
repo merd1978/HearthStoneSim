@@ -20,6 +20,32 @@ namespace HearthStoneSimCore.Model
         public string ArtImageSource => @"d:/CardArt/Full/" + CardId + ".png";
         public string FrameImageSource => @"../Images/inhand_minion_druid.png";
 
+        public int ATK { get; private set; }
+        public int Health { get; private set; }
+        public int SpellPower { get; private set; }
+        public bool Taunt { get; private set; }
+        public bool Charge { get; private set; }
+        public bool Stealth { get; private set; }
+        public bool Poisonous { get; private set; }
+        public bool DivineShield { get; private set; }
+        public bool Windfury { get; private set; }
+        public bool LifeSteal { get; private set; }
+        public bool Echo { get; private set; }
+        public bool Rush { get; private set; }
+        public bool CantBeTargetedBySpells { get; private set; }
+        public bool CantBeTargetedByHeroPowers => CantBeTargetedBySpells;
+        public bool CantAttack { get; private set; }
+        public bool Modular { get; private set; }
+        public bool ChooseOne { get; private set; }
+        public bool Combo { get; private set; }
+        public bool IsSecret { get; private set; }
+        public bool IsQuest { get; private set; }
+        public bool Deathrattle { get; }
+        public bool Untouchable { get; private set; }
+        public bool HideStat { get; private set; }
+        public bool ReceivesDoubleSpelldamageBonus { get; private set; }
+        public bool Freeze { get; }
+
         public CardType Type => (CardType)this[GameTag.CARDTYPE];
 	    public Rarity Rarity => (Rarity)this[GameTag.RARITY];
 
@@ -69,6 +95,10 @@ namespace HearthStoneSimCore.Model
         /// </summary>
         public bool RequiresTargetIfAvailableAndMinimumFriendlySecrets
             => PlayRequirements.ContainsKey(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_MINIMUM_FRIENDLY_SECRETS);
+
+        public bool RequiresTargetIfAvailableAndNo3CostCardInDeck
+            => PlayRequirements.ContainsKey(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_NO_3_COST_CARD_IN_DECK);
+
         #endregion Targeting
 
         //default constructor

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using HearthStoneSimCore.Actions;
+﻿using HearthStoneSimCore.Actions;
 using HearthStoneSimCore.Model;
 
 namespace HearthStoneSimCore.Tasks.PlayerTasks
@@ -19,7 +18,7 @@ namespace HearthStoneSimCore.Tasks.PlayerTasks
 
         public void Process()
         {
-            Attack.AttackBlock(Player, Source, Target);
+            GameAction.AttackBlock(Player, Source, Target);
         }
     }
 }

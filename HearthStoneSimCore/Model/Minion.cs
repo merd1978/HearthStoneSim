@@ -43,6 +43,12 @@ namespace HearthStoneSimCore.Model
             set => this[GameTag.SUMMONED] = value ? 1 : 0;
         }
 
+        public bool Poisonous
+        {
+            get => this[GameTag.POISONOUS] == 1;
+            set => this[GameTag.POISONOUS] = value ? 1 : 0;
+        }
+
         public Minion(Controller controller, Card card, Dictionary<GameTag, int> tags) : base(controller, card, tags)
         {
         }

@@ -5,7 +5,7 @@ using HearthStoneSimCore.Model;
 
 namespace HearthStoneSimCore.Actions
 {
-	public static class PlayCard
+	public static partial class GameAction
 	{
 		public static bool PlayCardBlock(Controller player, Playable source, Character target, int zonePosition, int chooseOne)
 		{

@@ -1,5 +1,6 @@
 ﻿using HearthStoneSimCore.Actions;
 using HearthStoneSimCore.Model;
+using HearthStoneSimCore.Model.Factory;
 
 namespace HearthStoneSimCore.Tasks.SimpleTasks
 {
@@ -16,8 +17,8 @@ namespace HearthStoneSimCore.Tasks.SimpleTasks
 
 	    public void Process()
 	    {
-			Minion summonMinion = (Minion)Playable.FromCard(Player, Card);
-		    Summon.SummonBlock(Player, Source, summonMinion);
+            Minion summonMinion = (Minion)CardFactory.FromCard(Player, Card);
+            GameAction.SummonBlock(Player, Source, summonMinion);
 	    }
 	}
 }

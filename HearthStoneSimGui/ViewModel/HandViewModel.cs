@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using GalaSoft.MvvmLight.Messaging;
-using HearthStoneSimCore.Enums;
+using HearthStoneSimCore.Model.Factory;
 using HearthStoneSimCore.Model.Zones;
 using HearthStoneSimGui.DragDrop;
 
@@ -13,9 +13,6 @@ namespace HearthStoneSimGui.ViewModel
 {
     /// <summary>
     /// This class contains properties that a View can data bind to.
-    /// <para>
-    /// See http://www.galasoft.ch/mvvm
-    /// </para>
     /// </summary>
     public class HandViewModel : ViewModelBase, IDragSource
     {
@@ -40,16 +37,24 @@ namespace HearthStoneSimGui.ViewModel
 
         public HandViewModel()
         {
-            HandCards = new ObservableCollection<Playable>
+            #if DEBUG
+            if (ViewModelBase.IsInDesignModeStatic)
             {
-                Playable.FromName(null, "Суккуб"),
-                Playable.FromName(null, "Всадник на волке")
-            };
+                var game = new Game();
+                HandCards = new ObservableCollection<Playable>
+                {
+                    CardFactory.PlayableFromName(game.Player1, "Суккуб"),
+                    CardFactory.PlayableFromName(game.Player2, "Всадник на волке"),
+                    CardFactory.PlayableFromName(game.Player2, "Всадник на волке"),
+                    CardFactory.PlayableFromName(game.Player1, "Суккуб"),
+                };
+            }
+            #endif
         }
 
         public void UpdateState()
         {
-            HandCards = new ObservableCollection<Playable>(HandZone.Elements);
+            HandCards = new ObservableCollection<Playable>(HandZone.ToList());
         }
 
         #region DragDrop
@@ -64,16 +69,19 @@ namespace HearthStoneSimGui.ViewModel
                                 DragDropEffects.Copy | DragDropEffects.Move :
                                 DragDropEffects.None;
 
-            if (dragInfo.Data is Minion minion && minion.NeedsTargetList)
+            //activtion of target selection mode if source requires
+            if (dragInfo.Data is Playable playable && playable.NeedsTargetList)
             {
-                DragDrop.DragDrop.SelectTargetAfterDrop = true;
+                switch (dragInfo.Data)
+                {
+                    case Minion _:
+                        DragDrop.DragDrop.SelectTargetAfterDrop = true;
+                        break;
+                    case Spell _:
+                        DragDrop.DragDrop.SelectTargetForce = true;
+                        break;
+                }
             }
-            else if (dragInfo.Data is Spell spell && spell.NeedsTargetList)
-            {
-                DragDrop.DragDrop.SelectTargetForce = true;
-            }
-            
-
         }
 
 	    public bool CanStartDrag(IDragInfo dragInfo)

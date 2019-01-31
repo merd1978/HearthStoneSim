@@ -9,10 +9,9 @@
   DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
 */
 
+using CommonServiceLocator;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Practices.ServiceLocation;
-using HearthStoneSimCore.Model;
 
 namespace HearthStoneSimGui.ViewModel
 {
@@ -32,11 +31,11 @@ namespace HearthStoneSimGui.ViewModel
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 //SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
-                SimpleIoc.Default.Register<IDataService, DataService>();
+                //SimpleIoc.Default.Register<IDataService, DataService>();
             }
             else
             {
-                SimpleIoc.Default.Register<IDataService, DataService>();
+                //SimpleIoc.Default.Register<IDataService, DataService>();
             }
 
             SimpleIoc.Default.Register<MainViewModel>();

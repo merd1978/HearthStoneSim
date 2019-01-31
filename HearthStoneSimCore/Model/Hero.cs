@@ -21,6 +21,8 @@ namespace HearthStoneSimCore.Model
             set => this[GameTag.FATIGUE] = value;
         }
 
+        public int DamageTakenThisTurn { get; set; }
+
         public Hero(Controller controller, Card card, Dictionary<GameTag, int> tags) : base(controller, card, tags)
         {
         }

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HearthStoneSimCore", "HearthStoneSimCore\HearthStoneSimCore.csproj", "{822B3F6B-F1A3-48C1-895C-EB85F05F37A3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HearthStoneSimGui", "HearthStoneSimGui\HearthStoneSimGui.csproj", "{4437385F-5317-49F0-B42A-08312B13F970}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HearthStoneSimCore", "HearthStoneSimCore\HearthStoneSimCore.csproj", "{1035DA04-71D6-461C-B8AF-1E2BF70E583A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,25 +13,35 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{822B3F6B-F1A3-48C1-895C-EB85F05F37A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{822B3F6B-F1A3-48C1-895C-EB85F05F37A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{822B3F6B-F1A3-48C1-895C-EB85F05F37A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{822B3F6B-F1A3-48C1-895C-EB85F05F37A3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4437385F-5317-49F0-B42A-08312B13F970}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4437385F-5317-49F0-B42A-08312B13F970}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4437385F-5317-49F0-B42A-08312B13F970}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4437385F-5317-49F0-B42A-08312B13F970}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1035DA04-71D6-461C-B8AF-1E2BF70E583A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1035DA04-71D6-461C-B8AF-1E2BF70E583A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1035DA04-71D6-461C-B8AF-1E2BF70E583A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1035DA04-71D6-461C-B8AF-1E2BF70E583A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_IncrementBeforeBuild = False
 		BuildVersion_BuildAction = Build
 		BuildVersion_UpdateFileVersion = True
 		BuildVersion_UpdateAssemblyVersion = True
 		BuildVersion_BuildVersioningStyle = None.None.Increment.None
 		BuildVersion_StartDate = 2000/1/1
-		BuildVersion_AssemblyInfoFilename = 
+		SolutionGuid = {C5028DA5-5B1F-425D-B952-C135F5E54855}
+	EndGlobalSection
+	GlobalSection(AutomaticVersions) = postSolution
+		UpdateAssemblyVersion = True
+		UpdateAssemblyFileVersion = True
+		UpdateAssemblyInfoVersion = False
+		ShouldCreateLogs = True
+		AssemblyVersionSettings = None.None.IncrementOnDemand.None
+		AssemblyFileVersionSettings = None.None.IncrementOnDemand.None
+		UpdatePackageVersion = False
+		AssemblyInfoVersionType = SettingsVersion
+		InheritWinAppVersionFrom = None
 	EndGlobalSection
 EndGlobal

@@ -1,10 +1,9 @@
-﻿using System.Linq.Expressions;
-using HearthStoneSimCore.Enums;
+﻿using HearthStoneSimCore.Enums;
 using HearthStoneSimCore.Model;
 
 namespace HearthStoneSimCore.Actions
 {
-	public static class Summon
+	public static partial class GameAction
 	{
 		public static void SummonBlock(Controller player, Playable source, Minion minion)
 		{
@@ -19,7 +18,7 @@ namespace HearthStoneSimCore.Actions
              * of the battlefield.
              * There are a few notable exceptions to this behaviour: Summoning Onyxia will evenly distribute Whelps to Onyxia's left and right.
              * Dr. Boom will similarly attempt to place a Boom Bot to each side of himself. https://hearthstone.gamepedia.com/Summon */
-		    int zonePosition = source.Zone == Zone.PLAY ? source.ZonePosition + 1: -1;
+		    int zonePosition = source.Zone.Type == Zone.PLAY ? source.ZonePosition + 1: -1;
 		    player.BoardZone.Add(minion, zonePosition);
 
 			// add summon block show entity 

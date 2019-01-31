@@ -2,18 +2,23 @@
 
 namespace HearthStoneSimCore.Model.Zones
 {
-    public class HandZone : Zone<Playable>
+    public class HandZone : PositioningZone<Playable>
     {
-	    public HandZone(Controller controller) : base(controller, Zone.HAND)
+        public override Zone Type => Zone.HAND;
+
+        public HandZone(Controller controller, int maxSize = 10) : base(controller, maxSize)
 	    {
-		    MaxSize = 10;
 	    }
 
-	    public void Add(Card card)
-	    {
-		    if (Count == MaxSize) return;
-		    var element = Playable.FromCard(Controller, card, null, Zone.HAND);
-		    Add(element);
-	    }
+        public override void Add(Playable entity, int zonePosition = -1)
+        {
+            base.Add(entity, zonePosition);
+
+            //if (entity.Power?.Aura is AdaptiveCostEffect e)
+            //    e.Activate((Playable)entity);
+            //entity.Power?.Trigger?.Activate(entity, TriggerActivation.HAND);
+
+            //Game.TriggerManager.OnZoneTrigger(entity);
+        }
     }
 }

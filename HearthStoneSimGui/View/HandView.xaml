@@ -10,10 +10,6 @@
              d:DesignHeight="150" d:DesignWidth="310"
              d:DataContext="{d:DesignInstance Type=viewModel:HandViewModel, IsDesignTimeCreatable=True}">
 
-    <!--<UserControl.DataContext>
-        <viewModel:HandViewModel/>
-    </UserControl.DataContext>-->
-
     <UserControl.Resources>
         <ItemsPanelTemplate x:Key="RadialPanelTemplate">
             <view:RadialPanel/>
@@ -24,10 +20,7 @@
         </DataTemplate>
     </UserControl.Resources>
     
-        <!--<ItemsControl ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding Cards}">
-        </ItemsControl>-->
-
-    <ItemsControl Name="HandList" Background="{x:Null}" ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding HandCards}"
+    <ItemsControl Name="HandItems" Background="{x:Null}" ItemsPanel="{StaticResource RadialPanelTemplate}" ItemsSource="{Binding HandCards}"
         BorderThickness="0"
         dragDrop:DragDrop.IsDragSource="True"
         dragDrop:DragDrop.UseDefaultDragAdorner="True"
@@ -35,10 +28,10 @@
         dragDrop:DragDrop.DragHandler="{Binding}"
         dragDrop:DragDrop.UsePreview="True"
         dragDrop:DragDrop.PreviewHorizontalAlignment="Center"
-        dragDrop:DragDrop.PreviewScale="2.1">
+        dragDrop:DragDrop.PreviewScale="1.9">
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <view:CardView Height="{Binding ActualHeight, ElementName=HandList}"/>
+                <view:CardView Height="{Binding ActualHeight, ElementName=HandItems}"/>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
     </ItemsControl>

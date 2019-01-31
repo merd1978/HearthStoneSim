@@ -3,20 +3,35 @@ using HearthStoneSimCore.Enums;
 
 namespace HearthStoneSimCore.Model.Zones
 {
-    public class DeckZone : Zone<Playable>
+    public class DeckZone : LimitedZone<Playable>
     {
-        public int StartingCards { get; set; } = 30;
+        public const int StartingCards = 30;
 
-	    public DeckZone(Controller controller) : base(controller, Zone.DECK)
+        public override Zone Type => Zone.DECK;
+
+        public Playable TopCard => _items[_count - 1];
+
+        public DeckZone(Controller controller, int maxSize = 60) : base(controller, maxSize)
 	    {
-		    MaxSize = Int32.MaxValue;
 	    }
 
-	    public void Add(Card card)
-	    {
-		    if (Count == MaxSize) return;
-		    var element = Playable.FromCard(Controller, card, null, Zone.DECK);
-		    Add(element);
-	    }
-	}
+        public override void Add(Playable entity, int zonePosition = -1)
+        {
+            base.Add(entity, zonePosition);
+
+            //entity.Power?.Trigger?.Activate(entity, TriggerActivation.DECK);
+
+            //if (NoEvenCostCards || NoOddCostCards)
+            //{
+            //    if (entity.Cost % 2 == 0)
+            //    {
+            //        NoEvenCostCards = false;
+            //    }
+            //    else if (NoOddCostCards)
+            //    {
+            //        NoOddCostCards = false;
+            //    }
+            //}
+        }
+    }
 }

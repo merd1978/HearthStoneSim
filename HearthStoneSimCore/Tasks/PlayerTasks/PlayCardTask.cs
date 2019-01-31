@@ -23,7 +23,7 @@ namespace HearthStoneSimCore.Tasks.PlayerTasks
 
         public void Process()
         {
-            PlayCard.PlayCardBlock(Player, Source, Target, ZonePosition, ChooseOne);
+            GameAction.PlayCardBlock(Player, Source, Target, ZonePosition, ChooseOne);
         }
     }
 }

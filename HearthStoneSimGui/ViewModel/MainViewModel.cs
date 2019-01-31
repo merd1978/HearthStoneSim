@@ -17,7 +17,6 @@ namespace HearthStoneSimGui.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase, IDropTarget, IDragSource
     {
-        private readonly IDataService _dataService;
         public bool IfFollowTail { get; set; } = true;  //scrolls the listbox to the bottom when a new item is added
 
         /// <summary>
@@ -37,23 +36,13 @@ namespace HearthStoneSimGui.ViewModel
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel(IDataService dataService)
+        public MainViewModel()
         {
-            _dataService = dataService;
+            Version gui =Assembly.GetExecutingAssembly().GetName().Version;
+            string core = 
+                Assembly.GetAssembly(typeof(Core)).GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+            MainWindowTitle = $"HearthStoneSim GUI v{gui.Major}.{gui.Minor}.{gui.Build} Core v{core}";
 
-            //_dataService.GetCardDefs((cards, error) =>
-            //{
-            //    if (error != null)
-            //    {
-            //        // Report error here
-            //        return;
-            //    }
-            //    Cards.All = cards;
-            //});
-
-            Version gui = Assembly.GetExecutingAssembly().GetName().Version;
-            Version core = Assembly.GetAssembly(typeof(Core)).GetName().Version;
-            MainWindowTitle = $"HearthStoneSim GUI v{gui.Major}.{gui.Minor}.{gui.Build} Core v{core.Major}.{core.Minor}.{core.Build}";
 
             Game = new Game();
             Game.PropertyChanged += GamePropertyChanged;

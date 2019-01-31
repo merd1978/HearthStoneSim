@@ -3,7 +3,7 @@ using HearthStoneSimCore.Model;
 
 namespace HearthStoneSimCore.Actions
 {
-    public static class Attack
+    public static partial class GameAction
     {
         public static bool AttackBlock(Controller player, Character source, Character target)
         {
@@ -33,90 +33,102 @@ namespace HearthStoneSimCore.Actions
 
         public static bool AttackPhase(Controller player, Character source, Character target)
         {
-            var sourceHero = source as Hero;
-            var sourceMinion = source as Minion;
-            //source.ProposedAttacker = source.Id;
-            //var target = c.Game.IdEntityDic[source.ProposedDefender] as ICharacter;
-            if (target == null)
-            {
-                player.Game.Log(LogLevel.INFO, BlockType.ATTACK, "AttackPhase", "target wasn't found by proposed defender call.");
-                return false;
-            }
-            //c.Game.Step = Step.MAIN_COMBAT;
+            //game.TaskQueue.StartEvent();
+            //game.TriggerManager.OnTargetTrigger(source);
+            //game.ProcessTasks();
+            //game.TaskQueue.EndEvent();
+
+            var hero = source as Hero;
+            var minion = source as Minion;
+
+            //var target = (ICharacter)game.CurrentEventData.EventTarget;
+
+            // Force the game into MAIN_COMBAT step!
+            //Game.Step = Step.MAIN_COMBAT;
 
             // Save defender's attack as it might change after being damaged (e.g. enrage)
-	        var targetAttack = target is Hero ? 0 : target.AttackDamage;
-            var sourceAttack = sourceHero?.TotalAttackDamage ?? source.AttackDamage;
+            var targetHero = target as Hero;
+            int targetAttack = /*targetHero != null ? 0 : */target.AttackDamage;
+            int sourceAttack = /*hero?.TotalAttackDamage ?? */source.AttackDamage;
 
-            var targetDamaged = target.TakeDamage(source, sourceAttack);
-
-            if (targetDamaged) target.IsDamaged = true;
+            int targetRealDamage = target.TakeDamage(source, sourceAttack);
+            bool targetDamaged = targetRealDamage > 0;
 
             // freeze target if attacker is freezer
-            if (targetDamaged &&  source.Freeze)
+            if (targetDamaged && minion != null && minion.Freeze)
             {
+                player.Game.Log(LogLevel.VERBOSE, BlockType.ATTACK, "AttackPhase", "freezer attacker has frozen target.");
                 target.IsFrozen = true;
             }
 
             // destroy target if attacker is poisonous
-            //if (targetDamaged && (minion != null && minion.Poisonous || hero?.Weapon != null && hero.Weapon.Poisonous))
-            //{
-            //    target.Destroy();
-            //}
+            if (targetDamaged && targetHero == null && (minion != null && minion.Poisonous || hero?.Weapon != null && hero.Weapon.Poisonous) && !target.ToBeDestroyed)
+            {
+                player.Game.Log(LogLevel.VERBOSE, BlockType.ATTACK, "AttackPhase", $"poisonous attacker has destroyed target.");
+                target.Destroy();
+            }
 
             // ignore damage from defenders with 0 attack
             if (targetAttack > 0)
             {
-                var sourceDamaged = source.TakeDamage(target, targetAttack);
-
-                if (sourceDamaged) source.IsDamaged = true;
+                int sourceRealDamage = source.TakeDamage(target, targetAttack);
+                bool sourceDamaged = sourceRealDamage > 0;
 
                 // freeze source if defender is freezer
-                if (sourceDamaged &&  target.Freeze)
+                var targetMinion = target as Minion;
+                if (sourceDamaged && targetMinion != null && targetMinion.Freeze)
                 {
                     source.IsFrozen = true;
                 }
 
                 // destroy source if defender is poisonous
-                //if (sourceDamaged && targetMinion != null && targetMinion.Poisonous)
-                //{
-                //    source.Destroy();
-                //}
+                if (sourceDamaged && targetMinion != null && targetMinion.Poisonous && !source.ToBeDestroyed)
+                {
+                    source.Destroy();
+                }
             }
 
-            if (sourceMinion != null && sourceMinion.HasStealth)
+            if (minion != null && minion.HasStealth)
             {
-                sourceMinion.HasStealth = false;
+                minion.HasStealth = false;
             }
 
             // remove durability from weapon if hero attack
-            //if (hero?.Weapon != null)
-            //{
-            //    hero.Weapon.Durability -= hero.Weapon.Durability > 0 ? 1 : 0;
-            //}
+            if (hero?.Weapon != null && !hero.Weapon.IsImmune)
+            {
+                //hero.Weapon.Durability -= hero.Weapon.Durability > 0 ? 1 : 0;
+                hero.Weapon.Damage += 1;
+            }
 
+            //if (game.History)
+            //{
+
+            //}
             source.IsAttacking = false;
             target.IsDefending = false;
 
-            source.NumAttacksThisTurn++;
-            //c.NumOptionsPlayedThisTurn++;
-            //if (minion != null)
-            //    c.NumFriendlyMinionsThatAttackedThisTurn++;
+            int numAtk = source.NumAttacksThisTurn + 1;
+
+            player.NumOptionsPlayedThisTurn++;
+            if (minion != null)
+                player.NumFriendlyMinionsThatAttackedThisTurn++;
 
             // set exhausted ...
-            if (source.NumAttacksThisTurn > 0 && !source.HasWindfury ||
-                source.NumAttacksThisTurn > 1 && source.HasWindfury)
+            if (numAtk > 0 && !source.HasWindfury ||
+                numAtk > 1 && source.HasWindfury)
             {
                 player.Game.Log(LogLevel.INFO, BlockType.ATTACK, "AttackPhase", $"{source} is now exhausted.");
                 source.IsExhausted = true;
             }
 
+            source.NumAttacksThisTurn = numAtk;
+
             player.Game.Log(LogLevel.INFO, BlockType.ATTACK, "AttackPhase",
-                $"{source}[ATK:{source.AttackDamage}/HP:{source.Health}" +
-                $"{(sourceHero != null ? $"/ARM:{sourceHero.Armor}" : "")}] " +
-                $"{(sourceHero?.Weapon != null ? $"[{sourceHero.Weapon}[A:{sourceHero.Weapon.AttackDamage}/D:{sourceHero.Weapon.Durability}]] " : "")}attacked " +
+                $"{source}[ATK:{source.AttackDamage}/HP:{source.Health}{(hero != null ? $"/ARM:{hero.Armor}" : "")}] " +
+                $"{(hero?.Weapon != null ? $"[{hero.Weapon}[A:{hero.Weapon.AttackDamage}/D:{hero.Weapon.Durability}]] " : "")}attacked " +
                 $"{target}[ATK:{target.AttackDamage}/HP:{target.Health}].");
             return true;
         }
+
     }
 }

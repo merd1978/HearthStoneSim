@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -7,6 +8,7 @@ using GalaSoft.MvvmLight.Messaging;
 using HearthStoneSimGui.DragDrop;
 using HearthStoneSimCore.Model;
 using HearthStoneSimCore.Enums;
+using HearthStoneSimCore.Model.Factory;
 using HearthStoneSimCore.Model.Zones;
 using HearthStoneSimCore.Tasks.PlayerTasks;
 
@@ -14,8 +16,6 @@ namespace HearthStoneSimGui.ViewModel
 {
     /// <summary>
     /// This class contains properties that a View can data bind to.
-    /// <para>
-    /// </para>
     /// </summary>
     public class BoardViewModel : ViewModelBase, IDropTarget, IDragSource
     {
@@ -47,12 +47,21 @@ namespace HearthStoneSimGui.ViewModel
 
         public BoardViewModel()
         {
-            BoardCards = new ObservableCollection<Minion> { new Minion(null, Cards.FromName("Суккуб"), null) };
+            #if DEBUG
+            if (ViewModelBase.IsInDesignModeStatic)
+            {
+                Game = new Game();
+                BoardCards = new ObservableCollection<Minion>
+                {
+                    CardFactory.MinionFromName(Game.Player1, "Суккуб")
+                };
+            }
+            #endif
         }
 
         public void UpdateState()
         {
-            BoardCards = new ObservableCollection<Minion>(BoardZone.Elements);
+            BoardCards = new ObservableCollection<Minion>(BoardZone.ToList());
         }
 
         #region DragDrop
@@ -81,7 +90,7 @@ namespace HearthStoneSimGui.ViewModel
             dropInfo.Effects = DragDropEffects.Copy;
 
             // Attack by minion
-            if (sourceItem.Zone == Zone.PLAY) return;
+            if (sourceItem.Zone.Type == Zone.PLAY) return;
 
             // Play minion
             if (sourceItem.Controller != Controller) return;		// Ignoring opponents minion
@@ -109,7 +118,7 @@ namespace HearthStoneSimGui.ViewModel
         {
             if (!(dropInfo.Data is Minion sourceItem) || !(dropInfo.TargetCollection is ObservableCollection<Minion>)) return;
 			// Play Minion
-			if (sourceItem.Controller == Controller && sourceItem.Zone == Zone.HAND)
+			if (sourceItem.Controller == Controller && sourceItem.Zone.Type == Zone.HAND)
 			{
 			    _boardMode = BoardMode.NORMAL;
 			    sourceItem.IsHitTest = true;
@@ -121,7 +130,7 @@ namespace HearthStoneSimGui.ViewModel
             //Check is it attacking enemy minion
             if (!(dropInfo.TargetItem is Minion targetItem)) return;
 	        if (sourceItem.Controller == Controller) return;
-            if (sourceItem.Zone == Zone.PLAY)
+            if (sourceItem.Zone.Type == Zone.PLAY)
             {
                 Game.ClearPreDamage();
                 Game.Process(new MinionAttackTask(Game.Player1, sourceItem, targetItem));

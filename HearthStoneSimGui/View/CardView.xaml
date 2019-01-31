@@ -7,11 +7,7 @@
              xmlns:view="clr-namespace:HearthStoneSimGui.View"
              mc:Ignorable="d" 
              d:DesignHeight="410" d:DesignWidth="290"
-             d:DataContext="{d:DesignInstance Type=viewModel:CardViewModel, IsDesignTimeCreatable=True}">
-
-    <!--<UserControl.DataContext>
-        <viewModel:HandViewModel/>
-    </UserControl.DataContext>-->
+             d:DataContext="{d:DesignInstance Type=viewModel:CardDesignViewModel, IsDesignTimeCreatable=True}">
 
     <Viewbox>
         <Canvas Width="280" Height="390">

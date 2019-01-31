@@ -1,15 +1,32 @@
 ﻿using System.Collections.Generic;
 using HearthStoneSimCore.Enchants;
 using HearthStoneSimCore.Enums;
+using HearthStoneSimCore.Model.Zones;
 
 namespace HearthStoneSimCore.Model
 {
     public class Core
     {
+        /// <summary>
+        /// This object holds the original tag values, defined through the constructor 
+        /// of this instance.
+        /// These tags are usefull when values are needed without any buffs/debuffs applied.
+        /// </summary>
         private readonly CoreData _data;
-	    public Game Game { get; set; }
-	    public Controller Controller { get; set; }
-		public int Id => _data.Card.Id;
+
+        /// <summary>Gets or sets the game instance from which this entity is part of.</summary>
+        /// <value>The game instance.</value>
+        public Game Game { get; set; }
+
+        /// <summary>Gets or sets the owner of this entity, the controller who played the entity.</summary>
+        /// <value>The controller/owner object.</value>
+        public Controller Controller { get; set; }
+
+        /// <summary>Gets or sets the zone in which the entity exists.</summary>
+        /// <value>The zone, <see cref="T:Model.Zones.Zone" />.</value>
+        public IZone Zone { get; set; }
+
+        public int Id => _data.Card.Id;
         public string Name => _data.Card.Name;
         public string CardTextInHand => _data.Card.Text;
         public string ArtImageSource => _data.Card.ArtImageSource;
@@ -23,18 +40,6 @@ namespace HearthStoneSimCore.Model
         /// Enchants force a temporary effect, for as long as this entity is in play, onto the game.
         /// </value>
         public List<Enchant> Enchants { get; } = new List<Enchant>();
-
-        public Zone Zone
-        {
-            get => (Zone) this[GameTag.ZONE];
-            set => this[GameTag.ZONE] = (int) value;
-        }
-        public int ZonePosition
-        {
-            get => this[GameTag.ZONE_POSITION];
-            set => this[GameTag.ZONE_POSITION] = value;
-        }
-
 
         public int this[GameTag tag]
         {

@@ -13,7 +13,10 @@ namespace HearthStoneSimGui.DragDrop
         private const double DragAdornerScale = 1.3;           //scale sourse size in DragAdorner
 
         public static int PreviewInsertIndex = -1;      //preview position where to insert element if the drop occurred, position unknown if -1
-        public static bool SelectTargetForce;           //Force using TargetPointer, ignoring UseDefaultAdorner
+        /// <summary>
+        /// Force using TargetPointer, ignoring UseDefaultAdorner
+        /// </summary>
+        public static bool SelectTargetForce;
         public static bool SelectTargetAfterDrop;
         public static UIElement LastDroppedSource;
         public static int LastDroppedIndex = -1;
@@ -295,7 +298,7 @@ namespace HearthStoneSimGui.DragDrop
                 if (_dragInfo.VisualSourceItem is FrameworkElement visualSourceItem)
                 {
                     var visualSourceItemCenter = new Point(visualSourceItem.ActualWidth / 2, visualSourceItem.ActualHeight / 2);
-                    //transform coordinates relative to RootElement
+                    //calculate center position of preview adorner, transform coordinates relative to RootElement
                     var previewCenter = visualSourceItem.TransformToAncestor(RootElement).Transform(visualSourceItemCenter);
                     if (GetPreviewHorizontalAlignmentn(_dragInfo.VisualSource) == HorizontalAlignment.Right)
                     {
@@ -304,7 +307,8 @@ namespace HearthStoneSimGui.DragDrop
                     }
                     else if (GetPreviewHorizontalAlignmentn(_dragInfo.VisualSource) == HorizontalAlignment.Center)
                     {
-                        previewCenter.Y = RootElement.RenderSize.Height / 2 + visualSourceItem.ActualHeight * previewScale / 2;
+                        if (previewCenter.Y + visualSourceItem.ActualHeight * previewScale / 2 > RootElement.RenderSize.Height)
+                            previewCenter.Y = RootElement.RenderSize.Height - visualSourceItem.ActualHeight * previewScale / 2;
                     }
                     UsedAdorner?.Move(previewCenter);
                 }

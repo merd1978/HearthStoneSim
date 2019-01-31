@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using HearthStoneSimCore.Enums;
+using HearthStoneSimCore.Model.Factory;
 using HearthStoneSimCore.Tasks;
 
 namespace HearthStoneSimCore.Model
@@ -13,17 +14,18 @@ namespace HearthStoneSimCore.Model
 		public Controller Player1 { get; private set; }
         public Controller Player2 { get; private set; }
 
+        private Controller _currentPlayer;
         public Controller CurrentPlayer
 	    {
-		    get => Player1[GameTag.CURRENT_PLAYER] == 1
-			    ? Player1
-			    : Player2[GameTag.CURRENT_PLAYER] == 1 ? Player2 : null;
-		    set
-		    {
-			    value.Opponent[GameTag.CURRENT_PLAYER] = 0;
-			    value[GameTag.CURRENT_PLAYER] = 1;
-		    }
-	    }
+            get => _currentPlayer;
+            private set
+            {
+                _currentPlayer = value;
+                //if (!History) return;
+                value.Opponent[GameTag.CURRENT_PLAYER] = 0;
+                value[GameTag.CURRENT_PLAYER] = 1;
+            }
+        }
 
         public TaskQueue TaskQueue { get; }
 
@@ -46,20 +48,48 @@ namespace HearthStoneSimCore.Model
 
         public Game()
         {
-            Player1 = new PlayerHuman(this, "Player1", 1);
-            Player2 = new PlayerHuman(this, "Player2", 2);
+            //player1 settings
+            var p1Dict = new Dictionary<GameTag, int>
+            {
+                //[GameTag.HERO_ENTITY] = heroId,
+                [GameTag.MAXHANDSIZE] = 10,
+                [GameTag.STARTHANDSIZE] = 4,
+                [GameTag.PLAYER_ID] = 1,
+                [GameTag.TEAM_ID] = 1,
+                [GameTag.ZONE] = (int) Zone.PLAY,
+                [GameTag.CONTROLLER] = 1,
+                [GameTag.MAXRESOURCES] = 10,
+                [GameTag.CARDTYPE] = (int) CardType.PLAYER
+            };
+
+            //player2 settings
+            var p2Dict = new Dictionary<GameTag, int>
+            {
+                //[GameTag.HERO_ENTITY] = heroId,
+                [GameTag.MAXHANDSIZE] = 10,
+                [GameTag.STARTHANDSIZE] = 4,
+                [GameTag.PLAYER_ID] = 2,
+                [GameTag.TEAM_ID] = 2,
+                [GameTag.ZONE] = (int) Zone.PLAY,
+                [GameTag.CONTROLLER] = 2,
+                [GameTag.MAXRESOURCES] = 10,
+                [GameTag.CARDTYPE] = (int) CardType.PLAYER
+            };
+
+            Player1 = new PlayerHuman(this, "Player1", 1, p1Dict);
+            Player2 = new PlayerHuman(this, "Player2", 2, p2Dict);
             TaskQueue = new TaskQueue(this);
 
-            Player1.HandZone.Add(Cards.FromName("Суккуб"));
-            Player1.HandZone.Add(Cards.FromName("Главарь банды бесов"));
-            Player1.HandZone.Add(Cards.FromName("Всадник на волке"));
-            Player1.HandZone.Add(Cards.FromName("Морозный йети"));
-            Player1.HandZone.Add(Cards.FromName("Герой Штормграда"));
-            Player1.HandZone.Add(Cards.FromName("Лик тлена"));
-            Player1.HandZone.Add(Cards.FromName("Священник син'дорай")); 
+            Player1.HandZone.Add(CardFactory.PlayableFromName(Player1, "Суккуб"));
+            Player1.HandZone.Add(CardFactory.PlayableFromName(Player1, "Главарь банды бесов"));
+            Player1.HandZone.Add(CardFactory.PlayableFromName(Player1, "Всадник на волке"));
+            Player1.HandZone.Add(CardFactory.PlayableFromName(Player1, "Морозный йети"));
+            Player1.HandZone.Add(CardFactory.PlayableFromName(Player1, "Герой Штормграда"));
+            Player1.HandZone.Add(CardFactory.PlayableFromName(Player1, "Лик тлена"));
+            Player1.HandZone.Add(CardFactory.PlayableFromName(Player1, "Священник син'дорай")); 
 
-            Player1.BoardZone.Add(Cards.FromName("Суккуб"));
-            Player2.BoardZone.Add(Cards.FromName("Ящер Кровавой Топи"));
+            Player2.BoardZone.Add(CardFactory.MinionFromName(Player2, "Суккуб"));
+            Player2.BoardZone.Add(CardFactory.MinionFromName(Player2, "Ящер Кровавой Топи"));
 
 	        CurrentPlayer = Player1;
         }
@@ -70,33 +100,64 @@ namespace HearthStoneSimCore.Model
             StateChanged = true;
         }
 
+        /// <summary>
+        /// Checks for entities which are pending to be destroyed and updated 
+        /// active auras accordingly.
+        /// </summary>
         public void DeathProcessingAndAuraUpdate()
         {
-            //check for dead weapons, minions, heroes
-            //GraveYard();
+            // Summon Resolution Step
+            //if (TriggerManager.HasOnSummonTrigger)
+            //{
+            //    List<Minion> minions = SummonedMinions;
+            //    TaskQueue.StartEvent();
+            //    for (int i = 0; i < minions.Count; i++)
+            //    {
+            //        TriggerManager.OnSummonTrigger(minions[i]);
+            //    }
+            //    ProcessTasks();
+            //    TaskQueue.EndEvent();
+            //}
+            //SummonedMinions.Clear();
 
-            //enable enchants and trigers
-            //AuraUpdate();
+            //TaskQueue.StartEvent();
+            //do
+            //{
+            //    GraveYard();    // Death Creation Step
 
-            while (TaskQueue.Count > 0)
-            {
-                TaskQueue.Process();
-                //GraveYard();
-                //AuraUpdate();
-            }
+            //    ProcessTasks(); // Death Resolution Phase
+            //} while (DeadMinions.Count != 0);
+            //TaskQueue.EndEvent();
+
+            //AuraUpdate();	// Aura Update (Other) step(Not implemented)
+        }
+
+        /// <summary>
+        /// Move destroyed entities from <see cref="Zone.PLAY"/>
+        /// into <see cref="Zone.GRAVEYARD"/>
+        /// Death Creation Step (Death event is created but not resolved here)
+        /// </summary>
+        public void GraveYard()
+        {
         }
 
         public void ClearPreDamage()
         {
-            foreach (var card in Player1.BoardZone.Elements)
+            foreach (var playable in Player1.BoardZone.ToList())
             {
-                card.PreDamage = 0;
-                card.IsDamaged = false;
+                if (playable is Minion minion)
+                {
+                    minion.PreDamage = 0;
+                    minion.IsDamaged = false;
+                }
             }
-            foreach (var card in Player2.BoardZone.Elements)
+            foreach (var playable in Player2.BoardZone.ToList())
             {
-                card.PreDamage = 0;
-                card.IsDamaged = false;
+                if (playable is Minion minion)
+                {
+                    minion.PreDamage = 0;
+                    minion.IsDamaged = false;
+                }
             }
         }
 
