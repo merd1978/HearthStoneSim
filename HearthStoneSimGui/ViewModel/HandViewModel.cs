@@ -23,15 +23,13 @@ namespace HearthStoneSimGui.ViewModel
             set => Set(nameof(HandCards), ref _handCards, value);
         }
         public Controller Controller { get; set; }
-		public HandZone HandZone { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the HandViewModel class.
 		/// </summary>
-		public HandViewModel(Controller controller, HandZone hand)
+		public HandViewModel(Controller controller)
 		{
 			Controller = controller;
-			HandZone = hand;
 		    UpdateState();
         }
 
@@ -54,7 +52,7 @@ namespace HearthStoneSimGui.ViewModel
 
         public void UpdateState()
         {
-            HandCards = new ObservableCollection<Playable>(HandZone.ToList());
+            HandCards = new ObservableCollection<Playable>(Controller.HandZone.ToList());
         }
 
         #region DragDrop

@@ -96,7 +96,7 @@
                 <Grid.RenderTransform>
                     <RotateTransform Angle="-17"/>
                 </Grid.RenderTransform>
-                <view:TextPath Text="{Binding PreDamage}" 
+                <view:TextPath Text="{Binding PreDamage, StringFormat=-{0}}"
                        FontSize="72" FontFamily="{StaticResource Belwe}" Fill="White"
                        Stroke="Black" StrokeThickness="1.5" HorizontalAlignment="Center"
                        Style="{StaticResource FadeOut}">

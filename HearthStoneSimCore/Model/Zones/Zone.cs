@@ -22,7 +22,7 @@ namespace HearthStoneSimCore.Model.Zones
         /// </summary>
         public abstract int Count { get; }
         public abstract bool IsFull { get; }
-        public abstract List<Playable> ToList();
+        //public abstract List<Playable> ToList();
         public abstract void Add(T playable, int zonePosition = -1);
         public abstract T Remove(T playable);
         public abstract Zone Type { get; }
@@ -193,7 +193,7 @@ namespace HearthStoneSimCore.Model.Zones
             return _items.GetEnumerator();
         }
 
-        public override List<Playable> ToList()
+        public List<Playable> ToList()
         {
             return _items;
         }
@@ -215,9 +215,14 @@ namespace HearthStoneSimCore.Model.Zones
 
         public override bool IsFull => _count == MaxSize;
 
-        public override List<Playable> ToList()
+        public List<T> ToList()
         {
-            return new List<Playable>(_items.ToList());
+            var lst = new List<T>();
+            for (int i = 0; i < _count; i++)
+            {
+                lst.Add(_items[i]);
+            }
+            return lst;
         }
 
         protected LimitedZone(Controller player, int maxSize) : base(player)
@@ -458,16 +463,6 @@ namespace HearthStoneSimCore.Model.Zones
             _items[pos] = newEntity;
             newEntity.ZonePosition = pos;
             newEntity.Zone = this;
-        }
-
-        public new List<T> ToList()
-        {
-            var lst = new List<T>();
-            for (int i = 0; i < _count; i++)
-            {
-                lst.Add(_items[i]);
-            }
-            return lst;
         }
     }
 }

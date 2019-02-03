@@ -1,5 +1,4 @@
-﻿using System;
-using HearthStoneSimCore.Enums;
+﻿using HearthStoneSimCore.Enums;
 
 namespace HearthStoneSimCore.Model.Zones
 {

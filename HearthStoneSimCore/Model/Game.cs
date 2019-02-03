@@ -80,6 +80,10 @@ namespace HearthStoneSimCore.Model
             Player2 = new PlayerHuman(this, "Player2", 2, p2Dict);
             TaskQueue = new TaskQueue(this);
 
+
+            Player1.DeckZone.Add(CardFactory.PlayableFromName(Player1, "Суккуб"));
+            Player1.DeckZone.Add(CardFactory.PlayableFromName(Player1, "Главарь банды бесов"));
+
             Player1.HandZone.Add(CardFactory.PlayableFromName(Player1, "Суккуб"));
             Player1.HandZone.Add(CardFactory.PlayableFromName(Player1, "Главарь банды бесов"));
             Player1.HandZone.Add(CardFactory.PlayableFromName(Player1, "Всадник на волке"));
@@ -145,18 +149,16 @@ namespace HearthStoneSimCore.Model
         {
             foreach (var playable in Player1.BoardZone.ToList())
             {
-                if (playable is Minion minion)
+                if (playable is Character character)
                 {
-                    minion.PreDamage = 0;
-                    minion.IsDamaged = false;
+                    character.PreDamage = 0;
                 }
             }
             foreach (var playable in Player2.BoardZone.ToList())
             {
-                if (playable is Minion minion)
+                if (playable is Character character)
                 {
-                    minion.PreDamage = 0;
-                    minion.IsDamaged = false;
+                    character.PreDamage = 0;
                 }
             }
         }

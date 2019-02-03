@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -9,7 +8,6 @@ using HearthStoneSimGui.DragDrop;
 using HearthStoneSimCore.Model;
 using HearthStoneSimCore.Enums;
 using HearthStoneSimCore.Model.Factory;
-using HearthStoneSimCore.Model.Zones;
 using HearthStoneSimCore.Tasks.PlayerTasks;
 
 namespace HearthStoneSimGui.ViewModel
@@ -26,23 +24,20 @@ namespace HearthStoneSimGui.ViewModel
             set => Set(nameof(BoardCards), ref _boardCards, value);
         }
 
-	    public Controller Controller { get; set; }
-		public BoardZone BoardZone { get; set; }
-        public Game Game { get; set; }
+	    public Controller Controller { get; }
+        public Game Game { get; }
 
         private BoardMode _boardMode;
 
         /// <summary>
         /// Initializes a new instance of the TableViewModel class.
         /// </summary>
-        public BoardViewModel(Controller controller, Game game, BoardZone board)
+        public BoardViewModel(Controller controller)
         {
 	        Controller = controller;
-			Game = game;
-            BoardZone = board;
+            Game = controller.Game;
             UpdateState();
             Messenger.Default.Register<NotificationMessage>(this, NotifyMe);
-            //BoardCards = new ObservableCollection<Minion>(Board.Cards);
         }
 
         public BoardViewModel()
@@ -50,10 +45,10 @@ namespace HearthStoneSimGui.ViewModel
             #if DEBUG
             if (ViewModelBase.IsInDesignModeStatic)
             {
-                Game = new Game();
+                var game = new Game();
                 BoardCards = new ObservableCollection<Minion>
                 {
-                    CardFactory.MinionFromName(Game.Player1, "Суккуб")
+                    CardFactory.MinionFromName(game.Player1, "Суккуб")
                 };
             }
             #endif
@@ -61,7 +56,7 @@ namespace HearthStoneSimGui.ViewModel
 
         public void UpdateState()
         {
-            BoardCards = new ObservableCollection<Minion>(BoardZone.ToList());
+            BoardCards = new ObservableCollection<Minion>(Controller.BoardZone.ToList());
         }
 
         #region DragDrop

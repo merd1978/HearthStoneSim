@@ -6,7 +6,6 @@ namespace HearthStoneSimCore.Model
     public abstract class Character : Playable
     {
 
-        public bool IsDamaged { get; set; } = false;
         public bool IsDead { get; set; } = false;
 
         public int AttackDamage
@@ -15,6 +14,10 @@ namespace HearthStoneSimCore.Model
             set => this[GameTag.ATK] = value;
         }
 
+        public bool IsDamaged => PreDamage > 0;
+        /// <summary>
+        /// The amount of damage this character is about to take.
+        /// </summary>
         public int PreDamage
         {
             get => this[GameTag.PREDAMAGE];
@@ -139,7 +142,7 @@ namespace HearthStoneSimCore.Model
 
             // added pre damage
             //if (_history)
-            //    PreDamage = amount;
+            PreDamage = amount;
 
             // Predamage triggers (e.g. Ice Block)
             //if (PreDamageTrigger != null)

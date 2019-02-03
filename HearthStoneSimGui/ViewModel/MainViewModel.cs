@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using GalaSoft.MvvmLight;
 using HearthStoneSimCore.Enums;
 using HearthStoneSimGui.DragDrop;
@@ -26,10 +27,19 @@ namespace HearthStoneSimGui.ViewModel
 
         public Game Game { get; private set; }
 
-        public HandViewModel HandViewModelPlayer1 { get; private set; }
-        public HandViewModel HandViewModelPlayer2 { get; private set; }
-        public BoardViewModel BoardViewModelPlayer1 { get; private set; }
-        public BoardViewModel BoardViewModelPlayer2 { get; private set; }
+        public HandViewModel HandPlayer1ViewModel { get; private set; }
+        public HandViewModel HandPlayer2ViewModel { get; private set; }
+        public BoardViewModel BoardPlayer1ViewModel { get; private set; }
+        public BoardViewModel BoardPlayer2ViewModel { get; private set; }
+        public ManaBarViewModel ManaBarPlayer1ViewModel { get; private set; }
+        public ManaBarViewModel ManaBarPlayer2ViewModel { get; private set; }
+
+        private ObservableCollection<Playable> _deckPlayer1;
+        public ObservableCollection<Playable> DeckPlayer1
+        {
+            get => _deckPlayer1;
+            set => Set(nameof(DeckPlayer1), ref _deckPlayer1, value);
+        }
 
         public ObservableCollection<string> Log { get; private set; }
 
@@ -47,10 +57,14 @@ namespace HearthStoneSimGui.ViewModel
             Game = new Game();
             Game.PropertyChanged += GamePropertyChanged;
 
-            HandViewModelPlayer1 = new HandViewModel(Game.Player1, Game.Player1.HandZone);
-            HandViewModelPlayer2 = new HandViewModel(Game.Player2, Game.Player2.HandZone);
-            BoardViewModelPlayer1 = new BoardViewModel(Game.Player1, Game, Game.Player1.BoardZone);
-            BoardViewModelPlayer2 = new BoardViewModel(Game.Player2, Game, Game.Player2.BoardZone);
+            DeckPlayer1 = new ObservableCollection<Playable>(Game.Player1.DeckZone.ToList());
+
+            HandPlayer1ViewModel = new HandViewModel(Game.Player1);
+            HandPlayer2ViewModel = new HandViewModel(Game.Player2);
+            BoardPlayer1ViewModel = new BoardViewModel(Game.Player1);
+            BoardPlayer2ViewModel = new BoardViewModel(Game.Player2);
+            ManaBarPlayer1ViewModel = new ManaBarViewModel(Game.Player1);
+            ManaBarPlayer2ViewModel = new ManaBarViewModel(Game.Player2);
 
             Log = new ObservableCollection<string>();
             Game.Log(LogLevel.INFO, BlockType.PLAY, "Game", "Starting new game now!");
@@ -62,10 +76,12 @@ namespace HearthStoneSimGui.ViewModel
             {
                 case "StateChanged":
                     // Update game state
-                    BoardViewModelPlayer1.UpdateState();
-                    HandViewModelPlayer1.UpdateState();
-                        BoardViewModelPlayer2.UpdateState();
-                        HandViewModelPlayer2.UpdateState();
+                    BoardPlayer1ViewModel.UpdateState();
+                    HandPlayer1ViewModel.UpdateState();
+                        BoardPlayer2ViewModel.UpdateState();
+                        HandPlayer2ViewModel.UpdateState();
+                            ManaBarPlayer1ViewModel.UpdateState();
+                            ManaBarPlayer2ViewModel.UpdateState();
                     break;
                 case "LogChanged":
                     while (Game.Logs.Count > 0)

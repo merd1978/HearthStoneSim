@@ -100,10 +100,6 @@ namespace HearthStoneSimCore.Actions
                 hero.Weapon.Damage += 1;
             }
 
-            //if (game.History)
-            //{
-
-            //}
             source.IsAttacking = false;
             target.IsDefending = false;
 

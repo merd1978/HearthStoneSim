@@ -115,6 +115,7 @@
     <Compile Include="ViewModel\HandViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\BoardViewModel.cs" />
+    <Compile Include="ViewModel\ManaBarViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\CardInPlayView.xaml.cs">
       <DependentUpon>CardInPlayView.xaml</DependentUpon>
@@ -122,13 +123,18 @@
     <Compile Include="View\CardView.xaml.cs">
       <DependentUpon>CardView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DeckPanel.cs" />
+    <Compile Include="View\Extensions\OpacityConverter.cs" />
     <Compile Include="View\HandView.xaml.cs">
       <DependentUpon>HandView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ListBoxExtensions.cs" />
+    <Compile Include="View\Extensions\ListBoxExtensions.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\ManaBarView.xaml.cs">
+      <DependentUpon>ManaBarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\RadialPanel.cs" />
     <Compile Include="App.xaml.cs">
@@ -162,6 +168,10 @@
     <Page Include="View\BoardView.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="View\ManaBarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -301,6 +311,12 @@
       <Project>{1035da04-71d6-461c-b8af-1e2bf70e583a}</Project>
       <Name>HearthStoneSimCore</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CardBack\card_back.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CardBack\card_back.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

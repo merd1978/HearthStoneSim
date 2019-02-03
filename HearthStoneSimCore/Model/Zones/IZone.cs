@@ -32,7 +32,7 @@ namespace HearthStoneSimCore.Model.Zones
         /// Return <see cref="List{T}"/> that contains all entities in this zone.
         /// </summary>
         /// <value>The set of <see cref="Playable"/>.</value>
-        List<Playable> ToList();
+        //List<Playable> ToList();
 
         /// <summary>
         /// Adds the specified entity into this zone, at the given position.
