@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
 using GalaSoft.MvvmLight;
 using HearthStoneSimCore.Enums;
 using HearthStoneSimGui.DragDrop;
@@ -27,6 +26,8 @@ namespace HearthStoneSimGui.ViewModel
 
         public Game Game { get; private set; }
 
+        public HeroViewModel HeroPlayer1ViewModel { get; private set; }
+        public HeroViewModel HeroPlayer2ViewModel { get; private set; }
         public HandViewModel HandPlayer1ViewModel { get; private set; }
         public HandViewModel HandPlayer2ViewModel { get; private set; }
         public BoardViewModel BoardPlayer1ViewModel { get; private set; }
@@ -41,6 +42,13 @@ namespace HearthStoneSimGui.ViewModel
             set => Set(nameof(DeckPlayer1), ref _deckPlayer1, value);
         }
 
+        private ObservableCollection<Playable> _deckPlayer2;
+        public ObservableCollection<Playable> DeckPlayer2
+        {
+            get => _deckPlayer2;
+            set => Set(nameof(DeckPlayer2), ref _deckPlayer2, value);
+        }
+
         public ObservableCollection<string> Log { get; private set; }
 
         /// <summary>
@@ -53,12 +61,14 @@ namespace HearthStoneSimGui.ViewModel
                 Assembly.GetAssembly(typeof(Core)).GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
             MainWindowTitle = $"HearthStoneSim GUI v{gui.Major}.{gui.Minor}.{gui.Build} Core v{core}";
 
-
             Game = new Game();
             Game.PropertyChanged += GamePropertyChanged;
 
-            DeckPlayer1 = new ObservableCollection<Playable>(Game.Player1.DeckZone.ToList());
+            DeckPlayer1 = new ObservableCollection<Playable>(Game.Player1.Deck.ToList());
+            DeckPlayer2 = new ObservableCollection<Playable>(Game.Player2.Deck.ToList());
 
+            HeroPlayer1ViewModel = new HeroViewModel(Game.Player1.Hero);
+            HeroPlayer2ViewModel = new HeroViewModel(Game.Player2.Hero);
             HandPlayer1ViewModel = new HandViewModel(Game.Player1);
             HandPlayer2ViewModel = new HandViewModel(Game.Player2);
             BoardPlayer1ViewModel = new BoardViewModel(Game.Player1);
@@ -75,13 +85,23 @@ namespace HearthStoneSimGui.ViewModel
             switch (e.PropertyName)
             {
                 case "StateChanged":
+                    //Set Board IsBusy until animation compleated
+                    if (Game.HasDamagedOrDead())
+                    {
+                        BoardPlayer1ViewModel.IsBusy = true;
+                        BoardPlayer2ViewModel.IsBusy = true;
+                            HandPlayer1ViewModel.IsBusy = true;
+                            HandPlayer2ViewModel.IsBusy = true;
+                    }
                     // Update game state
-                    BoardPlayer1ViewModel.UpdateState();
-                    HandPlayer1ViewModel.UpdateState();
+                    HeroPlayer1ViewModel.UpdateState();
+                    HeroPlayer2ViewModel.UpdateState();
+                        BoardPlayer1ViewModel.UpdateState();
                         BoardPlayer2ViewModel.UpdateState();
-                        HandPlayer2ViewModel.UpdateState();
-                            ManaBarPlayer1ViewModel.UpdateState();
-                            ManaBarPlayer2ViewModel.UpdateState();
+                            HandPlayer1ViewModel.UpdateState();
+                            HandPlayer2ViewModel.UpdateState();
+                                ManaBarPlayer1ViewModel.UpdateState();
+                                ManaBarPlayer2ViewModel.UpdateState();
                     break;
                 case "LogChanged":
                     while (Game.Logs.Count > 0)

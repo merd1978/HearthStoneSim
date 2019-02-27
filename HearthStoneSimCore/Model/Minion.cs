@@ -49,6 +49,26 @@ namespace HearthStoneSimCore.Model
             set => this[GameTag.POISONOUS] = value ? 1 : 0;
         }
 
+        public override bool ToBeDestroyed
+        {
+            get => base.ToBeDestroyed;
+
+            set
+            {
+                if (value == base.ToBeDestroyed)
+                    return;
+                base.ToBeDestroyed = value;
+                if (value)
+                    Game.DeadMinions.Add(this);
+            }
+        }
+
+        public int LastBoardPosition
+        {
+            get => this[GameTag.TAG_LAST_KNOWN_POSITION_ON_BOARD];
+            set => this[GameTag.TAG_LAST_KNOWN_POSITION_ON_BOARD] = value;
+        }
+
         public Minion(Controller controller, Card card, Dictionary<GameTag, int> tags) : base(controller, card, tags)
         {
         }

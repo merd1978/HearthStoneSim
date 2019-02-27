@@ -6,7 +6,10 @@ namespace HearthStoneSimCore.Model
     public abstract class Character : Playable
     {
 
-        public bool IsDead { get; set; } = false;
+        /// <summary>
+        /// Character is dead or destroyed.
+        /// </summary>
+        public bool IsDead => Health <= 0 || ToBeDestroyed;
 
         public int AttackDamage
         {
@@ -24,10 +27,18 @@ namespace HearthStoneSimCore.Model
             set => this[GameTag.PREDAMAGE] = value;
         }
 
+        private int _damage;
+
         public int Damage
         {
-            get => this[GameTag.DAMAGE];
-            set => this[GameTag.DAMAGE] = value;
+            get => _damage;
+            set
+            {
+                if (Health <= value)
+                    ToBeDestroyed = true;
+                this[GameTag.DAMAGE] = value;
+                _damage = value;
+            }
         }
 
         public int Health
@@ -106,6 +117,12 @@ namespace HearthStoneSimCore.Model
 		    get => this[GameTag.TAUNT] == 1;
 		    set => this[GameTag.TAUNT] = value ? 1 : 0;
 	    }
+
+        public bool HasStealth
+        {
+            get => this[GameTag.STEALTH] == 1;
+            set => this[GameTag.STEALTH] = value ? 1 : 0;
+        }
 
         public int TakeDamage(Playable source, int damage)
         {

@@ -26,7 +26,7 @@ namespace HearthStoneSimCore.Model
         /// <value>The zone, <see cref="T:Model.Zones.Zone" />.</value>
         public IZone Zone { get; set; }
 
-        public int Id => _data.Card.Id;
+        public int Id => _data.Card.AssetId;
         public string Name => _data.Card.Name;
         public string CardTextInHand => _data.Card.Text;
         public string ArtImageSource => _data.Card.ArtImageSource;
@@ -35,30 +35,18 @@ namespace HearthStoneSimCore.Model
 	    public int Cost => this[GameTag.COST];
 		public Card Card => _data.Card;
 
-        /// <summary> Get all enchants hooked onto this entity.</summary>
-        /// <value>
-        /// Enchants force a temporary effect, for as long as this entity is in play, onto the game.
-        /// </value>
-        public List<Enchant> Enchants { get; } = new List<Enchant>();
-
         public int this[GameTag tag]
         {
 	        get
 	        {
 				int value = _data[tag];
-		        for (int i = 0; i < Enchants.Count; i++)
-			        value = Enchants[i].Apply(this, tag, value);
 		        return value;
 			}
             set
             {
-                // if (value < 0) value = 0;
-                // Ignore unchanged data
                 var oldValue = _data[tag];
                 if (value == oldValue) return;
-                //Changing(t, oldValue, value);
                 _data[tag] = value;
-                //Game?.CoreChanged(this, t, oldValue, value);
             }
         }
 

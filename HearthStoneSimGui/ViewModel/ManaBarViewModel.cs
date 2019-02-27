@@ -66,6 +66,9 @@ namespace HearthStoneSimGui.ViewModel
             BaseMana = Controller.BaseMana;
             RemainingMana = Controller.RemainingMana;
 
+            if (_baseMana < 0 || _baseMana > 10) return;
+            if (_remainingMana <0 || _remainingMana >10) return;
+
             ManaBar = new ObservableCollection<bool>();
             for (int i = 0; i < _remainingMana; i++)
             {

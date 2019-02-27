@@ -1,17 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using HearthStoneSimCore.Enums;
 
 namespace HearthStoneSimCore.Model.Zones
 {
-	public class SecretZone
-	{
-		public Controller Controller { get; set; }
-	    public List<Spell> Secrets = new List<Spell>();
+	public class SecretZone : LimitedZone<Spell>
+    {
+        public override Zone Type => Zone.SECRET;
 
-	    public int Count => Secrets.Count;
-
-        public SecretZone(Controller controller)
+        public SecretZone(Controller controller, int maxSize = 5) :base(controller, maxSize)
 		{
 			Controller = controller;
 		}
-	}
+    }
 }

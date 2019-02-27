@@ -18,4 +18,5 @@
         <Setter Property="StrokeThickness" Value="1.5"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
     </Style>
+    
 </ResourceDictionary>

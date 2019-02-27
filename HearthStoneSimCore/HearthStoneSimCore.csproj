@@ -6,7 +6,7 @@
     <LangVersion>latest</LangVersion>
     <AssemblyVersion>0.1.527.0</AssemblyVersion>
     <FileVersion>0.1.527.0</FileVersion>
-    <Version>0.1.553</Version>
+    <Version>0.1.611</Version>
     <Company>Amber Inc</Company>
     <Authors>Merlin from Chaos</Authors>
     <ApplicationIcon />
@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <None Remove="Model\CardDefs.xml" />
+    <None Remove="Model\CardDefs.xml.bac" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +27,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CardSets\" />
+    <Folder Include="CardSets\Standard\" />
   </ItemGroup>
 
 </Project>

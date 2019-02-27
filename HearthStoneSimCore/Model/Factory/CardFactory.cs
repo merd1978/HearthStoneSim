@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using HearthStoneSimCore.Enums;
 
 namespace HearthStoneSimCore.Model.Factory
@@ -18,6 +19,14 @@ namespace HearthStoneSimCore.Model.Factory
                 case CardType.SPELL:
                     result = new Spell(controller, card, tags);
                     break;
+                case CardType.HERO:
+                    result = new Hero(controller, card, tags);
+                    break;
+                case CardType.WEAPON:
+                    result = new Weapon(controller, card, tags);
+                    break;
+                default:
+                    throw new NotImplementedException();
             }
             return result;
         }

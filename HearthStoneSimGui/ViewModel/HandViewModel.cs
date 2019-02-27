@@ -23,14 +23,16 @@ namespace HearthStoneSimGui.ViewModel
             set => Set(nameof(HandCards), ref _handCards, value);
         }
         public Controller Controller { get; set; }
+        public bool IsBusy;
 
-		/// <summary>
-		/// Initializes a new instance of the HandViewModel class.
-		/// </summary>
-		public HandViewModel(Controller controller)
+        /// <summary>
+        /// Initializes a new instance of the HandViewModel class.
+        /// </summary>
+        public HandViewModel(Controller controller)
 		{
 			Controller = controller;
 		    UpdateState();
+            Messenger.Default.Register<NotificationMessage>(this, NotifyMe);
         }
 
         public HandViewModel()
@@ -52,7 +54,18 @@ namespace HearthStoneSimGui.ViewModel
 
         public void UpdateState()
         {
-            HandCards = new ObservableCollection<Playable>(Controller.HandZone.ToList());
+            HandCards = new ObservableCollection<Playable>(Controller.Hand.ToList());
+        }
+
+        public void NotifyMe(NotificationMessage notificationMessage)
+        {
+            string notification = notificationMessage.Notification;
+            switch (notification)
+            {
+                case "BoardAnimationCompleated":
+                    IsBusy = false;
+                    break;
+            }
         }
 
         #region DragDrop
@@ -68,7 +81,7 @@ namespace HearthStoneSimGui.ViewModel
                                 DragDropEffects.None;
 
             //activtion of target selection mode if source requires
-            if (dragInfo.Data is Playable playable && playable.NeedsTargetList)
+            if (dragInfo.Data is Playable playable && playable.Card.MustHaveTargetToPlay)
             {
                 switch (dragInfo.Data)
                 {
@@ -84,7 +97,7 @@ namespace HearthStoneSimGui.ViewModel
 
 	    public bool CanStartDrag(IDragInfo dragInfo)
         {
-            return true;
+            return !IsBusy;
         }
 
 	    public void Dropped(IDropInfo dropInfo)

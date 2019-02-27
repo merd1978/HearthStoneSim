@@ -8,11 +8,11 @@ namespace HearthStoneSimCore.Actions
     {
         public static bool AddHandPhase(Controller player, Playable playable)
         {
-            if (player.HandZone.IsFull)
+            if (player.Hand.IsFull)
             {
                 player.Game.Log(LogLevel.INFO, BlockType.PLAY, "AddHandPhase",
                     $"Hand ist full. Card {playable} drawn is burnt to graveyard.");
-                player.GraveyardZone.Add(playable);
+                player.Graveyard.Add(playable);
                 return false;
             }
 
@@ -21,7 +21,7 @@ namespace HearthStoneSimCore.Actions
             //    c.Game.PowerHistory.Add(PowerHistoryBuilder.ShowEntity(playable));
 
             player.Game.Log(LogLevel.INFO, BlockType.PLAY, "AddHandPhase", $"adding to hand {playable}.");
-            player.HandZone.Add(playable);
+            player.Hand.Add(playable);
 
             return true;
         }

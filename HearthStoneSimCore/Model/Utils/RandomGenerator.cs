@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace HearthStoneSimCore.Model.Utils
@@ -69,5 +70,9 @@ namespace HearthStoneSimCore.Model.Utils
         {
             Instance.NextBytes(buffer);
         }
+
+        /// <summary> Chooses a random element from the specified list.
+        /// </summary>
+        public static T Choose<T>(IReadOnlyList<T> readonlyList) => readonlyList[Instance.Next(readonlyList.Count)];
     }
 }

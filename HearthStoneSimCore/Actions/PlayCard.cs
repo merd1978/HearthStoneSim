@@ -74,9 +74,9 @@ namespace HearthStoneSimCore.Actions
 		public static bool PrePlayPhase(Controller player, Playable source, Character target, int zonePosition, int chooseOne)
 		{
 			// can't play because we got already board full
-			if (source is Minion && player.BoardZone.IsFull)
+			if (source is Minion && player.Board.IsFull)
 			{
-				player.Game.Log(LogLevel.WARNING, BlockType.PLAY, "PrePlayPhase", $"Board has already {player.BoardZone.MaxSize} minions.");
+				player.Game.Log(LogLevel.WARNING, BlockType.PLAY, "PrePlayPhase", $"Board has already {player.Board.MaxSize} minions.");
 				return false;
 			}
 
@@ -153,7 +153,7 @@ namespace HearthStoneSimCore.Actions
 		    //   (death processing, aura updates)
 
 		    // remove from hand zone
-            player.HandZone.Remove(minion);
+            player.Hand.Remove(minion);
 
 		    if (!minion.HasCharge)
 		        minion.IsExhausted = true;
@@ -163,7 +163,7 @@ namespace HearthStoneSimCore.Actions
 
             // - PreSummon Phase --> PreSummon Phase Trigger (Tidecaller)
             //   (death processing, aura updates)
-            player.BoardZone.Add(minion, zonePosition);
+            player.Board.Add(minion, zonePosition);
 		    player.Game.DeathProcessingAndAuraUpdate();
 
 		    // - OnPlay Phase --> OnPlay Trigger (Illidan)

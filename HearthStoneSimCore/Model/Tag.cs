@@ -4,13 +4,13 @@ namespace HearthStoneSimCore.Model
 {
     public struct Tag
     {
-        public GameTag Name { get; }
-        public TagValue Value { get; }
+        public GameTag GameTag { get; }
+        public TagValue TagValue { get; }
 
-        public Tag(GameTag name, TagValue value)
+        public Tag(GameTag gameTag, TagValue tagValue)
         {
-            this.Name = name;
-            this.Value = value;
+            GameTag = gameTag;
+            TagValue = tagValue;
         }
     }
 }

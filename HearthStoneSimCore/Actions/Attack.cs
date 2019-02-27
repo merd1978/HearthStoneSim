@@ -26,8 +26,8 @@ namespace HearthStoneSimCore.Actions
             // end block
             //if (c.Game.History)
             //    c.Game.PowerHistory.Add(PowerHistoryBuilder.BlockEnd());
-            player.Game.DeathProcessingAndAuraUpdate();
             player.Game.StateChanged = true;
+            player.Game.DeathProcessingAndAuraUpdate();
             return true;
         }
 

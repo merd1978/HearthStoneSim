@@ -3,12 +3,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using HearthStoneSimGui.DragDrop;
 using HearthStoneSimCore.Model;
 using HearthStoneSimCore.Enums;
 using HearthStoneSimCore.Model.Factory;
-using HearthStoneSimCore.Tasks.PlayerTasks;
 
 namespace HearthStoneSimGui.ViewModel
 {
@@ -28,6 +28,16 @@ namespace HearthStoneSimGui.ViewModel
         public Game Game { get; }
 
         private BoardMode _boardMode;
+        public bool IsBusy;
+
+        public RelayCommand AnimationCompleatedCommand { get; set; }
+        private void ExecuteAnimationCompleatedCommand()
+        {
+            Game.ClearPreDamage(Controller);
+            UpdateState();
+            Messenger.Default.Send(new NotificationMessage("BoardAnimationCompleated"));
+            IsBusy = false;
+        }
 
         /// <summary>
         /// Initializes a new instance of the TableViewModel class.
@@ -38,6 +48,7 @@ namespace HearthStoneSimGui.ViewModel
             Game = controller.Game;
             UpdateState();
             Messenger.Default.Register<NotificationMessage>(this, NotifyMe);
+            AnimationCompleatedCommand = new RelayCommand(ExecuteAnimationCompleatedCommand);
         }
 
         public BoardViewModel()
@@ -56,7 +67,7 @@ namespace HearthStoneSimGui.ViewModel
 
         public void UpdateState()
         {
-            BoardCards = new ObservableCollection<Minion>(Controller.BoardZone.ToList());
+            BoardCards = new ObservableCollection<Minion>(Controller.Board.ToList());
         }
 
         #region DragDrop
@@ -70,11 +81,17 @@ namespace HearthStoneSimGui.ViewModel
 
         public void NotifyMe(NotificationMessage notificationMessage)
         {
-            //string notification = notificationMessage.Notification;
-            if (_boardMode != BoardMode.INSERTION) return;
-            _boardMode = BoardMode.NORMAL;
-            BoardCards[PreviewInsertIndex].IsHitTest = true;
-            BoardCards.RemoveAt(PreviewInsertIndex);
+            string notification = notificationMessage.Notification;
+            switch (notification)
+            {
+                case "DragCanceled":
+                    if (_boardMode != BoardMode.INSERTION) return;
+                    _boardMode = BoardMode.NORMAL;
+                    BoardCards[PreviewInsertIndex].IsHitTest = true;
+                    BoardCards.RemoveAt(PreviewInsertIndex);
+                    break;
+            }
+            
         }
 
 	    public void DragOver(IDropInfo dropInfo)
@@ -89,7 +106,7 @@ namespace HearthStoneSimGui.ViewModel
 
             // Play minion
             if (sourceItem.Controller != Controller) return;		// Ignoring opponents minion
-            if (Controller.BoardZone.IsFull) return;
+            if (Controller.Board.IsFull) return;
             var target = (ObservableCollection<Minion>)dropInfo.TargetCollection;
             if (_boardMode == BoardMode.INSERTION)
             {
@@ -117,9 +134,7 @@ namespace HearthStoneSimGui.ViewModel
 			{
 			    _boardMode = BoardMode.NORMAL;
 			    sourceItem.IsHitTest = true;
-                Game.ClearPreDamage();      //resetting predemage will stop the damage animation
-
-				Game.Process(new PlayCardTask(Game.Player1, sourceItem, null, PreviewInsertIndex));
+                Controller.PlayCard(sourceItem, null, PreviewInsertIndex);
                 return;
             }
             //Check is it attacking enemy minion
@@ -127,8 +142,7 @@ namespace HearthStoneSimGui.ViewModel
 	        if (sourceItem.Controller == Controller) return;
             if (sourceItem.Zone.Type == Zone.PLAY)
             {
-                Game.ClearPreDamage();
-                Game.Process(new MinionAttackTask(Game.Player1, sourceItem, targetItem));
+                Controller.MinionAttack(sourceItem, targetItem);
 			}
         }
 
@@ -145,7 +159,7 @@ namespace HearthStoneSimGui.ViewModel
 
 	    public bool CanStartDrag(IDragInfo dragInfo)
         {
-            return Game.CurrentPlayer == Controller;
+            return Game.CurrentPlayer == Controller && !IsBusy;
         }
 
 	    public void Dropped(IDropInfo dropInfo)

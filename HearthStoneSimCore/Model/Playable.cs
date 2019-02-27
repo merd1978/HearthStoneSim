@@ -6,8 +6,6 @@ namespace HearthStoneSimCore.Model
 {
     public abstract class Playable : Core
     {
-	    public List<Enchantment> Enchantment { get; } = new List<Enchantment>();
-
         /// <summary>
         /// Playable zoneposition.
         /// </summary>
@@ -37,31 +35,26 @@ namespace HearthStoneSimCore.Model
         }
 
         /// <summary>
+        /// Gets a value indicating whether this entity will be destroyed during the next cleanup
+        /// phase.
+        /// </summary>
+        private bool _toBeDestroyed;
+        public virtual bool ToBeDestroyed
+        {
+            get => _toBeDestroyed;
+            set
+            {
+                _toBeDestroyed = value;
+                this[GameTag.TO_BE_DESTROYED] = value ? 1 : 0;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets current activated <see cref="Trigger"/> of this entity.
         /// Nullifying this field does not mean deactivation of the trigger.
         /// Use <see cref="Trigger.Remove()"/> instead.
         /// </summary>
         public Trigger ActivatedTrigger { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating whether this entity will be destroyed during the next cleanup
-        /// phase.
-        /// </summary>
-        /// <value><c>true</c> if pending destruction; otherwise, <c>false</c>.</value>
-        public bool ToBeDestroyed { get; set; }
-
-        #region Targeting
-        public bool NeedsTargetList =>
-            Card.RequiresTarget
-            || Card.RequiresTargetForCombo
-            || Card.RequiresTargetIfAvailable
-            || Card.RequiresTargetIfAvailableAndDragonInHand // && Controller.DragonInHand 
-            || Card.RequiresTargetIfAvailableAndElementalPlayedLastTurn // && Controller.NumElementalsPlayedLastTurn > 0
-            || Card.RequiresTargetIfAvailableAndMinimumFriendlyMinions // && Controller.Board.Count >= 4
-            || Card.RequiresTargetIfAvailableAndMinimumFriendlySecrets // && Controller.Secrets.Count > 0;
-            || Card.RequiresTargetIfAvailableAndNo3CostCardInDeck;
-
-        #endregion
 
         /// <summary>Mark this entity for destruction.</summary>
         /// <returns>Returns itself.</returns>
@@ -75,7 +68,6 @@ namespace HearthStoneSimCore.Model
         protected Playable(Controller controller, Card card, Dictionary<GameTag, int> tags) : base(controller.Game, card, tags)
 		{
 			Controller = controller;
-			Enchantment.Add(Card.Enchantment);
 		}
 
         // Cloning copy constructor

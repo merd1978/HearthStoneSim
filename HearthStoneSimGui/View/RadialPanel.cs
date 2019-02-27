@@ -11,39 +11,8 @@ namespace HearthStoneSimGui.View
         // keeping the angular distance from each child
         // equal; MeasureOverride is called before ArrangeOverride.
 
-        //double _maxChildHeight, _perimeter, _radius;
-
         protected override Size MeasureOverride(Size availableSize)
         {
-            //_perimeter = 0;
-            //_maxChildHeight = 0;
-
-            //// Find the tallest child and determine the perimeter
-            //// based on the width of all of the children after
-            //// measuring all of the them and letting them size
-            //// to content by passing Double.PositiveInfinity as
-            //// the available size.
-
-            //foreach (UIElement uie in Children)
-            //{
-            //    uie.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-            //    _perimeter += uie.DesiredSize.Width;
-            //    _maxChildHeight = Math.Max(_maxChildHeight, uie.DesiredSize.Height);
-            //}
-
-            //// If the marginal angle is not 0, 90 or 180
-            //// then the adjustFactor is needed.
-
-            //if (Children.Count > 2 && Children.Count != 4)
-            //    _adjustFactor = 10;
-
-            //// Determine the radius of the circle layout and determine
-            //// the RadialPanel's Size.
-
-            //_radius = _perimeter / (2 * Math.PI) + _adjustFactor;
-            //double _squareSize = 2 * (_radius + _maxChildHeight);
-            //return new Size(_squareSize, _squareSize);
-
             foreach (UIElement elem in Children)
             {
 
@@ -71,13 +40,14 @@ namespace HearthStoneSimGui.View
             if (Children.Count == 0) return finalSize;
             
             foreach (UIElement uie in Children) sumWidth += uie.DesiredSize.Width;
+
             sumWidth += margin * (Children.Count - 1);
             
             //если карты не помещаются по ширине, размещаем их в секторе окружности
             if (sumWidth > finalSize.Width)
             {
                 // Шаг угла поворота элементов
-                double stepAngle = maxAngle / (Children.Count);
+                double stepAngle = maxAngle / Children.Count;
 
                 foreach (UIElement uie in Children)
                 {

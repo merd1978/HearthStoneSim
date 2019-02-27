@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using HearthStoneSimCore.Enums;
 using HearthStoneSimCore.Model.Factory;
-using HearthStoneSimCore.Tasks;
 
 namespace HearthStoneSimCore.Model
 {
@@ -27,7 +26,10 @@ namespace HearthStoneSimCore.Model
             }
         }
 
-        public TaskQueue TaskQueue { get; }
+        /// <summary>
+        /// List of Minions that ready to be destroyed and to be removed from the BoardZone.
+        /// </summary>
+        public readonly List<Minion> DeadMinions = new List<Minion>();
 
         //Indicates when to update gui
         private bool _stateChanged;
@@ -44,7 +46,18 @@ namespace HearthStoneSimCore.Model
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
+
         public Queue<LogEntry> Logs { get; set; } = new Queue<LogEntry>();
+
+        #region Property
+
+        /// <summary>
+        /// Gets or sets the number of killed minions for this turn.
+        /// </summary>
+        /// <value>The amount of killed minions.</value>
+        public int NumMinionsKilledThisTurn { get; set; }
+
+        #endregion
 
         public Game()
         {
@@ -76,32 +89,27 @@ namespace HearthStoneSimCore.Model
                 [GameTag.CARDTYPE] = (int) CardType.PLAYER
             };
 
-            Player1 = new PlayerHuman(this, "Player1", 1, p1Dict);
-            Player2 = new PlayerHuman(this, "Player2", 2, p2Dict);
-            TaskQueue = new TaskQueue(this);
+            Player1 = new PlayerHuman(this, "Player1", 1, CardClass.PALADIN ,p1Dict);
+            Player2 = new PlayerHuman(this, "Player2", 2, CardClass.HUNTER, p2Dict);
 
+            // setting up the decks ...
+            Player1.FillDeck();
+            Player2.FillDeck();
 
-            Player1.DeckZone.Add(CardFactory.PlayableFromName(Player1, "Суккуб"));
-            Player1.DeckZone.Add(CardFactory.PlayableFromName(Player1, "Главарь банды бесов"));
+            Player1.Hand.Add(CardFactory.PlayableFromName(Player1, "Succubus"));
+            Player1.Hand.Add(CardFactory.PlayableFromName(Player1, "Imp Gang Boss"));
+            Player1.Hand.Add(CardFactory.PlayableFromName(Player1, "Wolfrider"));
+            Player1.Hand.Add(CardFactory.PlayableFromName(Player1, "Chillwind Yeti"));
+            Player1.Hand.Add(CardFactory.PlayableFromName(Player1, "Stormwind Champion"));
+            Player1.Hand.Add(CardFactory.PlayableFromName(Player1, "Dalaran Mage"));
+            Player1.Hand.Add(CardFactory.PlayableFromName(Player1, "Elven Archer"));
+            Player1.Hand.Add(CardFactory.PlayableFromName(Player1, "River Crocolisk"));
+            Player1.Hand.Add(CardFactory.PlayableFromName(Player1, "Raid Leader"));
 
-            Player1.HandZone.Add(CardFactory.PlayableFromName(Player1, "Суккуб"));
-            Player1.HandZone.Add(CardFactory.PlayableFromName(Player1, "Главарь банды бесов"));
-            Player1.HandZone.Add(CardFactory.PlayableFromName(Player1, "Всадник на волке"));
-            Player1.HandZone.Add(CardFactory.PlayableFromName(Player1, "Морозный йети"));
-            Player1.HandZone.Add(CardFactory.PlayableFromName(Player1, "Герой Штормграда"));
-            Player1.HandZone.Add(CardFactory.PlayableFromName(Player1, "Лик тлена"));
-            Player1.HandZone.Add(CardFactory.PlayableFromName(Player1, "Священник син'дорай")); 
-
-            Player2.BoardZone.Add(CardFactory.MinionFromName(Player2, "Суккуб"));
-            Player2.BoardZone.Add(CardFactory.MinionFromName(Player2, "Ящер Кровавой Топи"));
+            Player2.Board.Add(CardFactory.MinionFromName(Player2, "Bloodfen Raptor"));
+            Player2.Board.Add(CardFactory.MinionFromName(Player2, "War Golem"));
 
 	        CurrentPlayer = Player1;
-        }
-
-        public void Process(IPlayerTask gameTask)
-        {
-            gameTask.Process();
-            StateChanged = true;
         }
 
         /// <summary>
@@ -110,6 +118,10 @@ namespace HearthStoneSimCore.Model
         /// </summary>
         public void DeathProcessingAndAuraUpdate()
         {
+            //Inter-Phase steps
+
+            //AuraUpdate();
+
             // Summon Resolution Step
             //if (TriggerManager.HasOnSummonTrigger)
             //{
@@ -125,12 +137,12 @@ namespace HearthStoneSimCore.Model
             //SummonedMinions.Clear();
 
             //TaskQueue.StartEvent();
-            //do
-            //{
-            //    GraveYard();    // Death Creation Step
+            do
+            {
+                GraveYard();    // Death Creation Step
 
-            //    ProcessTasks(); // Death Resolution Phase
-            //} while (DeadMinions.Count != 0);
+                //ProcessTasks(); // Death Resolution Phase
+            } while (DeadMinions.Count != 0);
             //TaskQueue.EndEvent();
 
             //AuraUpdate();	// Aura Update (Other) step(Not implemented)
@@ -143,24 +155,32 @@ namespace HearthStoneSimCore.Model
         /// </summary>
         public void GraveYard()
         {
+            foreach (Minion minion in DeadMinions)
+            {
+                Log(LogLevel.INFO, BlockType.PLAY, "Game", $"{minion} is Dead! Graveyard say 'Hello'!");
+
+                // Death event created
+                //TriggerManager.OnDeathTrigger(minion);
+
+                minion.LastBoardPosition = minion.ZonePosition;
+                minion.Zone.Remove(minion);
+
+                //if (minion.HasDeathrattle)
+                //    minion.ActivateTask(PowerActivation.DEATHRATTLE);
+
+                minion.Controller.Graveyard.Add(minion);
+                minion.Controller.NumFriendlyMinionsThatDiedThisTurn++;
+                CurrentPlayer.NumMinionsPlayerKilledThisTurn++;
+                NumMinionsKilledThisTurn++;
+            }
+
+            DeadMinions.Clear();
         }
 
-        public void ClearPreDamage()
+        public void ClearPreDamage(Controller controller)
         {
-            foreach (var playable in Player1.BoardZone.ToList())
-            {
-                if (playable is Character character)
-                {
-                    character.PreDamage = 0;
-                }
-            }
-            foreach (var playable in Player2.BoardZone.ToList())
-            {
-                if (playable is Character character)
-                {
-                    character.PreDamage = 0;
-                }
-            }
+            controller.Board.ForEach(p => p.PreDamage = 0);
+            controller.Hero.PreDamage = 0;
         }
 
         public void Log(LogLevel level, BlockType block, string location, string text)
@@ -178,5 +198,13 @@ namespace HearthStoneSimCore.Model
             });
 	        NotifyChanged("LogChanged");
 		}
+
+        public bool HasDamagedOrDead()
+        {
+            if (DeadMinions.Count > 0) return true;
+            //if (Player1.Board.Any(p => p.IsDamaged) || Player2.Board.Any(p => p.IsDamaged)) return true;
+            //if (Player1.Hero.IsDamaged || Player2.Hero.IsDamaged) return true;
+            return false;
+        }
     }
 }

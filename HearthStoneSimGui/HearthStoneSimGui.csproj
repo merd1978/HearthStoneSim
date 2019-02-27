@@ -15,6 +15,10 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -111,14 +115,19 @@
     <Compile Include="DragDrop\IDropInfo.cs" />
     <Compile Include="DragDrop\IDropTarget.cs" />
     <Compile Include="DragDrop\TargetPointerAdorner.cs" />
-    <Compile Include="ViewModel\CardDesignViewModel.cs" />
+    <Compile Include="ViewModel\HeroViewModel.cs" />
+    <Compile Include="ViewModel\Design\HeroDesignViewModel.cs" />
+    <Compile Include="ViewModel\Design\CardDesignViewModel.cs" />
     <Compile Include="ViewModel\HandViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\BoardViewModel.cs" />
     <Compile Include="ViewModel\ManaBarViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="View\CardInPlayView.xaml.cs">
-      <DependentUpon>CardInPlayView.xaml</DependentUpon>
+    <Compile Include="View\HeroView.xaml.cs">
+      <DependentUpon>HeroView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MinionView.xaml.cs">
+      <DependentUpon>MinionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CardView.xaml.cs">
       <DependentUpon>CardView.xaml</DependentUpon>
@@ -149,7 +158,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\CardInPlayView.xaml">
+    <Page Include="View\HeroView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MinionView.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>

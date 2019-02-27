@@ -62,11 +62,15 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <view:CardView Grid.Row="2" Grid.Column="0"/>
-                <view:BoardView DataContext="{Binding BoardViewModelPlayer1}"
-                    Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+                <!--Board Player1-->
+                <view:BoardView DataContext="{Binding BoardPlayer1ViewModel}"
+                    Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+                    AnimationCompleatedCommand="{Binding AnimationCompleatedCommand}">
                 </view:BoardView>
-                <view:BoardView DataContext="{Binding BoardViewModelPlayer2}"
-                    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+                <!--Board Player2-->
+                <view:BoardView DataContext="{Binding BoardPlayer2ViewModel}"
+                    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                    AnimationCompleatedCommand="{Binding AnimationCompleatedCommand}">
                 </view:BoardView>            
                 <view:HandView DataContext="{Binding HandPlayer1ViewModel}" Grid.Row="3" Grid.Column="1" ></view:HandView>
                 <view:HandView DataContext="{Binding HandPlayer2ViewModel}" Grid.Row="0" Grid.Column="1"
@@ -75,10 +79,16 @@
                         <RotateTransform Angle="180"/>
                     </view:HandView.RenderTransform>
                 </view:HandView>
+                <!--Hero Player1-->
+                <view:HeroView DataContext="{Binding HeroPlayer1ViewModel}" Grid.Row="3" Grid.Column="0"
+                               AnimationCompleatedCommand="{Binding AnimationCompleatedCommand}"/>
+                <!--Hero Player2-->
+                <view:HeroView DataContext="{Binding HeroPlayer2ViewModel}" Grid.Row="0" Grid.Column="0"
+                               AnimationCompleatedCommand="{Binding AnimationCompleatedCommand}"/>
                 <Grid Grid.Row="3" Grid.Column="2" Margin="0 0 0 5">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="9*"/>
-                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="8*"/>
+                        <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
@@ -101,14 +111,44 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                     <!--End Turn Button-->
-                    <Button x:Name="EndTurn"
+                    <!--<Button x:Name="EndTurn"
                             Grid.Row="0" Grid.Column="1"
                             HorizontalAlignment="Right"
                             Content="END TURN"
-                            Width="100" Height="30"/>
+                            Width="100" Height="30"/>-->
                     <!--ManaBar Player1-->
                     <view:ManaBarView DataContext="{Binding ManaBarPlayer1ViewModel}"
                                       Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+                    </view:ManaBarView>
+                </Grid>
+                <Grid Grid.Row="0" Grid.Column="2" Margin="0 0 0 5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="8*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+                    <!--Deck Player2-->
+                    <ItemsControl Name="DeckPlayer2"
+                                  Grid.Row="1" Grid.Column="2"
+                                  Background="{x:Null}"
+                                  ItemsPanel="{StaticResource DeckPanelTemplate}"
+                                  ItemsSource="{Binding DeckPlayer2}"
+                                  BorderThickness="0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="../Images/CardBack/card_back.png"
+                                       Height="{Binding ActualHeight, ElementName=DeckPlayer2}">
+                                </Image>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <!--ManaBar Player2-->
+                    <view:ManaBarView DataContext="{Binding ManaBarPlayer2ViewModel}"
+                                      Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
                     </view:ManaBarView>
                 </Grid>
             </Grid>
